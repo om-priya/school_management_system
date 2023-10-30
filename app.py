@@ -14,6 +14,8 @@ logging.basicConfig(
     filename="logs.txt",
 )
 
+logger = logging.getLogger(__name__)
+
 
 def main():
     """This Function is responsible for making my app run contineously"""
@@ -31,11 +33,13 @@ def main():
                 UserController.sign_up()
             else:
                 print("Invalid Input")
+
+        logger.info("Logged in user: %s, role: %s", user_id, role)
         while True:
             if role == "superadmin":
                 print(display_menu.SUPER_ADMIN_MAIN_PROMPT)
                 user_req = input("Enter Your Query [1-5]: ")
-                while user_req != "5":
+                while True:
                     match user_req:
                         case "1":
                             SuperAdminController.handle_principal(user_id=user_id)
@@ -59,7 +63,7 @@ def main():
             elif role == "principal":
                 print(display_menu.PRINCIPAL_MAIN_PROMPT)
                 user_req = input("Enter Your Query [1-7]: ")
-                while user_req != "7":
+                while True:
                     match user_req:
                         case "1":
                             PrincipalController.handle_teacher(user_id=user_id)
@@ -86,7 +90,7 @@ def main():
             elif role == "teacher":
                 print(display_menu.TEACHER_MAIN_PROMPT)
                 user_req = input("Enter Your Query [1-6]: ")
-                while user_req != "6":
+                while True:
                     match user_req:
                         case "1":
                             TeacherController.view_profile(user_id=user_id)

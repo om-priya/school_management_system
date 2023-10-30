@@ -3,7 +3,12 @@
 from tabulate import tabulate
 import shortuuid
 from constants.insert_queries import INSERT_INTO_STAFF_MEMBER
-from constants.staff_queries import GET_SCHOOL_ID_STAFF, VIEW_ALL_STAFF
+from constants.staff_queries import (
+    DELETE_STAFF,
+    GET_SCHOOL_ID_STAFF,
+    UPDATE_STAFF,
+    VIEW_ALL_STAFF,
+)
 from database.database_access import DatabaseAccess
 from utils import validate
 
@@ -39,10 +44,10 @@ class StaffHandler:
         """Create Staff Members"""
         dao = DatabaseAccess()
         staff_id = shortuuid.ShortUUID().random(length=6)
-        expertise = validate.name_validator()
         name = validate.name_validator()
+        expertise = input("Enter Your Expertise Area: ")
         phone = validate.phone_validator()
-        address = validate.name_validator()
+        address = input("Enter Your Address: ")
         gender = validate.gender_validator()
         status = "active"
 
@@ -50,7 +55,7 @@ class StaffHandler:
 
         dao.execute_non_returning_query(
             INSERT_INTO_STAFF_MEMBER,
-            (staff_id, expertise, name, phone, address, gender, status, school_id),
+            (staff_id, expertise, name, gender, address, phone, status, school_id),
         )
 
         print("Staff Added SuccessFully")
@@ -58,9 +63,34 @@ class StaffHandler:
     @staticmethod
     def update_staff(user_id):
         """Update staff"""
-        print("updates", user_id)
+        staff_id = input("Enter the Id of the staff: ")
+        field_to_update = input("Enter the name of the field: ").lower()
+        options = [
+            "expertise",
+            "name",
+            "phone",
+            "address",
+            "gender",
+        ]
+        if field_to_update not in options:
+            print("Wrong Input")
+            return
+
+        if field_to_update == "gender":
+            updated_value = validate.gender_validator()
+        elif field_to_update == "phone":
+            updated_value = validate.phone_validator()
+        else:
+            updated_value = validate.name_validator()
+
+        dao = DatabaseAccess()
+        dao.execute_non_returning_query(
+            UPDATE_STAFF.format(field_to_update), (updated_value, staff_id)
+        )
 
     @staticmethod
     def delete_staff(user_id):
         """Delete staff"""
-        print("deleted", user_id)
+        staff_id = input("Enter the Id of the staff: ")
+        dao = DatabaseAccess()
+        dao.execute_non_returning_query(DELETE_STAFF, (staff_id,))

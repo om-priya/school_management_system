@@ -8,7 +8,7 @@ from controllers.handlers.leave_handler import LeaveHandler
 from controllers.handlers.teacher_handler import TeacherHandler
 
 
-class PrincipalController():
+class PrincipalController:
     """This Class is for controller functions for principal"""
 
     @staticmethod
