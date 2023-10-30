@@ -11,7 +11,7 @@ from controllers.user_controller import UserController
 logging.basicConfig(
     format="%(asctime)s %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s",
     level=logging.DEBUG,
-    filename="logs.txt",
+    filename="logs.log",
 )
 
 logger = logging.getLogger(__name__)
@@ -78,6 +78,8 @@ def main():
                         case "6":
                             PrincipalController.see_salary_history(user_id=user_id)
                         case "7":
+                            PrincipalController.view_issues()
+                        case "8":
                             is_logged_in = False
                             user_id = None
                             role = None

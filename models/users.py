@@ -1,10 +1,13 @@
 """ This Module contains a parent class which is named as User """
 
 import hashlib
+import logging
 import shortuuid
 
 from database.database_access import DatabaseAccess
 from constants import insert_queries, teacher_queries
+
+logger = logging.getLogger(__name__)
 
 
 def hash_password(password):
@@ -51,6 +54,7 @@ class Teacher(User):
         )
         if len(school_id) == 0:
             print("Wrong School Or School is not in the system")
+            logger.error("No such school present in the system")
             return
 
         school_id = school_id[0][0]
@@ -78,6 +82,7 @@ class Teacher(User):
         database_access_obj.execute_non_returning_query(
             insert_queries.INSERT_INTO_TEACHER, teacher_tuple
         )
+        logger.info("User %s Saved to Db", self.name)
 
 
 class Principal(User):
@@ -133,3 +138,4 @@ class Principal(User):
         database_access_obj.execute_non_returning_query(
             insert_queries.INSERT_INTO_PRINCIPAL, principal_tuple
         )
+        logger.info("User %s Saved to Db", self.name)

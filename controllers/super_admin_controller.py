@@ -1,8 +1,11 @@
 """ This Module is Responsible for handling super admin functionality """
 
+from tabulate import tabulate
 from constants import display_menu
+from constants.users_query import APPROVE_LEAVE, GET_PENDING_LEAVES
 from controllers.handlers.principal_handler import PrincipalHandler
 from controllers.handlers.staff_handler import StaffHandler
+from database.database_access import DatabaseAccess
 
 
 class SuperAdminController:
@@ -52,4 +55,16 @@ class SuperAdminController:
     @staticmethod
     def approve_leave(user_id):
         """Approve Leave"""
-        print("Approve Leave", user_id)
+        dao = DatabaseAccess()
+
+        res_data = dao.execute_returning_query(GET_PENDING_LEAVES)
+
+        if len(res_data) == 0:
+            print("No pending Leave Request")
+            return
+
+        print(tabulate(res_data))
+
+        leave_id = input("Enter the leave_id you want to approve: ")
+
+        dao.execute_non_returning_query(APPROVE_LEAVE, (leave_id,))

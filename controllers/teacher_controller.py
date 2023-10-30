@@ -1,9 +1,9 @@
 """ This Module Contains all the functionality that a teacher can perform """
 
-import shortuuid
 from tabulate import tabulate
-from constants.insert_queries import INSERT_INTO_ISSUE
 from constants.queries import READ_FEEDBACKS, READ_NOTICE
+from constants.teacher_queries import GET_TEACHER_BY_ID
+from controllers.handlers.issue_handler import IssueHandler
 from database.database_access import DatabaseAccess
 
 
@@ -13,7 +13,11 @@ class TeacherController:
     @staticmethod
     def view_profile(user_id):
         """To view personal data for a teacher"""
-        print("Profile", user_id)
+        dao = DatabaseAccess()
+
+        res_data = dao.execute_returning_query(GET_TEACHER_BY_ID, (user_id,))
+
+        print(tabulate(res_data))
 
     @staticmethod
     def read_notice(user_id):
@@ -43,15 +47,8 @@ class TeacherController:
 
     @staticmethod
     def raise_issue(user_id):
-        """To raise issue for the management"""
-        issue_id = shortuuid.ShortUUID().random(length=6)
-        issue_mssg = input("Enter Your Message: ")
-
-        dao = DatabaseAccess()
-        dao.execute_non_returning_query(
-            INSERT_INTO_ISSUE, (issue_id, issue_mssg, user_id)
-        )
-        print("Issue Raised Successfully")
+        """Raise Issue"""
+        IssueHandler.raise_issue(user_id)
 
     @staticmethod
     def salary_history(user_id):

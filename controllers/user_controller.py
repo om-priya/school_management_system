@@ -1,11 +1,13 @@
 """This module controls the login and signup functionality"""
-
+import logging
 import maskpass
 from constants import users_query
 from database.database_access import DatabaseAccess
 
 from utils import validate
 from models.users import Teacher, Principal, hash_password
+
+logger = logging.getLogger(__name__)
 
 
 class UserController:
@@ -26,10 +28,13 @@ class UserController:
 
         if len(data) == 0:
             print("Wrong Credentials")
+            logger.debug("Wrong Credentials")
         elif data[0][2] == "pending":
             print("Ask Super Admin to approve first")
+            logger.debug("Pending User Attempted Login")
         elif data[0][2] == "deactivate":
             print("User No longer exists")
+            logger.critical("Deleted User Tried To Access Portal")
         else:
             return [True, data[0][0], data[0][1]]
 
@@ -56,4 +61,5 @@ class UserController:
             new_principal = Principal(user_info)
             new_principal.save_principal()
 
+        logger.info("User Saved to DB")
         print("Signed Up Successfully Wait for Super Admin to approve it.")

@@ -1,0 +1,9 @@
+2023-10-30 13:47:15,902 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-30 13:47:15,904 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-30 13:47:15,904 INFO     [app.py:37] Logged in user: S3ARKLR, role: superadmin
+2023-10-30 13:47:22,187 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-30 13:47:22,187 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-30 13:47:30,031 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-30 13:47:30,049 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-30 13:47:32,955 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-30 13:47:32,955 DEBUG    [db_connector.py:28] Saving and Closing the connection

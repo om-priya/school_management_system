@@ -15,7 +15,8 @@ What do you want to do?
 4> Manage Leaves
 5> View My Profile
 6> See Salary History
-7> Log Out"""
+7> Read Issues
+8> Log Out"""
 TEACHER_MAIN_PROMPT = """Welcome Teacher
 What do you want to do?
 1> View My Profile

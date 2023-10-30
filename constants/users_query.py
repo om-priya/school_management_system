@@ -6,3 +6,6 @@ FETCH_FROM_CREDENTIALS = (
 FETCH_LEAVE_STATUS = (
     """SELECT leave_date, no_of_days, status FROM leaves WHERE user_id = ?"""
 )
+GET_PENDING_LEAVES = """SELECT * FROM leaves WHERE status = 'pending'"""
+APPROVE_LEAVE = """UPDATE leaves SET status = 'approved' WHERE leave_id = ?"""
+GET_ALL_ISSUES = """SELECT * FROM issue"""
