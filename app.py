@@ -19,26 +19,35 @@ logger = logging.getLogger(__name__)
 
 def main():
     """This Function is responsible for making my app run contineously"""
+
+    # setting initial value to default
     is_logged_in = False
     user_id = ""
     role = ""
 
     while True:
+        # For login and signup
         while not is_logged_in:
             print(display_menu.ENTRY_POINT_PROMPT)
+
             user_req = input("Enter your Query: ")
             if user_req == "1":
+                # Function returning 3 things
                 is_logged_in, user_id, role = UserController.is_logged_in()
             elif user_req == "2":
+                # saving to db with status pending
                 UserController.sign_up()
             else:
                 print("Invalid Input")
 
         logger.info("Logged in user: %s, role: %s", user_id, role)
+
         while True:
             if role == "superadmin":
                 print(display_menu.SUPER_ADMIN_MAIN_PROMPT)
+
                 user_req = input("Enter Your Query [1-5]: ")
+
                 while True:
                     match user_req:
                         case "1":
@@ -55,14 +64,19 @@ def main():
                             role = None
                         case _:
                             print("Invalid Input Enter only [1-5]")
+                    # breaking from super admin loop
                     if user_req == "5":
                         break
+
                     print(display_menu.SUPER_ADMIN_MAIN_PROMPT)
                     user_req = input("Enter Your Query [1-5]: ")
+                # breaking from outer loop to enter log-in and signup
                 break
             elif role == "principal":
                 print(display_menu.PRINCIPAL_MAIN_PROMPT)
-                user_req = input("Enter Your Query [1-7]: ")
+
+                user_req = input("Enter Your Query [1-8]: ")
+
                 while True:
                     match user_req:
                         case "1":
@@ -83,15 +97,21 @@ def main():
                             is_logged_in = False
                             user_id = None
                             role = None
-                            break
                         case _:
-                            print("Invalid Input Enter only [1-7]")
+                            print("Invalid Input Enter only [1-8]")
+                    # breaking from super admin loop
+                    if user_req == "8":
+                        break
+
                     print(display_menu.PRINCIPAL_MAIN_PROMPT)
                     user_req = input("Enter Your Query [1-7]: ")
+                # breaking from outer loop
                 break
             elif role == "teacher":
                 print(display_menu.TEACHER_MAIN_PROMPT)
+
                 user_req = input("Enter Your Query [1-6]: ")
+
                 while True:
                     match user_req:
                         case "1":
@@ -108,15 +128,27 @@ def main():
                             is_logged_in = False
                             user_id = None
                             role = None
-                            break
                         case _:
                             print("Invalid Input Enter only [1-6]")
+                    # breaking from super admin loop
+                    if user_req == "6":
+                        break
+
                     print(display_menu.TEACHER_MAIN_PROMPT)
                     user_req = input("Enter Your Query [1-6]: ")
+                # breaking from outer loop
                 break
             else:
-                print("You are not approved yet!")
+                print("You don't have access to the protal")
 
 
 if __name__ == "__main__":
     main()
+
+# 1> Salary Module Work
+# 2> Pretty Console
+# 3> Exception Handling
+# To-do:
+# 1. Work on salary module -- Done
+# 2. Shift Every Thing to Menu (Millind suggestion)
+# 3. Apply Exception Handling and use as decorator

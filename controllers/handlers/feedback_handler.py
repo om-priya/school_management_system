@@ -16,6 +16,7 @@ class FeedBackHandler:
     def read_feedback(user_id):
         """Read Feedbacks"""
         print("Here's the feedback given by you")
+
         dao = DatabaseAccess()
         res_data = dao.execute_returning_query(READ_FEEDBACKS_PRINCIPAL, (user_id,))
 
@@ -30,6 +31,7 @@ class FeedBackHandler:
     def give_feedback(user_id):
         """Create Feedbacks"""
         print("Select User ID from the available teachers list")
+        
         dao = DatabaseAccess()
         res_data = dao.execute_returning_query(GET_APPROVED_TEACHER)
 

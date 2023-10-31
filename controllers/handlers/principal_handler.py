@@ -21,14 +21,12 @@ class PrincipalHandler:
         principal_id = input("Enter the id of Principal: ")
 
         dao = DatabaseAccess()
-
         dao.execute_non_returning_query(APPROVE_PRINCIPAL, (principal_id,))
 
     @staticmethod
     def get_all_principal(user_id):
         """Get All principals"""
         dao = DatabaseAccess()
-
         res_data = dao.execute_returning_query(GET_ALL_PRINCIPAL)
 
         if len(res_data) == 0:
@@ -55,8 +53,8 @@ class PrincipalHandler:
     def update_principal(user_id):
         """Update principal"""
         principal_id = input("Enter the id of Principal: ")
-
         field_to_update = input("Enter the field you want to update: ").lower()
+
         options = ["name", "gender", "email", "phone", "experience"]
 
         if field_to_update not in options:
@@ -81,7 +79,6 @@ class PrincipalHandler:
                 update_value = validate.experience_validator()
 
         dao = DatabaseAccess()
-
         dao.execute_non_returning_query(
             UPDATE_PRINCIPAL.format(table_name, field_to_update),
             (update_value, principal_id),
@@ -93,5 +90,4 @@ class PrincipalHandler:
         principal_id = input("Enter the id of Principal: ")
 
         dao = DatabaseAccess()
-
         dao.execute_non_returning_query(DELETE_PRINCIPAL, (principal_id,))

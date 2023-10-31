@@ -7,3 +7,68 @@
 2023-10-30 13:47:30,049 DEBUG    [db_connector.py:28] Saving and Closing the connection
 2023-10-30 13:47:32,955 DEBUG    [db_connector.py:18] Database connection initialise
 2023-10-30 13:47:32,955 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-30 14:11:09,964 DEBUG    [db_connector.py:24] Database connection initialise
+2023-10-30 14:13:16,829 DEBUG    [db_connector.py:24] Database connection initialise
+2023-10-30 14:13:55,682 DEBUG    [db_connector.py:25] Database connection initialise
+2023-10-30 14:13:55,682 ERROR    [db_connector.py:31] Some error occurred
+2023-10-30 15:49:07,944 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-30 15:49:07,946 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-30 15:49:07,946 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-30 15:49:07,965 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-30 15:49:07,965 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-30 15:49:07,976 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-30 15:49:07,979 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-30 15:49:07,988 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-30 15:49:07,988 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-30 15:49:07,999 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-30 15:49:07,999 INFO     [users.py:86] User shreyansh Saved to Db
+2023-10-30 15:49:07,999 INFO     [user_controller.py:65] User Saved to DB
+2023-10-30 15:49:48,745 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-30 15:49:48,747 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-30 15:49:48,747 DEBUG    [user_controller.py:34] Pending User Attempted Login
+2023-10-30 15:50:08,081 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-30 15:50:08,083 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-30 15:50:08,083 INFO     [app.py:43] Logged in user: S3ARKLR, role: superadmin
+2023-10-30 15:50:36,622 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-30 15:50:36,629 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-30 17:32:40,121 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-30 17:32:40,123 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-30 17:32:40,123 INFO     [app.py:43] Logged in user: S3ARKLR, role: superadmin
+2023-10-30 17:32:50,267 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-30 17:32:50,267 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-30 17:33:32,624 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-30 17:33:32,624 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-30 17:34:17,517 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-30 17:34:17,517 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-30 17:34:17,517 INFO     [app.py:43] Logged in user: QRyriC, role: principal
+2023-10-30 17:36:32,542 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-30 17:36:32,545 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-30 17:36:32,545 INFO     [app.py:43] Logged in user: 3b47R5, role: teacher
+2023-10-31 09:47:04,711 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-31 09:47:04,717 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-31 09:47:04,718 INFO     [app.py:43] Logged in user: S3ARKLR, role: superadmin
+2023-10-31 09:47:09,365 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-31 09:47:09,365 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-31 09:47:09,365 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-31 09:47:09,365 ERROR    [db_connector.py:23] Some error occurred
+2023-10-31 09:49:11,087 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-31 09:49:11,089 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-31 09:49:11,089 INFO     [app.py:43] Logged in user: S3ARKLR, role: superadmin
+2023-10-31 09:49:13,485 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-31 09:49:13,485 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-31 09:49:13,494 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-31 09:49:13,505 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-31 09:49:13,505 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-31 09:49:13,505 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-31 09:49:13,514 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-31 09:49:13,517 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-31 09:49:30,739 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-31 09:49:30,740 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-31 09:49:30,741 INFO     [app.py:43] Logged in user: QRyriC, role: principal
+2023-10-31 09:49:33,815 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-31 09:49:33,815 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-31 09:52:08,799 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-31 09:52:08,800 DEBUG    [db_connector.py:28] Saving and Closing the connection
+2023-10-31 09:52:08,800 INFO     [app.py:43] Logged in user: QRyriC, role: principal
+2023-10-31 09:52:12,140 DEBUG    [db_connector.py:18] Database connection initialise
+2023-10-31 09:52:12,154 DEBUG    [db_connector.py:28] Saving and Closing the connection

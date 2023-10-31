@@ -3,6 +3,7 @@
 from tabulate import tabulate
 from constants.queries import READ_FEEDBACKS, READ_NOTICE
 from constants.teacher_queries import GET_TEACHER_BY_ID
+from constants.users_query import GET_SALARY_HISTORY
 from controllers.handlers.issue_handler import IssueHandler
 from database.database_access import DatabaseAccess
 
@@ -14,7 +15,6 @@ class TeacherController:
     def view_profile(user_id):
         """To view personal data for a teacher"""
         dao = DatabaseAccess()
-
         res_data = dao.execute_returning_query(GET_TEACHER_BY_ID, (user_id,))
 
         print(tabulate(res_data))
@@ -53,4 +53,10 @@ class TeacherController:
     @staticmethod
     def salary_history(user_id):
         """To view salary history for a teacher"""
-        print("salary", user_id)
+        dao = DatabaseAccess()
+        res_data = dao.execute_returning_query(GET_SALARY_HISTORY, (user_id,))
+
+        if len(res_data) == 0:
+            print("No Salary Hstory Found")
+
+        print(tabulate(res_data))

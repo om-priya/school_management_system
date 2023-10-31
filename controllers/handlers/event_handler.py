@@ -29,11 +29,13 @@ class EventHandler:
     def create_event(user_id):
         """Create Events"""
         dao = DatabaseAccess()
+
         notice_id = shortuuid.ShortUUID().random(length=6)
         created_by = user_id
         notice_mssg = input("Enter Your Message: ")
         create_date = datetime.now().strftime("%d-%m-%Y")
 
+        # Inserting into db
         dao.execute_non_returning_query(
             INSERT_INTO_NOTICE, (notice_id, created_by, notice_mssg, create_date)
         )

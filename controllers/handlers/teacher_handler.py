@@ -20,8 +20,8 @@ class TeacherHandler:
     def approve_teacher(user_id):
         """Approve Teacher"""
         teacher_id = input("Enter the id of Teacher: ")
-        dao = DatabaseAccess()
 
+        dao = DatabaseAccess()
         dao.execute_non_returning_query(APPROVE_TEACHER, (teacher_id,))
 
     @staticmethod
@@ -39,8 +39,8 @@ class TeacherHandler:
     def get_teacher_by_id(user_id):
         """Get Specific Teacher"""
         teacher_id = input("Enter the id of Teacher: ")
-        dao = DatabaseAccess()
 
+        dao = DatabaseAccess()
         res_data = dao.execute_returning_query(GET_TEACHER_BY_ID, (teacher_id,))
 
         if len(res_data) == 0:
@@ -86,6 +86,6 @@ class TeacherHandler:
     def delete_teacher(user_id):
         """Delete Teacher of principal"""
         teacher_id = input("Enter the id of Teacher: ")
-        dao = DatabaseAccess()
 
+        dao = DatabaseAccess()
         dao.execute_non_returning_query(DELETE_TEACHER, (teacher_id,))

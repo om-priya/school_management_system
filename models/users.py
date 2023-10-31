@@ -52,6 +52,7 @@ class Teacher(User):
         school_id = database_access_obj.execute_returning_query(
             teacher_queries.GET_SCHOOL_ID, (self.school_name,)
         )
+        
         if len(school_id) == 0:
             print("Wrong School Or School is not in the system")
             logger.error("No such school present in the system")

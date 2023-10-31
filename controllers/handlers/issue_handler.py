@@ -14,7 +14,6 @@ class IssueHandler:
     def view_issue():
         """Showing all the Raised Issues"""
         dao = DatabaseAccess()
-
         res_data = dao.execute_returning_query(GET_ALL_ISSUES)
 
         if len(res_data) == 0:
@@ -33,4 +32,5 @@ class IssueHandler:
         dao.execute_non_returning_query(
             INSERT_INTO_ISSUE, (issue_id, issue_mssg, user_id)
         )
+        
         print("Issue Raised Successfully")

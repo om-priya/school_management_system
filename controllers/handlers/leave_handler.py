@@ -15,6 +15,7 @@ class LeaveHandler:
     def apply_leave(user_id):
         """Apply Leave"""
         dao = DatabaseAccess()
+        
         leave_id = shortuuid.ShortUUID().random(length=6)
         leave_date = date_validator()
         no_of_days = days_validator()

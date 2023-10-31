@@ -3,6 +3,7 @@
 from tabulate import tabulate
 from constants import display_menu
 from constants.principal_queries import GET_PRINCIPAL_BY_ID
+from constants.users_query import GET_SALARY_HISTORY
 from controllers.handlers.event_handler import EventHandler
 from controllers.handlers.feedback_handler import FeedBackHandler
 from controllers.handlers.issue_handler import IssueHandler
@@ -18,6 +19,7 @@ class PrincipalController:
     def handle_teacher(user_id):
         """It will handle all the teacher related functionality"""
         print(display_menu.HANDLE_TEACHER_PROMPT)
+
         user_req = input("Enter Your Query [1-5]")
         match user_req:
             case "1":
@@ -37,6 +39,7 @@ class PrincipalController:
     def handle_feedbacks(user_id):
         """It will handle all the feedback related functionality"""
         print(display_menu.FEEDBACK_PROMPT)
+
         user_req = input("Enter Your Query [1-2]")
         match user_req:
             case "1":
@@ -50,6 +53,7 @@ class PrincipalController:
     def handle_events(user_id):
         """It will handle all the events related functionality"""
         print(display_menu.EVENTS_PROMPT)
+
         user_req = input("Enter Your Query [1-2]")
         match user_req:
             case "1":
@@ -63,6 +67,7 @@ class PrincipalController:
     def handle_leaves(user_id):
         """It will handle all the leaves related functionality"""
         print(display_menu.LEAVES_PROMPT)
+
         user_req = input("Enter Your Query [1-2]")
         match user_req:
             case "1":
@@ -76,7 +81,6 @@ class PrincipalController:
     def view_profile(user_id):
         """View Profile of principal"""
         dao = DatabaseAccess()
-
         res_data = dao.execute_returning_query(GET_PRINCIPAL_BY_ID, (user_id,))
 
         print(tabulate(res_data))
@@ -89,4 +93,10 @@ class PrincipalController:
     @staticmethod
     def see_salary_history(user_id):
         """Salary History of Principal"""
-        print("profile", user_id)
+        dao = DatabaseAccess()
+        res_data = dao.execute_returning_query(GET_SALARY_HISTORY, (user_id,))
+
+        if len(res_data) == 0:
+            print("No Salary Hstory Found")
+
+        print(tabulate(res_data))

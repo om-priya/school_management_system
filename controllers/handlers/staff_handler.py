@@ -42,7 +42,6 @@ class StaffHandler:
     @staticmethod
     def create_staff(user_id):
         """Create Staff Members"""
-        dao = DatabaseAccess()
         staff_id = shortuuid.ShortUUID().random(length=6)
         name = validate.name_validator()
         expertise = input("Enter Your Expertise Area: ")
@@ -51,6 +50,7 @@ class StaffHandler:
         gender = validate.gender_validator()
         status = "active"
 
+        dao = DatabaseAccess()
         school_id = dao.execute_returning_query(GET_SCHOOL_ID_STAFF, (user_id,))[0][0]
 
         dao.execute_non_returning_query(
@@ -72,6 +72,7 @@ class StaffHandler:
             "address",
             "gender",
         ]
+
         if field_to_update not in options:
             print("Wrong Input")
             return
@@ -92,5 +93,6 @@ class StaffHandler:
     def delete_staff(user_id):
         """Delete staff"""
         staff_id = input("Enter the Id of the staff: ")
+
         dao = DatabaseAccess()
         dao.execute_non_returning_query(DELETE_STAFF, (staff_id,))

@@ -9,3 +9,4 @@ FETCH_LEAVE_STATUS = (
 GET_PENDING_LEAVES = """SELECT * FROM leaves WHERE status = 'pending'"""
 APPROVE_LEAVE = """UPDATE leaves SET status = 'approved' WHERE leave_id = ?"""
 GET_ALL_ISSUES = """SELECT * FROM issue"""
+GET_SALARY_HISTORY = """SELECT salary_id, year, month, amount, pay_date FROM salary WHERE user_id = ? ORDER BY year DESC, month ASC"""

@@ -53,6 +53,7 @@ class UserController:
         user_info["password"] = validate.password_validator()
         user_info["role"] = validate.user_role_validator().lower()
         user_info["experience"] = validate.experience_validator()
+        
         if user_info["role"] == "teacher":
             user_info["fav_subject"] = validate.fav_subject_validator().lower()
             new_teacher = Teacher(user_info)
