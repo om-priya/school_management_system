@@ -1,62 +1,64 @@
 """Feed Back Handler File"""
 
 from datetime import datetime
-from tabulate import tabulate
+import logging
 import shortuuid
+from utils.pretty_print import pretty_print
+from utils.validate import message_validator, uuid_validator
 from constants.insert_queries import INSERT_INTO_FEEDBACKS
 from constants.queries import READ_FEEDBACKS_PRINCIPAL
 from constants.teacher_queries import GET_APPROVED_TEACHER
 from database.database_access import DatabaseAccess
 
+logger = logging.getLogger(__name__)
 
-class FeedBackHandler:
-    """This is an class for feedback handler"""
 
-    @staticmethod
-    def read_feedback(user_id):
-        """Read Feedbacks"""
-        print("Here's the feedback given by you")
+def read_feedback(user_id):
+    """Read Feedbacks"""
+    print("Here's the feedback given by you")
 
-        dao = DatabaseAccess()
-        res_data = dao.execute_returning_query(READ_FEEDBACKS_PRINCIPAL, (user_id,))
+    dao = DatabaseAccess()
+    res_data = dao.execute_returning_query(READ_FEEDBACKS_PRINCIPAL, (user_id,))
 
-        if len(res_data) == 0:
-            print("You have not raised any exception yet!")
-            return
+    if len(res_data) == 0:
+        logger.error("No Feedbacks Found by user %s", user_id)
+        print("You have not raised any exception yet!")
+        return
 
-        headers = ["ID", "Message", "Created Date"]
-        print(tabulate(res_data, headers=headers, tablefmt="grid"))
+    headers = ["ID", "Message", "Created Date"]
+    pretty_print(res_data, headers)
 
-    @staticmethod
-    def give_feedback(user_id):
-        """Create Feedbacks"""
-        print("Select User ID from the available teachers list")
-        
-        dao = DatabaseAccess()
-        res_data = dao.execute_returning_query(GET_APPROVED_TEACHER)
 
-        if len(res_data) == 0:
-            print("No Teacher Present So can't give feedback")
-            return
+def give_feedback(user_id):
+    """Create Feedbacks"""
+    dao = DatabaseAccess()
+    res_data = dao.execute_returning_query(GET_APPROVED_TEACHER)
 
-        headers = ["ID", "Name"]
-        print(tabulate(res_data, headers=headers, tablefmt="grid"))
+    if len(res_data) == 0:
+        logger.error("No Teacher Present in the system")
+        print("No Teacher Present So can't give feedback")
+        return
 
-        teacher_id = input("Enter Teacher's User ID: ")
+    print("Select User ID from the available teachers list")
+    headers = ["ID", "Name"]
+    pretty_print(res_data, headers=headers)
 
-        for data in res_data:
-            if data[0] == teacher_id:
-                break
-        else:
-            print("Wrong Teacher Id")
-            return
+    teacher_id = uuid_validator("Enter Teacher's User ID: ")
 
-        f_id = shortuuid.ShortUUID().random(length=6)
-        f_message = input("Enter Your Feedbacks: ")
-        created_date = datetime.now().strftime("%d-%m-%Y")
+    for data in res_data:
+        if data[0] == teacher_id:
+            break
+    else:
+        logger.error("Wrong Teacher Id")
+        print("Wrong Teacher Id")
+        return
 
-        dao.execute_non_returning_query(
-            INSERT_INTO_FEEDBACKS, (f_id, f_message, created_date, teacher_id, user_id)
-        )
+    f_id = shortuuid.ShortUUID().random(length=6)
+    f_message = message_validator("Enter Your Feedbacks: ")
+    created_date = datetime.now().strftime("%d-%m-%Y")
 
-        print("Feedbacks Updated")
+    dao.execute_non_returning_query(
+        INSERT_INTO_FEEDBACKS, (f_id, f_message, created_date, teacher_id, user_id)
+    )
+    logger.info("Feedback Created")
+    print("Feedbacks Updated")

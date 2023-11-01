@@ -15,7 +15,6 @@ class DatabaseConnection:
 
     def __enter__(self):
         self.connection = sqlite3.connect(self.host)
-        logger.debug("Database connection initialise")
         return self.connection
 
     def __exit__(self, exc_type, exc_val, exc_traceback):
@@ -25,4 +24,3 @@ class DatabaseConnection:
         else:
             self.connection.commit()
             self.connection.close()
-            logger.debug("Saving and Closing the connection")

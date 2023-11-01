@@ -5,7 +5,9 @@ import logging
 import shortuuid
 
 from database.database_access import DatabaseAccess
+from database.db_connector import DatabaseConnection
 from constants import insert_queries, teacher_queries
+from utils.exception_handler import exception_checker
 
 logger = logging.getLogger(__name__)
 
@@ -46,13 +48,14 @@ class Teacher(User):
         self.status = "pending"
         self.username = teacher_info["email"].split("@")[0]
 
+    @exception_checker
     def save_teacher(self):
         """Save Teacher To DB"""
         database_access_obj = DatabaseAccess()
         school_id = database_access_obj.execute_returning_query(
             teacher_queries.GET_SCHOOL_ID, (self.school_name,)
         )
-        
+
         if len(school_id) == 0:
             print("Wrong School Or School is not in the system")
             logger.error("No such school present in the system")
@@ -71,19 +74,17 @@ class Teacher(User):
         user_tuple = (self.user_id, self.name, self.gender, self.email, self.phone)
         teacher_tuple = (self.user_id, self.experience, self.fav_subject)
 
-        database_access_obj.execute_non_returning_query(
-            insert_queries.INSERT_INTO_CREDENTIAL, cred_tuple
-        )
-        database_access_obj.execute_non_returning_query(
-            insert_queries.INSERT_INTO_MAPPING, map_tuple
-        )
-        database_access_obj.execute_non_returning_query(
-            insert_queries.INSERT_INTO_USER, user_tuple
-        )
-        database_access_obj.execute_non_returning_query(
-            insert_queries.INSERT_INTO_TEACHER, teacher_tuple
-        )
-        logger.info("User %s Saved to Db", self.name)
+        with DatabaseConnection("database\\school.db") as connection:
+            cursor = connection.cursor()
+            cursor.execute(insert_queries.INSERT_INTO_CREDENTIAL, cred_tuple)
+            cursor.execute(insert_queries.INSERT_INTO_MAPPING, map_tuple)
+            cursor.execute(insert_queries.INSERT_INTO_USER, user_tuple)
+            cursor.execute(insert_queries.INSERT_INTO_TEACHER, teacher_tuple)
+
+        logger.info("User %s %s Saved to Db", self.name, self.role)
+
+        logger.info("Teacher Saved to DB")
+        print("Signed Up Successfully Wait for Super Admin to approve it.")
 
 
 class Principal(User):
@@ -104,6 +105,7 @@ class Principal(User):
         self.status = "pending"
         self.password = hash_password(principal_info["password"])
 
+    @exception_checker
     def save_principal(self):
         """Save Principal to DB"""
         database_access_obj = DatabaseAccess()
@@ -127,16 +129,14 @@ class Principal(User):
         user_tuple = (self.user_id, self.name, self.gender, self.email, self.phone)
         principal_tuple = (self.user_id, self.experience)
 
-        database_access_obj.execute_non_returning_query(
-            insert_queries.INSERT_INTO_CREDENTIAL, cred_tuple
-        )
-        database_access_obj.execute_non_returning_query(
-            insert_queries.INSERT_INTO_MAPPING, map_tuple
-        )
-        database_access_obj.execute_non_returning_query(
-            insert_queries.INSERT_INTO_USER, user_tuple
-        )
-        database_access_obj.execute_non_returning_query(
-            insert_queries.INSERT_INTO_PRINCIPAL, principal_tuple
-        )
-        logger.info("User %s Saved to Db", self.name)
+        with DatabaseConnection("database\\school.db") as connection:
+            cursor = connection.cursor()
+            cursor.execute(insert_queries.INSERT_INTO_CREDENTIAL, cred_tuple)
+            cursor.execute(insert_queries.INSERT_INTO_MAPPING, map_tuple)
+            cursor.execute(insert_queries.INSERT_INTO_USER, user_tuple)
+            cursor.execute(insert_queries.INSERT_INTO_PRINCIPAL, principal_tuple)
+
+        logger.info("User %s %s Saved to Db", self.name, self.role)
+
+        logger.info("Principal Saved to DB")
+        print("Signed Up Successfully Wait for Super Admin to approve it.")

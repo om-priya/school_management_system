@@ -3,10 +3,9 @@
 import logging
 
 from constants import display_menu
-from controllers.teacher_controller import TeacherController
-from controllers.principal_controller import PrincipalController
-from controllers.super_admin_controller import SuperAdminController
-from controllers.user_controller import UserController
+from menu import super_admin_menu, principal_menu, teacher_menu
+from controllers import user_controller as UserController
+from utils.initializer import initialize_app
 
 logging.basicConfig(
     format="%(asctime)s %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s",
@@ -44,111 +43,30 @@ def main():
 
         while True:
             if role == "superadmin":
-                print(display_menu.SUPER_ADMIN_MAIN_PROMPT)
-
-                user_req = input("Enter Your Query [1-5]: ")
-
-                while True:
-                    match user_req:
-                        case "1":
-                            SuperAdminController.handle_principal(user_id=user_id)
-                        case "2":
-                            SuperAdminController.handle_staff(user_id=user_id)
-                        case "3":
-                            SuperAdminController.distribute_salary(user_id=user_id)
-                        case "4":
-                            SuperAdminController.approve_leave(user_id=user_id)
-                        case "5":
-                            is_logged_in = False
-                            user_id = None
-                            role = None
-                        case _:
-                            print("Invalid Input Enter only [1-5]")
-                    # breaking from super admin loop
-                    if user_req == "5":
-                        break
-
-                    print(display_menu.SUPER_ADMIN_MAIN_PROMPT)
-                    user_req = input("Enter Your Query [1-5]: ")
-                # breaking from outer loop to enter log-in and signup
-                break
+                super_admin_menu(user_id=user_id)
             elif role == "principal":
-                print(display_menu.PRINCIPAL_MAIN_PROMPT)
-
-                user_req = input("Enter Your Query [1-8]: ")
-
-                while True:
-                    match user_req:
-                        case "1":
-                            PrincipalController.handle_teacher(user_id=user_id)
-                        case "2":
-                            PrincipalController.handle_feedbacks(user_id=user_id)
-                        case "3":
-                            PrincipalController.handle_events(user_id=user_id)
-                        case "4":
-                            PrincipalController.handle_leaves(user_id=user_id)
-                        case "5":
-                            PrincipalController.view_profile(user_id=user_id)
-                        case "6":
-                            PrincipalController.see_salary_history(user_id=user_id)
-                        case "7":
-                            PrincipalController.view_issues()
-                        case "8":
-                            is_logged_in = False
-                            user_id = None
-                            role = None
-                        case _:
-                            print("Invalid Input Enter only [1-8]")
-                    # breaking from super admin loop
-                    if user_req == "8":
-                        break
-
-                    print(display_menu.PRINCIPAL_MAIN_PROMPT)
-                    user_req = input("Enter Your Query [1-7]: ")
-                # breaking from outer loop
-                break
+                principal_menu(user_id=user_id)
             elif role == "teacher":
-                print(display_menu.TEACHER_MAIN_PROMPT)
-
-                user_req = input("Enter Your Query [1-6]: ")
-
-                while True:
-                    match user_req:
-                        case "1":
-                            TeacherController.view_profile(user_id=user_id)
-                        case "2":
-                            TeacherController.read_notice(user_id=user_id)
-                        case "3":
-                            TeacherController.read_feedbacks(user_id=user_id)
-                        case "4":
-                            TeacherController.raise_issue(user_id=user_id)
-                        case "5":
-                            TeacherController.salary_history(user_id=user_id)
-                        case "6":
-                            is_logged_in = False
-                            user_id = None
-                            role = None
-                        case _:
-                            print("Invalid Input Enter only [1-6]")
-                    # breaking from super admin loop
-                    if user_req == "6":
-                        break
-
-                    print(display_menu.TEACHER_MAIN_PROMPT)
-                    user_req = input("Enter Your Query [1-6]: ")
-                # breaking from outer loop
-                break
+                teacher_menu(user_id=user_id)
             else:
                 print("You don't have access to the protal")
+            # Resetting the variable due to logged out functionality
+            is_logged_in = False
+            user_id = ""
+            role = ""
+            break
 
 
 if __name__ == "__main__":
+    initialize_app()
     main()
 
-# 1> Salary Module Work
-# 2> Pretty Console
-# 3> Exception Handling
-# To-do:
-# 1. Work on salary module -- Done
-# 2. Shift Every Thing to Menu (Millind suggestion)
-# 3. Apply Exception Handling and use as decorator
+#   Work For Wednesday                                     Priority            Status
+# 1. Pretty print in controllers                              2                Done
+# 2. Checker for ID in principal and teacher                  1                Done
+# 3. Check Validation Regex to remove py lint error           3                Done
+# 4. Remove user_id where not needed                          4                Done
+# 5. Look into salary approve function                        5                Done
+# 6. Apply regex where not implemented                        6                Done
+# 7. Remove generic exception just like past one     *** Ask From Sir ***      Done
+# Diagrams Implement Karo ek document me

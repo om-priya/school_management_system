@@ -6,19 +6,20 @@ import maskpass
 
 def validator(pattern, input_data):
     """General Validator which return either True or False"""
-    x = re.search(pattern, input_data)
+    x = re.match(pattern, input_data)
     if x is None:
+        print("Input Doesn't Match with requirements")
         return False
     return True
 
 
-def name_validator():
+def name_validator(prompt="Enter the name: "):
     """Accepted Syntax: <string> <string>"""
     name = ""
     validated = False
     while validated is False:
-        name = input("Enter the name: ")
-        validated = validator("^[A-Za-z]+([\ A-Za-z]+)*", name)
+        name = input(prompt)
+        validated = validator(r"([A-Za-z]{2,25}[\s]?)+", name)
     return name
 
 
@@ -38,7 +39,9 @@ def email_validator():
     email = ""
     while validated is False:
         email = input("Enter the email of the user: ")
-        validated = validator("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}", email)
+        validated = validator(
+            r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}", email
+        )
     return email
 
 
@@ -58,7 +61,7 @@ def school_name_validator():
     validated = False
     while validated is False:
         school_name = input("Enter the school name: ")
-        validated = validator("^[A-Za-z]+([\ A-Za-z]+)*", school_name)
+        validated = validator(r"^[A-Za-z]+([\sA-Za-z]+)*", school_name)
     return school_name
 
 
@@ -69,7 +72,7 @@ def password_validator():
     while validated is False:
         password = maskpass.advpass()
         validated = validator(
-            "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{6,20}$",
+            r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{6,20}$",
             password,
         )
     return password
@@ -104,7 +107,7 @@ def fav_subject_validator():
     validated = False
     while validated is False:
         subject = input("Enter subject name: ")
-        validated = validator("^[a-zA-z]", subject)
+        validated = validator(r"([a-zA-z]+[\s]?)+", subject)
     return subject
 
 
@@ -114,7 +117,7 @@ def date_validator():
     validated = False
     while validated is False:
         date_format = input("Enter date in format dd-mm-yyyy: ")
-        validated = validator("^\\d{2}-\\d{2}-\\d{4}$", date_format)
+        validated = validator(r"^\d{2}-\d{2}-\d{4}$", date_format)
     return date_format
 
 
@@ -126,3 +129,23 @@ def days_validator():
         experience = input("Enter no of days: ")
         validated = validator("^[0-9]{1,2}$", experience)
     return experience
+
+
+def message_validator(prompt="Enter Your Message"):
+    """To match a paragraph of messagge"""
+    message = ""
+    validated = False
+    while validated is False:
+        message = input(prompt)
+        validated = validator(r"[\w\s.,!?'\"()/-]+", message)
+    return message
+
+
+def uuid_validator(prompt="Enter the Id: "):
+    """To match Id parameter"""
+    uuid = ""
+    validated = False
+    while validated is False:
+        uuid = input(prompt)
+        validated = validator("[A-Za-z0-9]{6}", uuid)
+    return uuid

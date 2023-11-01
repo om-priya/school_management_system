@@ -1,10 +1,12 @@
 """Principal Handler File"""
 
-from tabulate import tabulate
+from utils.pretty_print import pretty_print
 from utils import validate
 from constants.principal_queries import (
     APPROVE_PRINCIPAL,
     DELETE_PRINCIPAL,
+    FETCH_PENDING_PRINCIPAL_ID,
+    FETCH_PRINCIPAL_ID,
     GET_ALL_PRINCIPAL,
     GET_PRINCIPAL_BY_ID,
     UPDATE_PRINCIPAL,
@@ -12,82 +14,128 @@ from constants.principal_queries import (
 from database.database_access import DatabaseAccess
 
 
-class PrincipalHandler:
-    """This is an class for super admin responsible for CRUD in principal"""
+def get_all_principal_id():
+    """Fetch All Principal Id"""
+    dao = DatabaseAccess()
+    res_data = dao.execute_returning_query(FETCH_PRINCIPAL_ID)
 
-    @staticmethod
-    def approve_principal(user_id):
-        """Approve principal"""
-        principal_id = input("Enter the id of Principal: ")
+    return res_data
 
+
+def get_all_pending_id():
+    """ok thik"""
+    dao = DatabaseAccess()
+    res_data = dao.execute_returning_query(FETCH_PENDING_PRINCIPAL_ID)
+
+    return res_data
+
+
+def approve_principal():
+    """Approve principal"""
+    principal_id = validate.uuid_validator("Enter the id of Principal: ")
+
+    all_principal_id = get_all_principal_id()
+
+    if len(all_principal_id) == 0:
+        pending_id = get_all_pending_id()
+
+        if len(pending_id) == 0:
+            print("No request for approval")
+            return
+
+        for p_id in pending_id[0]:
+            if p_id == principal_id:
+                break
+            else:
+                print("Invalid Id's Given")
+                return
         dao = DatabaseAccess()
         dao.execute_non_returning_query(APPROVE_PRINCIPAL, (principal_id,))
+    else:
+        print("Can't add more than one principal")
+        return
 
-    @staticmethod
-    def get_all_principal(user_id):
-        """Get All principals"""
-        dao = DatabaseAccess()
-        res_data = dao.execute_returning_query(GET_ALL_PRINCIPAL)
+    print("Principal Approved Successfully")
 
-        if len(res_data) == 0:
-            print("No Principal FOund")
-            return
 
-        print(tabulate(res_data))
+def get_all_principal():
+    """Get All principals"""
+    dao = DatabaseAccess()
+    res_data = dao.execute_returning_query(GET_ALL_PRINCIPAL)
 
-    @staticmethod
-    def get_principal_by_id(user_id):
-        """Get Specific principal"""
-        principal_id = input("Enter the id of Principal: ")
+    if len(res_data) == 0:
+        print("No Principal Found")
+        return
 
-        dao = DatabaseAccess()
-        res_data = dao.execute_returning_query(GET_PRINCIPAL_BY_ID, (principal_id,))
+    headers = ["User_id", "name", "gender", "email", "status"]
+    pretty_print(res_data, headers)
 
-        if len(res_data) == 0:
-            print("No Principal Found")
-            return
 
-        print(tabulate(res_data))
+def get_principal_by_id():
+    """Get Specific principal"""
+    principal_id = validate.uuid_validator("Enter the id of Principal: ")
 
-    @staticmethod
-    def update_principal(user_id):
-        """Update principal"""
-        principal_id = input("Enter the id of Principal: ")
-        field_to_update = input("Enter the field you want to update: ").lower()
+    dao = DatabaseAccess()
+    res_data = dao.execute_returning_query(GET_PRINCIPAL_BY_ID, (principal_id,))
 
-        options = ["name", "gender", "email", "phone", "experience"]
+    if len(res_data) == 0:
+        print("No Principal Found")
+        return
 
-        if field_to_update not in options:
-            print("No Such Field is Present")
-            return
+    headers = ["User_id", "name", "gender", "email", "status"]
+    pretty_print(res_data, headers)
 
-        if field_to_update in options[:4]:
-            table_name = "user"
-        else:
-            table_name = "principal"
 
-        match field_to_update:
-            case "name":
-                update_value = validate.name_validator()
-            case "gender":
-                update_value = validate.gender_validator()
-            case "email":
-                update_value = validate.email_validator()
-            case "phone":
-                update_value = validate.phone_validator()
-            case "experience":
-                update_value = validate.experience_validator()
+def update_principal():
+    """Update principal"""
+    principal_id = validate.uuid_validator("Enter the id of Principal: ")
+    field_to_update = input("Enter the field you want to update: ").lower()
 
-        dao = DatabaseAccess()
-        dao.execute_non_returning_query(
-            UPDATE_PRINCIPAL.format(table_name, field_to_update),
-            (update_value, principal_id),
-        )
+    all_principal_id = get_all_principal_id()
 
-    @staticmethod
-    def delete_principal(user_id):
-        """Delete principal of principal"""
-        principal_id = input("Enter the id of Principal: ")
+    if principal_id != all_principal_id[0][0]:
+        print(f"No Such Principal With id {principal_id}")
+        return
 
-        dao = DatabaseAccess()
-        dao.execute_non_returning_query(DELETE_PRINCIPAL, (principal_id,))
+    options = ["name", "gender", "email", "phone", "experience"]
+
+    if field_to_update not in options:
+        print("No Such Field is Present")
+        return
+
+    if field_to_update in options[:4]:
+        table_name = "user"
+    else:
+        table_name = "principal"
+
+    match field_to_update:
+        case "name":
+            update_value = validate.name_validator()
+        case "gender":
+            update_value = validate.gender_validator()
+        case "email":
+            update_value = validate.email_validator()
+        case "phone":
+            update_value = validate.phone_validator()
+        case "experience":
+            update_value = validate.experience_validator()
+
+    dao = DatabaseAccess()
+    dao.execute_non_returning_query(
+        UPDATE_PRINCIPAL.format(table_name, field_to_update),
+        (update_value, principal_id),
+    )
+
+
+def delete_principal():
+    """Delete principal of principal"""
+    principal_id = validate.uuid_validator("Enter the id of Principal: ")
+
+    all_principal_id = get_all_principal_id()
+
+    if principal_id != all_principal_id[0][0]:
+        print(f"No Such Principal With id {principal_id}")
+        return
+
+    dao = DatabaseAccess()
+    dao.execute_non_returning_query(DELETE_PRINCIPAL, (principal_id,))

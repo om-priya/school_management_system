@@ -13,14 +13,14 @@ CREATE_USERS_TABLE = """CREATE TABLE IF NOT EXISTS user (
     name TEXT,
     gender TEXT,
     email TEXT UNIQUE,
-    phone TEXT
+    phone TEXT UNIQUE
 )"""
 CREATE_SCHOOL_TABLE = """CREATE TABLE IF NOT EXISTS school (
     school_id TEXT PRIMARY KEY,
     school_name TEXT,
     location TEXT,
-    email TEXT,
-    contact TEXT
+    email TEXT UNIQUE,
+    contact TEXT UNIQUE
 )"""
 CREATE_TEACHER_TABLE = """CREATE TABLE IF NOT EXISTS teacher (
     user_id TEXT PRIMARY KEY,
@@ -52,14 +52,6 @@ CREATE_FEEDBACKS_TABLE = """CREATE TABLE IF NOT EXISTS feedbacks (
     given_to TEXT,
     raised_by TEXT
 )"""
-CREATE_ATTENDANCE_TABLE = """CREATE TABLE IF NOT EXISTS attendance (
-    attendance_id TEXT PRIMARY KEY,
-    user_id TEXT,
-    time_in TEXT,
-    time_out TEXT,
-    attendance_date TEXT,
-    FOREIGN KEY (user_id) REFERENCES user(user_id)
-)"""
 CREATE_SALARY_TABLE = """CREATE TABLE IF NOT EXISTS salary (
     salary_id TEXT PRIMARY KEY,
     user_id TEXT,
@@ -84,7 +76,7 @@ CREATE_STAFF_MEMBER_TABLE = """CREATE TABLE IF NOT EXISTS staff_member (
     name TEXT,
     gender TEXT,
     address TEXT,
-    phone TEXT,
+    phone TEXT UNIQUE,
     status TEXT,
     school_id TEXT
 )"""

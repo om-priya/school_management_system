@@ -1,62 +1,61 @@
 """ This Module Contains all the functionality that a teacher can perform """
 
-from tabulate import tabulate
 from constants.queries import READ_FEEDBACKS, READ_NOTICE
 from constants.teacher_queries import GET_TEACHER_BY_ID
 from constants.users_query import GET_SALARY_HISTORY
-from controllers.handlers.issue_handler import IssueHandler
+from controllers.handlers import issue_handler as IssueHandler
 from database.database_access import DatabaseAccess
+from utils.pretty_print import pretty_print
 
 
-class TeacherController:
-    """All these static methods contains the functionality"""
+def view_profile(user_id):
+    """To view personal data for a teacher"""
+    dao = DatabaseAccess()
+    res_data = dao.execute_returning_query(GET_TEACHER_BY_ID, (user_id,))
 
-    @staticmethod
-    def view_profile(user_id):
-        """To view personal data for a teacher"""
-        dao = DatabaseAccess()
-        res_data = dao.execute_returning_query(GET_TEACHER_BY_ID, (user_id,))
+    headers = ["Id", "Name", "phone", "email", "status"]
+    pretty_print(res_data, headers)
 
-        print(tabulate(res_data))
 
-    @staticmethod
-    def read_notice(user_id):
-        """To view notice board of a school"""
-        dao = DatabaseAccess()
-        res_data = dao.execute_returning_query(READ_NOTICE)
+def read_notice():
+    """To view notice board of a school"""
+    dao = DatabaseAccess()
+    res_data = dao.execute_returning_query(READ_NOTICE)
 
-        if len(res_data) == 0:
-            print("Nothing on Notice Board")
-            return
+    if len(res_data) == 0:
+        print("Nothing on Notice Board")
+        return
 
-        headers = ["ID", "Message"]
-        print(tabulate(res_data, headers=headers, tablefmt="grid"))
+    headers = ["ID", "Message"]
+    pretty_print(res_data, headers=headers)
 
-    @staticmethod
-    def read_feedbacks(user_id):
-        """To view feedbacks from teacher"""
-        dao = DatabaseAccess()
-        res_data = dao.execute_returning_query(READ_FEEDBACKS, (user_id,))
 
-        if len(res_data) == 0:
-            print("Nothing on Feedbacks for You")
-            return
+def read_feedbacks(user_id):
+    """To view feedbacks from teacher"""
+    dao = DatabaseAccess()
+    res_data = dao.execute_returning_query(READ_FEEDBACKS, (user_id,))
 
-        headers = ["ID", "Message", "Created Date"]
-        print(tabulate(res_data, headers=headers, tablefmt="grid"))
+    if len(res_data) == 0:
+        print("Nothing on Feedbacks for You")
+        return
 
-    @staticmethod
-    def raise_issue(user_id):
-        """Raise Issue"""
-        IssueHandler.raise_issue(user_id)
+    headers = ["ID", "Message", "Created Date"]
+    pretty_print(res_data, headers=headers)
 
-    @staticmethod
-    def salary_history(user_id):
-        """To view salary history for a teacher"""
-        dao = DatabaseAccess()
-        res_data = dao.execute_returning_query(GET_SALARY_HISTORY, (user_id,))
 
-        if len(res_data) == 0:
-            print("No Salary Hstory Found")
+def raise_issue(user_id):
+    """Raise Issue"""
+    IssueHandler.raise_issue(user_id)
 
-        print(tabulate(res_data))
+
+def salary_history(user_id):
+    """To view salary history for a teacher"""
+    dao = DatabaseAccess()
+    res_data = dao.execute_returning_query(GET_SALARY_HISTORY, (user_id,))
+
+    if len(res_data) == 0:
+        print("No Salary Hstory Found")
+        return
+
+    headers = ["Salary Id", "Year", "Month", "Amount", "Pay_Date"]
+    pretty_print(res_data, headers)
