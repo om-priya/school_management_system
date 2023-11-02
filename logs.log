@@ -286,3 +286,20 @@ Traceback (most recent call last):
   File "C:\Users\opriya\OneDrive - WatchGuard Technologies Inc\python minor project\school management system\models\users.py", line 81, in save_teacher
     cursor.execute(insert_queries.INSERT_INTO_USER, user_tuple)
 sqlite3.IntegrityError: UNIQUE constraint failed: user.phone
+2023-11-02 09:25:31,203 DEBUG    [initializer.py:27] Table Created only once
+2023-11-02 09:26:17,683 INFO     [users.py:84] User dummy1 teacher Saved to Db
+2023-11-02 09:26:17,683 INFO     [users.py:86] Teacher Saved to DB
+2023-11-02 09:27:13,659 INFO     [users.py:84] User dummy2 teacher Saved to Db
+2023-11-02 09:27:13,659 INFO     [users.py:86] Teacher Saved to DB
+2023-11-02 09:27:55,383 INFO     [users.py:84] User dummy3 teacher Saved to Db
+2023-11-02 09:27:55,383 INFO     [users.py:86] Teacher Saved to DB
+2023-11-02 09:28:07,238 INFO     [app.py:42] Logged in user: SWWcqZt, role: superadmin
+2023-11-02 09:28:54,495 INFO     [users.py:139] User dummy4 principal Saved to Db
+2023-11-02 09:28:54,496 INFO     [users.py:141] Principal Saved to DB
+2023-11-02 09:29:41,145 INFO     [users.py:139] User dummy5 principal Saved to Db
+2023-11-02 09:29:41,145 INFO     [users.py:141] Principal Saved to DB
+2023-11-02 09:30:30,403 INFO     [users.py:139] User dummy6 principal Saved to Db
+2023-11-02 09:30:30,403 INFO     [users.py:141] Principal Saved to DB
+2023-11-02 09:30:39,875 INFO     [app.py:42] Logged in user: SWWcqZt, role: superadmin
+2023-11-02 14:44:03,788 DEBUG    [initializer.py:27] Table Created only once
+2023-11-02 15:23:57,455 DEBUG    [initializer.py:27] Table Created only once

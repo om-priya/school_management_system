@@ -12,6 +12,7 @@ from utils.exception_handler import exception_checker
 logger = logging.getLogger(__name__)
 
 
+# to hash the password using hashlib
 def hash_password(password):
     """This function is responsible for hashing password"""
     hashed_password = hashlib.sha256(password.encode("utf-8")).hexdigest()

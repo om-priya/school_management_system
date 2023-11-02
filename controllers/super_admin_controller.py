@@ -13,6 +13,7 @@ from controllers.handlers import principal_handler as PrincipalHandler
 from controllers.handlers import staff_handler as StaffHandler
 from database.database_access import DatabaseAccess
 from utils.pretty_print import pretty_print
+from utils import validate
 
 logger = logging.getLogger(__name__)
 
@@ -57,13 +58,16 @@ def handle_staff(user_id):
 
 def distribute_salary():
     """Distribute Salary"""
+    # Getting values to insert it in db
     year = datetime.now().year
     month = datetime.now().strftime("%m")
     pay_date = datetime.now().strftime("%d-%m-%Y")
-    dao = DatabaseAccess()
+
     # fetching active teacher id
+    dao = DatabaseAccess()
     res_data = dao.execute_returning_query(FETCH_ACTIVE_TEACHER_ID)
 
+    # Inserting into db
     if len(res_data) == 0:
         print("No Teacher's Present")
     else:
@@ -83,6 +87,7 @@ def distribute_salary():
     # fetching active principal id
     res_data = dao.execute_returning_query(FETCH_PRINCIPAL_ID)
 
+    # Inserting into db
     if len(res_data) == 0:
         print("No Principal Present")
     else:
@@ -106,12 +111,14 @@ def approve_leave():
     res_data = dao.execute_returning_query(GET_PENDING_LEAVES)
 
     if len(res_data) == 0:
-        print("No pending Leave Request")
+        logger.info("No Pending Leave Request")
+        print("No Pending Leave Request")
         return
 
     headers = ["Leave_Id", "Starting Date", "No_of_Days", "User_id", "Status"]
     pretty_print(res_data, headers)
 
-    leave_id = input("Enter the leave_id you want to approve: ")
+    # will happen nothing if Id was not right
+    leave_id = validate.uuid_validator("Enter the leave_id you want to approve: ")
 
     dao.execute_non_returning_query(APPROVE_LEAVE, (leave_id,))

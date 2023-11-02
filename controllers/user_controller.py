@@ -1,9 +1,7 @@
 """This module controls the login and signup functionality"""
 import logging
-import maskpass
 from constants import users_query
 from database.database_access import DatabaseAccess
-
 from utils import validate
 from models.users import Teacher, Principal, hash_password
 
@@ -13,15 +11,17 @@ logger = logging.getLogger(__name__)
 def is_logged_in():
     """This function is for checking whether the user is valid or not,\
         this will return True/False, user_id, status, role"""
-    username = input("Enter Your Username: ").lower()
-    password = maskpass.advpass()
+    # Taking Username and password and validating it
+    username = validate.username_validator().lower()
+    password = validate.password_validator()
     hashed_password = hash_password(password)
 
+    # checking in db with username and password
     dao = DatabaseAccess()
-
     params = (username, hashed_password)
     data = dao.execute_returning_query(users_query.FETCH_FROM_CREDENTIALS, params)
 
+    # Checking For Credentials with db response
     if len(data) == 0:
         logger.error("Wrong Credentials")
         print("Wrong Credentials")
@@ -40,6 +40,9 @@ def is_logged_in():
 def sign_up():
     """This function is responsible for signing user on platform"""
     print("Welcome User")
+    print("\n")
+
+    # Taking User Input For SignUp with Validations
     user_info = {}
     user_info["name"] = validate.name_validator().lower()
     user_info["gender"] = validate.gender_validator()
@@ -50,10 +53,13 @@ def sign_up():
     user_info["role"] = validate.user_role_validator().lower()
     user_info["experience"] = validate.experience_validator()
 
+    # Creating Object according to role and saving it
     if user_info["role"] == "teacher":
         user_info["fav_subject"] = validate.fav_subject_validator().lower()
         new_teacher = Teacher(user_info)
+        logger.info("Initiating saving teacher")
         new_teacher.save_teacher()
     else:
         new_principal = Principal(user_info)
+        logger.info("Initiating saving principal")
         new_principal.save_principal()

@@ -45,6 +45,7 @@ def give_feedback(user_id):
 
     teacher_id = uuid_validator("Enter Teacher's User ID: ")
 
+    # checking teacher's Id
     for data in res_data:
         if data[0] == teacher_id:
             break
@@ -53,6 +54,7 @@ def give_feedback(user_id):
         print("Wrong Teacher Id")
         return
 
+    # Taking Info and saving it to db
     f_id = shortuuid.ShortUUID().random(length=6)
     f_message = message_validator("Enter Your Feedbacks: ")
     created_date = datetime.now().strftime("%d-%m-%Y")

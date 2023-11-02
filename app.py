@@ -1,4 +1,6 @@
-""" Introduction of project """
+""" This project aims to provide a management system for a school 
+through which they can manage different entities in their school. 
+The base assumption of this project is that it manages with the perspective of one school """
 
 import logging
 
@@ -58,15 +60,6 @@ def main():
 
 
 if __name__ == "__main__":
+    # created db with all the tables and run main function
     initialize_app()
     main()
-
-#   Work For Wednesday                                     Priority            Status
-# 1. Pretty print in controllers                              2                Done
-# 2. Checker for ID in principal and teacher                  1                Done
-# 3. Check Validation Regex to remove py lint error           3                Done
-# 4. Remove user_id where not needed                          4                Done
-# 5. Look into salary approve function                        5                Done
-# 6. Apply regex where not implemented                        6                Done
-# 7. Remove generic exception just like past one     *** Ask From Sir ***      Done
-# Diagrams Implement Karo ek document me

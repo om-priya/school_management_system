@@ -6,7 +6,7 @@ import maskpass
 
 def validator(pattern, input_data):
     """General Validator which return either True or False"""
-    x = re.match(pattern, input_data)
+    x = re.fullmatch(pattern, input_data)
     if x is None:
         print("Input Doesn't Match with requirements")
         return False
@@ -149,3 +149,13 @@ def uuid_validator(prompt="Enter the Id: "):
         uuid = input(prompt)
         validated = validator("[A-Za-z0-9]{6}", uuid)
     return uuid
+
+
+def username_validator():
+    """To match username"""
+    username = ""
+    validated = False
+    while validated is False:
+        username = input("Enter Username: ")
+        validated = validator("[A-Za-z0-9._%+-]", username)
+    return username

@@ -1,8 +1,8 @@
 """Event Handler File"""
 
 from datetime import datetime
-import shortuuid
 import logging
+import shortuuid
 from utils.validate import message_validator
 from utils.pretty_print import pretty_print
 from constants.insert_queries import INSERT_INTO_NOTICE

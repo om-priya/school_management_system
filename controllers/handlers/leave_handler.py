@@ -22,6 +22,7 @@ def apply_leave(user_id):
     curr_date = datetime.now().strftime("%d-%m-%Y")
 
     if leave_date <= curr_date:
+        logger.error("%s leave_date is previous to curr date %s", leave_date, curr_date)
         print(f"{leave_date} is previous to curr date {curr_date}")
         return
 
