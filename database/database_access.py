@@ -11,11 +11,13 @@ class DatabaseAccess:
 
     _instance = None
 
+    # to create singleton class
     def __new__(cls):
         if cls._instance is None:
             cls._instance = super(DatabaseAccess, cls).__new__(cls)
         return cls._instance
 
+    # execute query of non returning type such as update, delete, insert
     def execute_non_returning_query(self, query, params=None):
         """This function will execute the query of non returning type"""
         with DatabaseConnection("database\\school.db") as connection:
@@ -25,6 +27,7 @@ class DatabaseAccess:
             else:
                 cursor.execute(query, params)
 
+    # execute query of returning type such as read
     def execute_returning_query(self, query, params=None):
         """This function will execute the query of returning type"""
         with DatabaseConnection("database\\school.db") as connection:
