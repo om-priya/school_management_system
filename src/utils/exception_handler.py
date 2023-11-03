@@ -13,12 +13,15 @@ def exception_checker(func):
     def exception_handler(*args, **kwargs):
         try:
             func(*args, **kwargs)
+        except sqlite3.OperationalError as soe:
+            print(f"Something went wrong while executing the query: {soe}")
+        except sqlite3.IntegrityError as ige:
+            print(f"Integrity Constraint Failed: {ige}")
         except sqlite3.Error as sqle:
-            print(f"Something went wrong with db {sqle}")
+            print(f"Something went wrong with db: {sqle}")
             logger.exception("Something went wrong with db %s", sqle)
         except Exception as e:
             logger.exception("Something Went Wrong %s", e)
-            print(f"Something Went Wrong {e}")
+            print(f"Something Went Wrong: {e}")
 
     return exception_handler
-

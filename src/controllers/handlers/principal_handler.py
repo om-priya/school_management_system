@@ -1,17 +1,10 @@
 """Principal Handler File"""
 import logging
-from utils.pretty_print import pretty_print
-from utils import validate
-from constants.principal_queries import (
-    APPROVE_PRINCIPAL,
-    DELETE_PRINCIPAL,
-    FETCH_PENDING_PRINCIPAL_ID,
-    FETCH_PRINCIPAL_ID,
-    GET_ALL_PRINCIPAL,
-    GET_PRINCIPAL_BY_ID,
-    UPDATE_PRINCIPAL,
-)
-from database.database_access import DatabaseAccess
+from src.utils.pretty_print import pretty_print
+from src.utils import validate
+from src.config.sqlite_queries import PrincipalQueries
+from src.config.display_menu import PromptMessage
+from src.database.database_access import DatabaseAccess
 
 logger = logging.getLogger(__name__)
 
@@ -19,7 +12,7 @@ logger = logging.getLogger(__name__)
 def get_all_active_pid():
     """Fetch All Principal Id who are active"""
     dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(FETCH_PRINCIPAL_ID)
+    res_data = dao.execute_returning_query(PrincipalQueries.FETCH_PRINCIPAL_ID)
 
     return res_data
 
@@ -27,14 +20,16 @@ def get_all_active_pid():
 def get_all_pending_id():
     """Fetch Principal Id who were pending"""
     dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(FETCH_PENDING_PRINCIPAL_ID)
+    res_data = dao.execute_returning_query(PrincipalQueries.FETCH_PENDING_PRINCIPAL_ID)
 
     return res_data
 
 
 def approve_principal():
     """Approve principal"""
-    principal_id = validate.uuid_validator("Enter the id of Principal: ")
+    principal_id = validate.uuid_validator(
+        PromptMessage.TAKE_SPECIFIC_ID.format("Principal")
+    )
 
     all_principal_id = get_all_active_pid()
 
@@ -45,7 +40,7 @@ def approve_principal():
         # handling for no pending request
         if len(pending_id) == 0:
             logger.error("No request for approval")
-            print("No request for approval")
+            print(PromptMessage.NOTHING_FOUND.format("request for approval"))
             return
 
         # checking whether input id is in pending or not
@@ -54,27 +49,29 @@ def approve_principal():
                 break
             else:
                 logger.info("Invalid Id's Given")
-                print("Invalid Id's Given")
+                print(PromptMessage.NOTHING_FOUND.format("Principal"))
                 return
         # saving to db after checking edge cases
         dao = DatabaseAccess()
-        dao.execute_non_returning_query(APPROVE_PRINCIPAL, (principal_id,))
+        dao.execute_non_returning_query(
+            PrincipalQueries.APPROVE_PRINCIPAL, (principal_id,)
+        )
     else:
         logger.warning("Can't add more than one principal")
-        print("Can't add more than one principal")
+        print(PromptMessage.MULTIPLE_PRINCIPAL_ERROR)
         return
 
-    print("Principal Approved Successfully")
+    print(PromptMessage.ADDED_SUCCESSFULLY.format("Principal"))
 
 
 def get_all_principal():
     """Get All principals"""
     dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(GET_ALL_PRINCIPAL)
+    res_data = dao.execute_returning_query(PrincipalQueries.GET_ALL_PRINCIPAL)
 
     if len(res_data) == 0:
         logger.error("No Principal Found")
-        print("No Principal Found")
+        print(PromptMessage.NOTHING_FOUND.format("Principal"))
         return
 
     headers = ["User_id", "name", "gender", "email", "status"]
@@ -83,14 +80,16 @@ def get_all_principal():
 
 def get_principal_by_id():
     """Get Specific principal"""
-    principal_id = validate.uuid_validator("Enter the id of Principal: ")
+    principal_id = validate.uuid_validator(PromptMessage.TAKE_SPECIFIC_ID.format("Principal"))
 
     dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(GET_PRINCIPAL_BY_ID, (principal_id,))
+    res_data = dao.execute_returning_query(
+        PrincipalQueries.GET_PRINCIPAL_BY_ID, (principal_id,)
+    )
 
     if len(res_data) == 0:
         logger.error("No Principal Found")
-        print("No Principal Found")
+        print(PromptMessage.NOTHING_FOUND.format("Principal"))
         return
 
     headers = ["User_id", "name", "gender", "email", "status"]
@@ -100,14 +99,14 @@ def get_principal_by_id():
 def update_principal():
     """Update principal"""
     # taking input from console
-    principal_id = validate.uuid_validator("Enter the id of Principal: ")
-    field_to_update = input("Enter the field you want to update: ").lower()
+    principal_id = validate.uuid_validator(PromptMessage.TAKE_SPECIFIC_ID.format("Principal"))
+    field_to_update = input(PromptMessage.FIELD_UPDATE).lower()
 
     all_principal_id = get_all_active_pid()
 
     # Checking with assumption only one principal is present
     if principal_id != all_principal_id[0][0]:
-        print(f"No Such Principal With id {principal_id}")
+        print(PromptMessage.NOTHING_FOUND.format("Principal"))
         return
 
     options = ["name", "gender", "email", "phone", "experience"]
@@ -115,7 +114,7 @@ def update_principal():
     # checking field to update
     if field_to_update not in options:
         logger.info("No Such Field is present")
-        print("No Such Field is Present")
+        print(PromptMessage.NOTHING_FOUND.format("Field"))
         return
 
     # getting table name
@@ -139,21 +138,21 @@ def update_principal():
 
     dao = DatabaseAccess()
     dao.execute_non_returning_query(
-        UPDATE_PRINCIPAL.format(table_name, field_to_update),
+        PrincipalQueries.UPDATE_PRINCIPAL.format(table_name, field_to_update),
         (update_value, principal_id),
     )
 
 
 def delete_principal():
     """Delete principal of principal"""
-    principal_id = validate.uuid_validator("Enter the id of Principal: ")
+    principal_id = validate.uuid_validator(PromptMessage.TAKE_SPECIFIC_ID.format("Principal"))
 
     all_principal_id = get_all_active_pid()
 
     if principal_id != all_principal_id[0][0]:
         logger.error("No Such Principal With id %s", principal_id)
-        print(f"No Such Principal With id {principal_id}")
+        print(PromptMessage.NOTHING_FOUND.format("Principal"))
         return
 
     dao = DatabaseAccess()
-    dao.execute_non_returning_query(DELETE_PRINCIPAL, (principal_id,))
+    dao.execute_non_returning_query(PrincipalQueries.DELETE_PRINCIPAL, (principal_id,))

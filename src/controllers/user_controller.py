@@ -1,9 +1,10 @@
 """This module controls the login and signup functionality"""
 import logging
-from constants import users_query
-from database.database_access import DatabaseAccess
-from utils import validate
-from models.users import Teacher, Principal, hash_password
+from src.config.display_menu import PromptMessage
+from src.config.sqlite_queries import UserQueries
+from src.database.database_access import DatabaseAccess
+from src.utils import validate
+from src.models.users import Teacher, Principal, hash_password
 
 logger = logging.getLogger(__name__)
 
@@ -19,18 +20,18 @@ def is_logged_in():
     # checking in db with username and password
     dao = DatabaseAccess()
     params = (username, hashed_password)
-    data = dao.execute_returning_query(users_query.FETCH_FROM_CREDENTIALS, params)
+    data = dao.execute_returning_query(UserQueries.FETCH_FROM_CREDENTIALS, params)
 
     # Checking For Credentials with db response
     if len(data) == 0:
         logger.error("Wrong Credentials")
-        print("Wrong Credentials")
+        print(PromptMessage.WRONG_CREDENTIALS)
     elif data[0][2] == "pending":
         logger.error("Pending User %s tried to logged In", data[0][0])
-        print("Ask Super Admin to approve first")
+        print(PromptMessage.PENDING_USER_LOG_IN)
     elif data[0][2] == "deactivate":
         logger.error("User %s don't exists", data[0][0])
-        print("User No longer exists")
+        print(PromptMessage.NOTHING_FOUND.format("User"))
     else:
         return [True, data[0][0], data[0][1]]
 
@@ -39,7 +40,7 @@ def is_logged_in():
 
 def sign_up():
     """This function is responsible for signing user on platform"""
-    print("Welcome User")
+    print(PromptMessage.GREET_PROMPT.format("User"))
     print("\n")
 
     # Taking User Input For SignUp with Validations

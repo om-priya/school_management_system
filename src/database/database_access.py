@@ -1,7 +1,7 @@
 """ This Module contains database access class which will help in executing query """
 
 import logging
-from database.db_connector import DatabaseConnection
+from src.database.db_connector import DatabaseConnection
 
 logger = logging.getLogger("db_logger")
 
@@ -20,7 +20,7 @@ class DatabaseAccess:
     # execute query of non returning type such as update, delete, insert
     def execute_non_returning_query(self, query, params=None):
         """This function will execute the query of non returning type"""
-        with DatabaseConnection("database\\school.db") as connection:
+        with DatabaseConnection("src\\database\\school.db") as connection:
             cursor = connection.cursor()
             if params is None:
                 cursor.execute(query)
@@ -30,7 +30,7 @@ class DatabaseAccess:
     # execute query of returning type such as read
     def execute_returning_query(self, query, params=None):
         """This function will execute the query of returning type"""
-        with DatabaseConnection("database\\school.db") as connection:
+        with DatabaseConnection("src\\database\\school.db") as connection:
             cursor = connection.cursor()
             if params is None:
                 cursor.execute(query)

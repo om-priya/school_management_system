@@ -3,12 +3,11 @@
 from datetime import datetime
 import logging
 import shortuuid
-from utils.validate import message_validator
-from utils.pretty_print import pretty_print
-from constants.insert_queries import INSERT_INTO_NOTICE
-from constants.queries import READ_NOTICE
-
-from database.database_access import DatabaseAccess
+from src.utils.validate import message_validator
+from src.utils.pretty_print import pretty_print
+from src.config.sqlite_queries import CreateTable, UserQueries
+from src.config.display_menu import PromptMessage
+from src.database.database_access import DatabaseAccess
 
 logger = logging.getLogger(__name__)
 
@@ -16,11 +15,11 @@ logger = logging.getLogger(__name__)
 def read_event():
     """Read Events"""
     dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(READ_NOTICE)
+    res_data = dao.execute_returning_query(UserQueries.READ_NOTICE)
 
     if len(res_data) == 0:
         logger.error("No Records On Notice Board")
-        print("No Records on Notice Board")
+        print(PromptMessage.NOTHING_FOUND.format("Notice"))
         return
 
     headers = ["ID", "Message"]
@@ -38,7 +37,8 @@ def create_event(user_id):
 
     # Inserting into db
     dao.execute_non_returning_query(
-        INSERT_INTO_NOTICE, (notice_id, created_by, notice_mssg, create_date)
+        CreateTable.INSERT_INTO_NOTICE,
+        (notice_id, created_by, notice_mssg, create_date),
     )
     logger.info("Added to Notice Board")
-    print("Successfully Added to Notice Board")
+    print(PromptMessage.ADDED_SUCCESSFULLY.format("Notice"))

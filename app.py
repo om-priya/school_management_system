@@ -4,10 +4,10 @@ The base assumption of this project is that it manages with the perspective of o
 
 import logging
 
-from constants import display_menu
-from menu import super_admin_menu, principal_menu, teacher_menu
-from controllers import user_controller as UserController
-from utils.initializer import initialize_app
+from src.config.display_menu import DisplayMenu, PromptMessage
+from src.menu import super_admin_menu, principal_menu, teacher_menu
+from src.controllers import user_controller as UserController
+from src.utils.initializer import initialize_app
 
 logging.basicConfig(
     format="%(asctime)s %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s",
@@ -29,9 +29,9 @@ def main():
     while True:
         # For login and signup
         while not is_logged_in:
-            print(display_menu.ENTRY_POINT_PROMPT)
+            print(DisplayMenu.ENTRY_POINT_PROMPT)
 
-            user_req = input("Enter your Query: ")
+            user_req = input(PromptMessage.TAKE_INPUT.format("Query"))
             if user_req == "1":
                 # Function returning 3 things
                 is_logged_in, user_id, role = UserController.is_logged_in()
@@ -39,7 +39,7 @@ def main():
                 # saving to db with status pending
                 UserController.sign_up()
             else:
-                print("Invalid Input")
+                print(PromptMessage.INVALID_INPUT)
 
         logger.info("Logged in user: %s, role: %s", user_id, role)
 
@@ -51,7 +51,7 @@ def main():
             elif role == "teacher":
                 teacher_menu(user_id=user_id)
             else:
-                print("You don't have access to the protal")
+                print(PromptMessage.DENIED_ACCESS.format("to access Portal"))
             # Resetting the variable due to logged out functionality
             is_logged_in = False
             user_id = ""

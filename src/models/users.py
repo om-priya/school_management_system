@@ -3,11 +3,12 @@
 import hashlib
 import logging
 import shortuuid
+from src.config.display_menu import PromptMessage
 
-from database.database_access import DatabaseAccess
-from database.db_connector import DatabaseConnection
-from constants import insert_queries, teacher_queries
-from utils.exception_handler import exception_checker
+from src.database.database_access import DatabaseAccess
+from src.database.db_connector import DatabaseConnection
+from src.config.sqlite_queries import TeacherQueries, CreateTable, PrincipalQueries
+from src.utils.exception_handler import exception_checker
 
 logger = logging.getLogger(__name__)
 
@@ -54,11 +55,11 @@ class Teacher(User):
         """Save Teacher To DB"""
         database_access_obj = DatabaseAccess()
         school_id = database_access_obj.execute_returning_query(
-            teacher_queries.GET_SCHOOL_ID, (self.school_name,)
+            TeacherQueries.GET_SCHOOL_ID, (self.school_name,)
         )
 
         if len(school_id) == 0:
-            print("Wrong School Or School is not in the system")
+            print(PromptMessage.NO_SCHOOL_FOUND)
             logger.error("No such school present in the system")
             return
 
@@ -75,17 +76,17 @@ class Teacher(User):
         user_tuple = (self.user_id, self.name, self.gender, self.email, self.phone)
         teacher_tuple = (self.user_id, self.experience, self.fav_subject)
 
-        with DatabaseConnection("database\\school.db") as connection:
+        with DatabaseConnection("src\\database\\school.db") as connection:
             cursor = connection.cursor()
-            cursor.execute(insert_queries.INSERT_INTO_CREDENTIAL, cred_tuple)
-            cursor.execute(insert_queries.INSERT_INTO_MAPPING, map_tuple)
-            cursor.execute(insert_queries.INSERT_INTO_USER, user_tuple)
-            cursor.execute(insert_queries.INSERT_INTO_TEACHER, teacher_tuple)
+            cursor.execute(CreateTable.INSERT_INTO_CREDENTIAL, cred_tuple)
+            cursor.execute(CreateTable.INSERT_INTO_MAPPING, map_tuple)
+            cursor.execute(CreateTable.INSERT_INTO_USER, user_tuple)
+            cursor.execute(TeacherQueries.INSERT_INTO_TEACHER, teacher_tuple)
 
         logger.info("User %s %s Saved to Db", self.name, self.role)
 
         logger.info("Teacher Saved to DB")
-        print("Signed Up Successfully Wait for Super Admin to approve it.")
+        print(PromptMessage.SIGNED_UP_SUCCESS)
 
 
 class Principal(User):
@@ -111,10 +112,10 @@ class Principal(User):
         """Save Principal to DB"""
         database_access_obj = DatabaseAccess()
         school_id = database_access_obj.execute_returning_query(
-            teacher_queries.GET_SCHOOL_ID, (self.school_name,)
+            TeacherQueries.GET_SCHOOL_ID, (self.school_name,)
         )
         if len(school_id) == 0:
-            print("Wrong School Or School is not in the system")
+            print(PromptMessage.NO_SCHOOL_FOUND)
             return
 
         school_id = school_id[0][0]
@@ -130,14 +131,14 @@ class Principal(User):
         user_tuple = (self.user_id, self.name, self.gender, self.email, self.phone)
         principal_tuple = (self.user_id, self.experience)
 
-        with DatabaseConnection("database\\school.db") as connection:
+        with DatabaseConnection("src\\database\\school.db") as connection:
             cursor = connection.cursor()
-            cursor.execute(insert_queries.INSERT_INTO_CREDENTIAL, cred_tuple)
-            cursor.execute(insert_queries.INSERT_INTO_MAPPING, map_tuple)
-            cursor.execute(insert_queries.INSERT_INTO_USER, user_tuple)
-            cursor.execute(insert_queries.INSERT_INTO_PRINCIPAL, principal_tuple)
+            cursor.execute(CreateTable.INSERT_INTO_CREDENTIAL, cred_tuple)
+            cursor.execute(CreateTable.INSERT_INTO_MAPPING, map_tuple)
+            cursor.execute(CreateTable.INSERT_INTO_USER, user_tuple)
+            cursor.execute(PrincipalQueries.INSERT_INTO_PRINCIPAL, principal_tuple)
 
         logger.info("User %s %s Saved to Db", self.name, self.role)
 
         logger.info("Principal Saved to DB")
-        print("Signed Up Successfully Wait for Super Admin to approve it.")
+        print(PromptMessage.NO_SCHOOL_FOUND)

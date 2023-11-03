@@ -1,25 +1,20 @@
 """Staff Handler File"""
 
 import shortuuid
-from constants.insert_queries import INSERT_INTO_STAFF_MEMBER
-from constants.staff_queries import (
-    DELETE_STAFF,
-    GET_SCHOOL_ID_STAFF,
-    UPDATE_STAFF,
-    VIEW_ALL_STAFF,
-)
-from database.database_access import DatabaseAccess
-from utils.pretty_print import pretty_print
-from utils import validate
+from src.config.sqlite_queries import StaffQueries
+from src.config.display_menu import PromptMessage
+from src.database.database_access import DatabaseAccess
+from src.utils.pretty_print import pretty_print
+from src.utils import validate
 
 
 def view_staff(user_id):
     """View Staff Members"""
     dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(VIEW_ALL_STAFF, (user_id,))
+    res_data = dao.execute_returning_query(StaffQueries.VIEW_ALL_STAFF, (user_id,))
 
     if len(res_data) == 0:
-        print("No Staff Members Found")
+        print(PromptMessage.NOTHING_FOUND.format("Staff"))
         return
 
     headers = [
@@ -40,27 +35,29 @@ def create_staff(user_id):
     """Create Staff Members"""
     staff_id = shortuuid.ShortUUID().random(length=6)
     name = validate.name_validator()
-    expertise = validate.name_validator("Enter Your Expertise: ")
+    expertise = validate.name_validator(PromptMessage.TAKE_INPUT.format("Expertise"))
     phone = validate.phone_validator()
-    address = validate.name_validator("Enter Your Address: ")
+    address = validate.name_validator(PromptMessage.TAKE_INPUT.format("Address"))
     gender = validate.gender_validator()
     status = "active"
 
     dao = DatabaseAccess()
-    school_id = dao.execute_returning_query(GET_SCHOOL_ID_STAFF, (user_id,))[0][0]
+    school_id = dao.execute_returning_query(
+        StaffQueries.GET_SCHOOL_ID_STAFF, (user_id,)
+    )[0][0]
 
     dao.execute_non_returning_query(
-        INSERT_INTO_STAFF_MEMBER,
+        StaffQueries.INSERT_INTO_STAFF_MEMBER,
         (staff_id, expertise, name, gender, address, phone, status, school_id),
     )
 
-    print("Staff Added SuccessFully")
+    print(PromptMessage.ADDED_SUCCESSFULLY.format("Staff"))
 
 
 def update_staff():
     """Update staff"""
-    staff_id = validate.uuid_validator("Enter the Id of the staff: ")
-    field_to_update = input("Enter the name of the field: ").lower()
+    staff_id = validate.uuid_validator(PromptMessage.TAKE_SPECIFIC_ID.format("Staff"))
+    field_to_update = input(PromptMessage.FIELD_UPDATE).lower()
     options = [
         "expertise",
         "name",
@@ -70,7 +67,7 @@ def update_staff():
     ]
 
     if field_to_update not in options:
-        print("Wrong Input")
+        print(PromptMessage.INVALID_INPUT)
         return
 
     if field_to_update == "gender":
@@ -78,17 +75,19 @@ def update_staff():
     elif field_to_update == "phone":
         updated_value = validate.phone_validator()
     else:
-        updated_value = validate.name_validator("Enter Your Expertise")
+        updated_value = validate.name_validator(
+            PromptMessage.TAKE_INPUT.format("Expertise")
+        )
 
     dao = DatabaseAccess()
     dao.execute_non_returning_query(
-        UPDATE_STAFF.format(field_to_update), (updated_value, staff_id)
+        StaffQueries.UPDATE_STAFF.format(field_to_update), (updated_value, staff_id)
     )
 
 
 def delete_staff():
     """Delete staff"""
-    staff_id = validate.uuid_validator("Enter the Id of the staff: ")
+    staff_id = validate.uuid_validator(PromptMessage.TAKE_SPECIFIC_ID.format("Staff"))
 
     dao = DatabaseAccess()
-    dao.execute_non_returning_query(DELETE_STAFF, (staff_id,))
+    dao.execute_non_returning_query(StaffQueries.DELETE_STAFF, (staff_id,))

@@ -303,3 +303,11 @@ sqlite3.IntegrityError: UNIQUE constraint failed: user.phone
 2023-11-02 09:30:39,875 INFO     [app.py:42] Logged in user: SWWcqZt, role: superadmin
 2023-11-02 14:44:03,788 DEBUG    [initializer.py:27] Table Created only once
 2023-11-02 15:23:57,455 DEBUG    [initializer.py:27] Table Created only once
+2023-11-03 09:48:21,248 DEBUG    [initializer.py:27] Table Created only once
+2023-11-03 09:50:18,038 DEBUG    [initializer.py:27] Table Created only once
+2023-11-03 09:50:28,326 INFO     [app.py:44] Logged in user: SWWcqZt, role: superadmin
+2023-11-03 12:29:56,331 DEBUG    [initializer.py:27] Table Created only once
+2023-11-03 12:30:07,688 ERROR    [user_controller.py:27] Wrong Credentials
+2023-11-03 12:31:37,538 DEBUG    [initializer.py:27] Table Created only once
+2023-11-03 12:31:46,468 INFO     [app.py:44] Logged in user: SWWcqZt, role: superadmin
+2023-11-03 12:31:57,758 WARNING  [principal_handler.py:60] Can't add more than one principal

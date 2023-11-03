@@ -1,18 +1,11 @@
 """This contains teacher handler functionality"""
 
 import logging
-from constants.teacher_queries import (
-    APPROVE_TEACHER,
-    DELETE_TEACHER,
-    FETCH_ACTIVE_TEACHER_ID,
-    FETCH_TEACHER_STATUS,
-    GET_ALL_TEACHER,
-    GET_TEACHER_BY_ID,
-    UPDATE_TEACHER,
-)
-from database.database_access import DatabaseAccess
-from utils.pretty_print import pretty_print
-from utils import validate
+from src.config.display_menu import PromptMessage
+from src.config.sqlite_queries import TeacherQueries
+from src.database.database_access import DatabaseAccess
+from src.utils.pretty_print import pretty_print
+from src.utils import validate
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +13,9 @@ logger = logging.getLogger(__name__)
 def get_status(teacher_id):
     """This Function Will be responsible for fetching status"""
     dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(FETCH_TEACHER_STATUS, (teacher_id,))
+    res_data = dao.execute_returning_query(
+        TeacherQueries.FETCH_TEACHER_STATUS, (teacher_id,)
+    )
 
     return res_data
 
@@ -28,14 +23,16 @@ def get_status(teacher_id):
 def fetch_active_teacher():
     """Fetching the id of active teacher"""
     dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(FETCH_ACTIVE_TEACHER_ID)
+    res_data = dao.execute_returning_query(TeacherQueries.FETCH_ACTIVE_TEACHER_ID)
 
     return res_data
 
 
 def approve_teacher():
     """Approve Teacher"""
-    teacher_id = validate.uuid_validator("Enter the id of Teacher: ")
+    teacher_id = validate.uuid_validator(
+        PromptMessage.APPROVE_PROMPT.format("Teacher's Id")
+    )
 
     # fetching status of teacher with teacher_id
     status = get_status(teacher_id)
@@ -43,28 +40,28 @@ def approve_teacher():
     # checks to handle edge cases
     if len(status) == 0:
         logger.error("No Teacher Present with this Id")
-        print("No Teacher Present with this Id")
+        print(PromptMessage.NOTHING_FOUND.format("Teacher's"))
         return
     elif status[0][0] != "pending":
         logger.error("Teacher Can't be Approved")
-        print("Teacher Can't be Approved")
+        print(PromptMessage.APPROVE_FAILED.format("Teacher"))
         return
     else:
         # executing the query
         dao = DatabaseAccess()
-        dao.execute_non_returning_query(APPROVE_TEACHER, (teacher_id,))
+        dao.execute_non_returning_query(TeacherQueries.APPROVE_TEACHER, (teacher_id,))
 
-    print("Teacher Approved SuccessFully")
+    print(PromptMessage.ADDED_SUCCESSFULLY.format("Teacher"))
 
 
 def get_all_teacher():
     """Get All Teachers"""
     dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(GET_ALL_TEACHER)
+    res_data = dao.execute_returning_query(TeacherQueries.GET_ALL_TEACHER)
 
     if len(res_data) == 0:
         logger.error("No Teacher Found")
-        print("No Teacher Found")
+        print(PromptMessage.NOTHING_FOUND.format("Teachers"))
         return
 
     headers = ["Id", "Name", "phone", "email", "status"]
@@ -73,14 +70,18 @@ def get_all_teacher():
 
 def get_teacher_by_id():
     """Get Specific Teacher"""
-    teacher_id = validate.uuid_validator("Enter the id of Teacher: ")
+    teacher_id = validate.uuid_validator(
+        PromptMessage.TAKE_SPECIFIC_ID.format("Teacher")
+    )
 
     dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(GET_TEACHER_BY_ID, (teacher_id,))
+    res_data = dao.execute_returning_query(
+        TeacherQueries.GET_TEACHER_BY_ID, (teacher_id,)
+    )
 
     if len(res_data) == 0:
         logger.error("No Teacher Found")
-        print("No Teacher Found")
+        print(PromptMessage.NOTHING_FOUND.format("Teacher"))
         return
 
     headers = ["Id", "Name", "phone", "email", "status"]
@@ -89,14 +90,16 @@ def get_teacher_by_id():
 
 def update_teacher():
     """Update Teacher"""
-    teacher_id = validate.uuid_validator("Enter the id of Teacher: ")
-    field_to_update = input("Enter the field you want to update: ")
+    teacher_id = validate.uuid_validator(
+        PromptMessage.TAKE_SPECIFIC_ID.format("Teacher")
+    )
+    field_to_update = input(PromptMessage.FIELD_UPDATE)
     options = ["name", "phone", "email", "experience", "designation"]
 
     # checking whether entered field is correct or not
     if field_to_update not in options:
         logger.info("Wrong Field Name")
-        print("Wrong Field Name")
+        print(PromptMessage.NOTHING_FOUND.format("For Field Name"))
         return
 
     # fetching status for edge cases
@@ -104,12 +107,12 @@ def update_teacher():
 
     if len(teacher_status) == 0:
         logger.info("No Such Teacher Present")
-        print("No Such Teacher Present")
+        print(PromptMessage.NOTHING_FOUND.format("Teacher"))
         return
 
     if teacher_status[0][0] != "active":
         logger.info("Can't perform update action on entered user_id")
-        print("Can't perform update action on entered user_id")
+        print(PromptMessage.FAILED_ACTION.format("Update"))
         return
 
     # getting table name and validating updated value
@@ -126,33 +129,37 @@ def update_teacher():
         if field_to_update == "experience":
             updated_value = validate.experience_validator()
         else:
-            updated_value = validate.name_validator("Enter Your Designation: ")
+            updated_value = validate.name_validator(
+                PromptMessage.TAKE_INPUT.format("Designation")
+            )
 
     # saving updates to db
     dao = DatabaseAccess()
     dao.execute_non_returning_query(
-        UPDATE_TEACHER.format(table_name, field_to_update),
+        TeacherQueries.UPDATE_TEACHER.format(table_name, field_to_update),
         (updated_value, teacher_id),
     )
 
-    print("Updated Successfully")
+    print(PromptMessage.SUCCESS_ACTION.format("Updated"))
 
 
 def delete_teacher():
     """Delete Teacher of principal"""
-    teacher_id = validate.uuid_validator("Enter the id of Teacher: ")
+    teacher_id = validate.uuid_validator(
+        PromptMessage.TAKE_SPECIFIC_ID.format("Teacher's")
+    )
 
     active_teachers_id = fetch_active_teacher()
 
     if len(active_teachers_id) == 0:
-        print("No Teacher Present to delete")
+        print(PromptMessage.NOTHING_FOUND.format("Teacher"))
         return
 
     for tid in active_teachers_id[0]:
         if tid == teacher_id:
             break
     else:
-        print("Teacher Can't be deleted")
+        print(PromptMessage.FAILED_ACTION.format("Delete"))
         return
     dao = DatabaseAccess()
-    dao.execute_non_returning_query(DELETE_TEACHER, (teacher_id,))
+    dao.execute_non_returning_query(TeacherQueries.DELETE_TEACHER, (teacher_id,))

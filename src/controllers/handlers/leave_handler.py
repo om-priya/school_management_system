@@ -3,11 +3,11 @@
 import logging
 from datetime import datetime
 import shortuuid
-from constants.insert_queries import INSERT_INTO_LEAVES
-from constants.users_query import FETCH_LEAVE_STATUS
-from database.database_access import DatabaseAccess
-from utils.pretty_print import pretty_print
-from utils.validate import date_validator, days_validator
+from src.config.sqlite_queries import UserQueries, CreateTable
+from src.config.display_menu import PromptMessage
+from src.database.database_access import DatabaseAccess
+from src.utils.pretty_print import pretty_print
+from src.utils.validate import date_validator, days_validator
 
 logger = logging.getLogger(__name__)
 
@@ -23,27 +23,28 @@ def apply_leave(user_id):
 
     if leave_date <= curr_date:
         logger.error("%s leave_date is previous to curr date %s", leave_date, curr_date)
-        print(f"{leave_date} is previous to curr date {curr_date}")
+        print(PromptMessage.INVALID_DATE.format(leave_date, curr_date))
         return
 
     no_of_days = days_validator()
 
     dao.execute_non_returning_query(
-        INSERT_INTO_LEAVES, (leave_id, leave_date, no_of_days, user_id, "pending")
+        CreateTable.INSERT_INTO_LEAVES,
+        (leave_id, leave_date, no_of_days, user_id, "pending"),
     )
 
     logger.info("Applied to leave by user %s", user_id)
-    print("Applied Successfully")
+    print(PromptMessage.ADDED_SUCCESSFULLY.format("Leave Request"))
 
 
 def see_leave_status(user_id):
     """See Leave Status"""
     dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(FETCH_LEAVE_STATUS, (user_id,))
+    res_data = dao.execute_returning_query(UserQueries.FETCH_LEAVE_STATUS, (user_id,))
 
     if len(res_data) == 0:
         logger.error("No Leaves Record Found for user %s", user_id)
-        print("No Leaves Record Found for You")
+        print(PromptMessage.NOTHING_FOUND.format("Leaves Record"))
         return
 
     headers = ["Leave Date", "No of Days", "Status"]
