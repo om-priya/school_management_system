@@ -70,7 +70,7 @@ def distribute_salary():
     dao = DatabaseAccess()
     res_data = dao.execute_returning_query(TeacherQueries.FETCH_ACTIVE_TEACHER_ID)
 
-    # Inserting into db
+    # Inserting into salary db
     if len(res_data) == 0:
         print(PromptMessage.NOTHING_FOUND.format("Teacher"))
     else:
@@ -117,6 +117,7 @@ def approve_leave():
     dao = DatabaseAccess()
     res_data = dao.execute_returning_query(UserQueries.GET_PENDING_LEAVES)
 
+    # if there are no leave request
     if len(res_data) == 0:
         logger.info("No Pending Leave Request")
         print(PromptMessage.NOTHING_FOUND.format("Pending leave request"))

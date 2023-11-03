@@ -1,5 +1,10 @@
 """ This Module Contains all the functionality that a teacher can perform """
 import logging
+from src.controllers.handlers.event_handler import read_event
+from src.controllers.helper.helper_function import (
+    fetch_salary_history,
+    view_personal_info,
+)
 from src.config.display_menu import PromptMessage
 from src.config.sqlite_queries import TeacherQueries, UserQueries
 from src.controllers.handlers import issue_handler as IssueHandler
@@ -11,25 +16,12 @@ logger = logging.getLogger(__name__)
 
 def view_profile(user_id):
     """To view personal data for a teacher"""
-    dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(TeacherQueries.GET_TEACHER_BY_ID, (user_id,))
-
-    headers = ["Id", "Name", "phone", "email", "status"]
-    pretty_print(res_data, headers)
+    view_personal_info(TeacherQueries.GET_TEACHER_BY_ID, user_id)
 
 
 def read_notice():
     """To view notice board of a school"""
-    dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(UserQueries.READ_NOTICE)
-
-    if len(res_data) == 0:
-        logger.error("Nothing on notice board")
-        print(PromptMessage.NOTHING_FOUND.format("Notice"))
-        return
-
-    headers = ["ID", "Message"]
-    pretty_print(res_data, headers=headers)
+    read_event()
 
 
 def read_feedbacks(user_id):
@@ -37,6 +29,7 @@ def read_feedbacks(user_id):
     dao = DatabaseAccess()
     res_data = dao.execute_returning_query(UserQueries.READ_FEEDBACKS, (user_id,))
 
+    # if there is no feedbacks for a teacher
     if len(res_data) == 0:
         logger.error("Nothing on Feedbacks for You")
         print(PromptMessage.NOTHING_FOUND.format("Feedback"))
@@ -53,13 +46,4 @@ def raise_issue(user_id):
 
 def salary_history(user_id):
     """To view salary history for a teacher"""
-    dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(UserQueries.GET_SALARY_HISTORY, (user_id,))
-
-    if len(res_data) == 0:
-        logger.error("No Salary Hstory Found")
-        print(PromptMessage.NOTHING_FOUND.format("Salary History"))
-        return
-
-    headers = ["Salary Id", "Year", "Month", "Amount", "Pay_Date"]
-    pretty_print(res_data, headers)
+    fetch_salary_history(user_id)

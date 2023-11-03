@@ -13,6 +13,7 @@ def view_staff(user_id):
     dao = DatabaseAccess()
     res_data = dao.execute_returning_query(StaffQueries.VIEW_ALL_STAFF, (user_id,))
 
+    # for no staff members
     if len(res_data) == 0:
         print(PromptMessage.NOTHING_FOUND.format("Staff"))
         return
@@ -33,6 +34,7 @@ def view_staff(user_id):
 
 def create_staff(user_id):
     """Create Staff Members"""
+    # getting info to save it in db
     staff_id = shortuuid.ShortUUID().random(length=6)
     name = validate.name_validator()
     expertise = validate.name_validator(PromptMessage.TAKE_INPUT.format("Expertise"))
@@ -41,11 +43,13 @@ def create_staff(user_id):
     gender = validate.gender_validator()
     status = "active"
 
+    # fetching school id of super admin who is logged in
     dao = DatabaseAccess()
     school_id = dao.execute_returning_query(
         StaffQueries.GET_SCHOOL_ID_STAFF, (user_id,)
     )[0][0]
 
+    # inserting info to db
     dao.execute_non_returning_query(
         StaffQueries.INSERT_INTO_STAFF_MEMBER,
         (staff_id, expertise, name, gender, address, phone, status, school_id),
@@ -66,10 +70,12 @@ def update_staff():
         "gender",
     ]
 
+    # if wrong field is provided
     if field_to_update not in options:
         print(PromptMessage.INVALID_INPUT)
         return
 
+    # taking updated value with input validation
     if field_to_update == "gender":
         updated_value = validate.gender_validator()
     elif field_to_update == "phone":
@@ -79,6 +85,7 @@ def update_staff():
             PromptMessage.TAKE_INPUT.format("Expertise")
         )
 
+    # updatind value to db
     dao = DatabaseAccess()
     dao.execute_non_returning_query(
         StaffQueries.UPDATE_STAFF.format(field_to_update), (updated_value, staff_id)
@@ -89,5 +96,6 @@ def delete_staff():
     """Delete staff"""
     staff_id = validate.uuid_validator(PromptMessage.TAKE_SPECIFIC_ID.format("Staff"))
 
+    # will happen nothing if wrong id is provided
     dao = DatabaseAccess()
     dao.execute_non_returning_query(StaffQueries.DELETE_STAFF, (staff_id,))

@@ -1,6 +1,7 @@
 """ This project aims to provide a management system for a school 
 through which they can manage different entities in their school. 
-The base assumption of this project is that it manages with the perspective of one school """
+The base assumption of this project is that it manages with the perspective of one school 
+To check for super admin credentials go to /src/super_admin_meny.py """
 
 import logging
 

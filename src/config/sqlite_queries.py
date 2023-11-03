@@ -112,6 +112,8 @@ class UserQueries:
     READ_FEEDBACKS = """SELECT feedback_id, message, created_date
         FROM feedbacks
         WHERE given_to = ?"""
+    FETCH_SUPER_ADMIN = """SELECT * FROM credential
+        WHERE role = 'superadmin'"""
 
 
 class CreateTable:
