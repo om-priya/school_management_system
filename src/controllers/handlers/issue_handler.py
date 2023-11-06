@@ -2,11 +2,12 @@
 
 import logging
 import shortuuid
+from src.config.regex_pattern import RegexPatterns
 from src.config.sqlite_queries import UserQueries, CreateTable
 from src.config.display_menu import PromptMessage
 from src.database.database_access import DatabaseAccess
 from src.utils.pretty_print import pretty_print
-from src.utils.validate import message_validator
+from src.utils.validate import pattern_validator
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +29,9 @@ def view_issue():
 def raise_issue(user_id):
     """To raise issue for the management"""
     issue_id = shortuuid.ShortUUID().random(length=6)
-    issue_mssg = message_validator(PromptMessage.TAKE_INPUT.format("Issue Message"))
+    issue_mssg = pattern_validator(
+        PromptMessage.TAKE_INPUT.format("Issue Message"), RegexPatterns.MESSAGE_PATTERN
+    )
 
     dao = DatabaseAccess()
     dao.execute_non_returning_query(

@@ -1,6 +1,7 @@
 """This contains teacher handler functionality"""
 
 import logging
+from src.config.regex_pattern import RegexPatterns
 from src.config.display_menu import PromptMessage
 from src.config.sqlite_queries import TeacherQueries
 from src.database.database_access import DatabaseAccess
@@ -30,8 +31,8 @@ def fetch_active_teacher():
 
 def approve_teacher():
     """Approve Teacher"""
-    teacher_id = validate.uuid_validator(
-        PromptMessage.APPROVE_PROMPT.format("Teacher's Id")
+    teacher_id = validate.pattern_validator(
+        PromptMessage.APPROVE_PROMPT.format("Staff"), RegexPatterns.UUID_PATTERN
     )
 
     # fetching status of teacher with teacher_id
@@ -70,8 +71,8 @@ def get_all_teacher():
 
 def get_teacher_by_id():
     """Get Specific Teacher"""
-    teacher_id = validate.uuid_validator(
-        PromptMessage.TAKE_SPECIFIC_ID.format("Teacher")
+    teacher_id = validate.pattern_validator(
+        PromptMessage.TAKE_SPECIFIC_ID.format("Teacher"), RegexPatterns.UUID_PATTERN
     )
 
     dao = DatabaseAccess()
@@ -90,11 +91,11 @@ def get_teacher_by_id():
 
 def update_teacher():
     """Update Teacher"""
-    teacher_id = validate.uuid_validator(
-        PromptMessage.TAKE_SPECIFIC_ID.format("Teacher")
+    teacher_id = validate.pattern_validator(
+        PromptMessage.TAKE_SPECIFIC_ID.format("Teacher"), RegexPatterns.UUID_PATTERN
     )
     field_to_update = input(PromptMessage.FIELD_UPDATE)
-    options = ["name", "phone", "email", "experience", "designation"]
+    options = ["name", "phone", "email", "experience"]
 
     # checking whether entered field is correct or not
     if field_to_update not in options:
@@ -119,19 +120,24 @@ def update_teacher():
     if field_to_update in options[:3]:
         table_name = "user"
         if field_to_update == "name":
-            updated_value = validate.name_validator()
+            updated_value = validate.pattern_validator(
+                PromptMessage.TAKE_INPUT.format("Name"), RegexPatterns.NAME_PATTERN
+            )
         elif field_to_update == "phone":
-            updated_value = validate.phone_validator()
+            updated_value = validate.pattern_validator(
+                PromptMessage.TAKE_INPUT.format("Phone Number"),
+                RegexPatterns.PHONE_PATTERN,
+            )
         else:
-            updated_value = validate.email_validator()
+            updated_value = validate.pattern_validator(
+                PromptMessage.TAKE_INPUT.format("email"), RegexPatterns.EMAIL_PATTERN
+            )
     else:
         table_name = "teacher"
-        if field_to_update == "experience":
-            updated_value = validate.experience_validator()
-        else:
-            updated_value = validate.name_validator(
-                PromptMessage.TAKE_INPUT.format("Designation")
-            )
+        updated_value = validate.pattern_validator(
+            PromptMessage.TAKE_INPUT.format("Experience in Year"),
+            RegexPatterns.EXPERIENCE_PATTERN,
+        )
 
     # saving updates to db
     dao = DatabaseAccess()
@@ -145,8 +151,8 @@ def update_teacher():
 
 def delete_teacher():
     """Delete Teacher of principal"""
-    teacher_id = validate.uuid_validator(
-        PromptMessage.TAKE_SPECIFIC_ID.format("Teacher's")
+    teacher_id = validate.pattern_validator(
+        PromptMessage.TAKE_SPECIFIC_ID.format("Teacher"), RegexPatterns.UUID_PATTERN
     )
 
     active_teachers_id = fetch_active_teacher()

@@ -3,11 +3,12 @@
 import logging
 from datetime import datetime
 import shortuuid
+from src.config.regex_pattern import RegexPatterns
 from src.config.sqlite_queries import UserQueries, CreateTable
 from src.config.display_menu import PromptMessage
 from src.database.database_access import DatabaseAccess
 from src.utils.pretty_print import pretty_print
-from src.utils.validate import date_validator, days_validator
+from src.utils.validate import pattern_validator
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +18,7 @@ def apply_leave(user_id):
     dao = DatabaseAccess()
 
     leave_id = shortuuid.ShortUUID().random(length=6)
-    leave_date = date_validator()
+    leave_date = pattern_validator(PromptMessage.DATE_INPUT, RegexPatterns.DATE_PATTERN)
 
     curr_date = datetime.now().strftime("%d-%m-%Y")
 
@@ -26,7 +27,10 @@ def apply_leave(user_id):
         print(PromptMessage.INVALID_DATE.format(leave_date, curr_date))
         return
 
-    no_of_days = days_validator()
+    no_of_days = pattern_validator(
+        PromptMessage.TAKE_INPUT.format("No of Days for leave"),
+        RegexPatterns.DAYS_PATTERN,
+    )
 
     dao.execute_non_returning_query(
         CreateTable.INSERT_INTO_LEAVES,

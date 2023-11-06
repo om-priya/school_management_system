@@ -1,6 +1,7 @@
 """Staff Handler File"""
 
 import shortuuid
+from src.config.regex_pattern import RegexPatterns
 from src.config.sqlite_queries import StaffQueries
 from src.config.display_menu import PromptMessage
 from src.database.database_access import DatabaseAccess
@@ -36,11 +37,21 @@ def create_staff(user_id):
     """Create Staff Members"""
     # getting info to save it in db
     staff_id = shortuuid.ShortUUID().random(length=6)
-    name = validate.name_validator()
-    expertise = validate.name_validator(PromptMessage.TAKE_INPUT.format("Expertise"))
-    phone = validate.phone_validator()
-    address = validate.name_validator(PromptMessage.TAKE_INPUT.format("Address"))
-    gender = validate.gender_validator()
+    name = validate.pattern_validator(
+        PromptMessage.TAKE_INPUT.format("Name"), RegexPatterns.NAME_PATTERN
+    )
+    expertise = validate.pattern_validator(
+        PromptMessage.TAKE_INPUT.format("Expertise"), RegexPatterns.NAME_PATTERN
+    )
+    phone = validate.pattern_validator(
+        PromptMessage.TAKE_INPUT.format("Phone Number"), RegexPatterns.PHONE_PATTERN
+    )
+    address = validate.pattern_validator(
+        PromptMessage.TAKE_INPUT.format("Address"), RegexPatterns.NAME_PATTERN
+    )
+    gender = validate.pattern_validator(
+        PromptMessage.TAKE_INPUT.format("Gender (M/F)"), RegexPatterns.GENDER_PATTERN
+    )
     status = "active"
 
     # fetching school id of super admin who is logged in
@@ -60,7 +71,9 @@ def create_staff(user_id):
 
 def update_staff():
     """Update staff"""
-    staff_id = validate.uuid_validator(PromptMessage.TAKE_SPECIFIC_ID.format("Staff"))
+    staff_id = validate.pattern_validator(
+        PromptMessage.TAKE_SPECIFIC_ID.format("Staff"), RegexPatterns.UUID_PATTERN
+    )
     field_to_update = input(PromptMessage.FIELD_UPDATE).lower()
     options = [
         "expertise",
@@ -77,12 +90,17 @@ def update_staff():
 
     # taking updated value with input validation
     if field_to_update == "gender":
-        updated_value = validate.gender_validator()
+        updated_value = validate.pattern_validator(
+            PromptMessage.TAKE_INPUT.format("Gender (M/F)"),
+            RegexPatterns.GENDER_PATTERN,
+        )
     elif field_to_update == "phone":
-        updated_value = validate.phone_validator()
+        updated_value = validate.pattern_validator(
+            PromptMessage.TAKE_INPUT.format("Phone Number"), RegexPatterns.PHONE_PATTERN
+        )
     else:
-        updated_value = validate.name_validator(
-            PromptMessage.TAKE_INPUT.format("Expertise")
+        updated_value = validate.pattern_validator(
+            PromptMessage.TAKE_INPUT.format("Expertise"), RegexPatterns.NAME_PATTERN
         )
 
     # updatind value to db
@@ -94,7 +112,9 @@ def update_staff():
 
 def delete_staff():
     """Delete staff"""
-    staff_id = validate.uuid_validator(PromptMessage.TAKE_SPECIFIC_ID.format("Staff"))
+    staff_id = validate.pattern_validator(
+        PromptMessage.TAKE_SPECIFIC_ID.format("Staff"), RegexPatterns.UUID_PATTERN
+    )
 
     # will happen nothing if wrong id is provided
     dao = DatabaseAccess()

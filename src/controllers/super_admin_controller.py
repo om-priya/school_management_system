@@ -4,6 +4,7 @@ import logging
 from datetime import datetime
 import shortuuid
 from src.config.display_menu import DisplayMenu, PromptMessage
+from src.config.regex_pattern import RegexPatterns
 from src.config.sqlite_queries import (
     TeacherQueries,
     PrincipalQueries,
@@ -127,6 +128,8 @@ def approve_leave():
     pretty_print(res_data, headers)
 
     # will happen nothing if Id was not right
-    leave_id = validate.uuid_validator(PromptMessage.APPROVE_PROMPT.format("leave id"))
+    leave_id = validate.pattern_validator(
+        PromptMessage.APPROVE_PROMPT.format("leave id"), RegexPatterns.UUID_PATTERN
+    )
 
     dao.execute_non_returning_query(UserQueries.APPROVE_LEAVE, (leave_id,))

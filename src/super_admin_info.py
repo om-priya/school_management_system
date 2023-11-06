@@ -10,14 +10,14 @@ def create_super_admin():
     USER_ID = "S" + shortuuid.ShortUUID().random(length=6)
     SCHOOL_ID = shortuuid.ShortUUID().random(length=6)
     NAME = "om priya"
-    GENDER = "M"
+    GENDER = "m"
     EMAIL = "ompriya18153789@gmail.com"
     PHONE = "8229070126"
     ROLE = "superadmin"
     STATUS = "active"
     USER_NAME = "ompriya18153789"
     HASHED_PASSWORD = hash_password("Ompriya@123")
-    SCHOOL_NAME = "DAV PUBLIC SCHOOL"
+    SCHOOL_NAME = "dav public school"
     SCHOOL_LOCATION = "Noida"
     SCHOOL_EMAIL = "dav@gmail.com"
     SCHOOL_CONTACT = "3883983202"

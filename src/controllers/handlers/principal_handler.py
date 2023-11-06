@@ -1,5 +1,6 @@
 """Principal Handler File"""
 import logging
+from src.config.regex_pattern import RegexPatterns
 from src.utils.pretty_print import pretty_print
 from src.utils import validate
 from src.config.sqlite_queries import PrincipalQueries
@@ -27,8 +28,8 @@ def get_all_pending_id():
 
 def approve_principal():
     """Approve principal"""
-    principal_id = validate.uuid_validator(
-        PromptMessage.TAKE_SPECIFIC_ID.format("Principal")
+    principal_id = validate.pattern_validator(
+        PromptMessage.TAKE_SPECIFIC_ID.format("Principal"), RegexPatterns.UUID_PATTERN
     )
 
     all_principal_id = get_all_active_pid()
@@ -80,7 +81,9 @@ def get_all_principal():
 
 def get_principal_by_id():
     """Get Specific principal"""
-    principal_id = validate.uuid_validator(PromptMessage.TAKE_SPECIFIC_ID.format("Principal"))
+    principal_id = validate.pattern_validator(
+        PromptMessage.TAKE_SPECIFIC_ID.format("Principal"), RegexPatterns.UUID_PATTERN
+    )
 
     dao = DatabaseAccess()
     res_data = dao.execute_returning_query(
@@ -99,7 +102,9 @@ def get_principal_by_id():
 def update_principal():
     """Update principal"""
     # taking input from console
-    principal_id = validate.uuid_validator(PromptMessage.TAKE_SPECIFIC_ID.format("Principal"))
+    principal_id = validate.pattern_validator(
+        PromptMessage.TAKE_SPECIFIC_ID.format("Principal"), RegexPatterns.UUID_PATTERN
+    )
     field_to_update = input(PromptMessage.FIELD_UPDATE).lower()
 
     all_principal_id = get_all_active_pid()
@@ -126,15 +131,28 @@ def update_principal():
     # validating and saving to db
     match field_to_update:
         case "name":
-            update_value = validate.name_validator()
+            update_value = validate.pattern_validator(
+                PromptMessage.TAKE_INPUT.format("Name"), RegexPatterns.NAME_PATTERN
+            )
         case "gender":
-            update_value = validate.gender_validator()
+            update_value = validate.pattern_validator(
+                PromptMessage.TAKE_INPUT.format("Gender (M/F)"),
+                RegexPatterns.GENDER_PATTERN,
+            )
         case "email":
-            update_value = validate.email_validator()
+            update_value = validate.pattern_validator(
+                PromptMessage.TAKE_INPUT.format("email"), RegexPatterns.EMAIL_PATTERN
+            )
         case "phone":
-            update_value = validate.phone_validator()
+            update_value = validate.pattern_validator(
+                PromptMessage.TAKE_INPUT.format("Phone Number"),
+                RegexPatterns.PHONE_PATTERN,
+            )
         case "experience":
-            update_value = validate.experience_validator()
+            update_value = validate.pattern_validator(
+                PromptMessage.TAKE_INPUT.format("Experience in Year"),
+                RegexPatterns.EXPERIENCE_PATTERN,
+            )
 
     dao = DatabaseAccess()
     dao.execute_non_returning_query(
@@ -145,7 +163,9 @@ def update_principal():
 
 def delete_principal():
     """Delete principal of principal"""
-    principal_id = validate.uuid_validator(PromptMessage.TAKE_SPECIFIC_ID.format("Principal"))
+    principal_id = validate.pattern_validator(
+        PromptMessage.TAKE_SPECIFIC_ID.format("Principal"), RegexPatterns.UUID_PATTERN
+    )
 
     all_principal_id = get_all_active_pid()
 

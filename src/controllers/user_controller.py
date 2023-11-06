@@ -1,6 +1,7 @@
 """This module controls the login and signup functionality"""
 import logging
 from src.config.display_menu import PromptMessage
+from src.config.regex_pattern import RegexPatterns
 from src.config.sqlite_queries import UserQueries
 from src.database.database_access import DatabaseAccess
 from src.utils import validate
@@ -13,7 +14,9 @@ def is_logged_in():
     """This function is for checking whether the user is valid or not,\
         this will return True/False, user_id, status, role"""
     # Taking Username and password and validating it
-    username = validate.username_validator().lower()
+    username = validate.pattern_validator(
+        PromptMessage.TAKE_INPUT.format("Username"), RegexPatterns.USERNAME_PATTERN
+    )
     password = validate.password_validator()
     hashed_password = hash_password(password)
 
@@ -45,18 +48,38 @@ def sign_up():
 
     # Taking User Input For SignUp with Validations
     user_info = {}
-    user_info["name"] = validate.name_validator().lower()
-    user_info["gender"] = validate.gender_validator()
-    user_info["email"] = validate.email_validator().lower()
-    user_info["phone"] = validate.phone_validator()
-    user_info["school_name"] = validate.school_name_validator().upper()
+    user_info["name"] = validate.pattern_validator(
+        PromptMessage.TAKE_INPUT.format("Name"), RegexPatterns.NAME_PATTERN
+    )
+    user_info["gender"] = validate.pattern_validator(
+        PromptMessage.TAKE_INPUT.format("Gender (M/F)"), RegexPatterns.GENDER_PATTERN
+    )
+    user_info["email"] = validate.pattern_validator(
+        PromptMessage.TAKE_INPUT.format("email"), RegexPatterns.EMAIL_PATTERN
+    )
+    user_info["phone"] = validate.pattern_validator(
+        PromptMessage.TAKE_INPUT.format("Phone Number"), RegexPatterns.PHONE_PATTERN
+    )
+    user_info["school_name"] = validate.pattern_validator(
+        PromptMessage.TAKE_INPUT.format("School Name (only dav public school)"),
+        RegexPatterns.SCHOOL_NAME_PATTERN,
+    )
     user_info["password"] = validate.password_validator()
-    user_info["role"] = validate.user_role_validator().lower()
-    user_info["experience"] = validate.experience_validator()
+    user_info["role"] = validate.pattern_validator(
+        PromptMessage.TAKE_INPUT.format("Role (teacher,principal)"),
+        RegexPatterns.ROLE_PATTERN,
+    )
+    user_info["experience"] = validate.pattern_validator(
+        PromptMessage.TAKE_INPUT.format("Experience in Year"),
+        RegexPatterns.EXPERIENCE_PATTERN,
+    )
 
     # Creating Object according to role and saving it
     if user_info["role"] == "teacher":
-        user_info["fav_subject"] = validate.fav_subject_validator().lower()
+        user_info["fav_subject"] = validate.pattern_validator(
+            PromptMessage.TAKE_INPUT.format("Fav Subject"),
+            RegexPatterns.FAV_SUBJECT_PATTERN,
+        )
         new_teacher = Teacher(user_info)
         logger.info("Initiating saving teacher")
         new_teacher.save_teacher()

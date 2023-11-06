@@ -3,7 +3,8 @@
 from datetime import datetime
 import logging
 import shortuuid
-from src.utils.validate import message_validator
+from src.config.regex_pattern import RegexPatterns
+from src.utils.validate import pattern_validator
 from src.utils.pretty_print import pretty_print
 from src.config.sqlite_queries import CreateTable, UserQueries
 from src.config.display_menu import PromptMessage
@@ -32,7 +33,9 @@ def create_event(user_id):
 
     notice_id = shortuuid.ShortUUID().random(length=6)
     created_by = user_id
-    notice_mssg = message_validator()
+    notice_mssg = pattern_validator(
+        PromptMessage.TAKE_INPUT.format("Notice Message"), RegexPatterns.MESSAGE_PATTERN
+    )
     create_date = datetime.now().strftime("%d-%m-%Y")
 
     # Inserting into db

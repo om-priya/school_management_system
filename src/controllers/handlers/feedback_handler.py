@@ -3,8 +3,9 @@
 from datetime import datetime
 import logging
 import shortuuid
+from src.config.regex_pattern import RegexPatterns
 from src.utils.pretty_print import pretty_print
-from src.utils.validate import message_validator, uuid_validator
+from src.utils.validate import pattern_validator
 from src.config.sqlite_queries import TeacherQueries, CreateTable, PrincipalQueries
 from src.config.display_menu import PromptMessage
 from src.database.database_access import DatabaseAccess
@@ -44,7 +45,9 @@ def give_feedback(user_id):
     headers = ["ID", "Name"]
     pretty_print(res_data, headers=headers)
 
-    teacher_id = uuid_validator(PromptMessage.TAKE_SPECIFIC_ID.format("Teacher's"))
+    teacher_id = pattern_validator(
+        PromptMessage.TAKE_SPECIFIC_ID.format("Teacher's"), RegexPatterns.UUID_PATTERN
+    )
 
     # checking teacher's Id
     for data in res_data:
@@ -57,7 +60,9 @@ def give_feedback(user_id):
 
     # Taking Info and saving it to db
     f_id = shortuuid.ShortUUID().random(length=6)
-    f_message = message_validator(PromptMessage.TAKE_INPUT.format("Message"))
+    f_message = pattern_validator(
+        PromptMessage.TAKE_INPUT.format("Message"), RegexPatterns.MESSAGE_PATTERN
+    )
     created_date = datetime.now().strftime("%d-%m-%Y")
 
     dao.execute_non_returning_query(

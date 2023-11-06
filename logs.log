@@ -316,3 +316,6 @@ sqlite3.IntegrityError: UNIQUE constraint failed: user.phone
 2023-11-03 14:04:05,448 INFO     [app.py:45] Logged in user: 6mAmJF, role: principal
 2023-11-03 14:15:07,149 DEBUG    [initializer.py:31] Table Created only once
 2023-11-03 14:15:16,062 INFO     [app.py:45] Logged in user: SWWcqZt, role: superadmin
+2023-11-06 13:58:42,957 DEBUG    [initializer.py:31] Table Created only once
+2023-11-06 14:39:33,045 DEBUG    [initializer.py:31] Table Created only once
+2023-11-06 14:39:49,225 DEBUG    [initializer.py:31] Table Created only once
