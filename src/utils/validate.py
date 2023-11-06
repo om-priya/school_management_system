@@ -2,6 +2,7 @@
 
 import re
 import maskpass
+from src.config.regex_pattern import RegexPatterns
 
 from src.config.display_menu import PromptMessage
 
@@ -32,7 +33,7 @@ def password_validator():
     while validated is False:
         password = maskpass.advpass()
         validated = validator(
-            r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{6,20}$",
+            RegexPatterns.PASSWORD_PATTERN,
             password,
         )
     return password

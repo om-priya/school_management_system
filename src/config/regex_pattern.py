@@ -2,7 +2,7 @@
 
 
 class RegexPatterns:
-    """This class has those variables"""
+    """This class has those Regex Pattern variables"""
 
     USERNAME_PATTERN = r"[A-Za-z0-9._%+-]+"
     NAME_PATTERN = r"([A-Za-z]{2,25}[\s]?)+"
@@ -17,3 +17,6 @@ class RegexPatterns:
     EXPERIENCE_PATTERN = r"^[0-9]{1,2}$"
     SCHOOL_NAME_PATTERN = r"^[A-Za-z]+([\sA-Za-z]+)*"
     PHONE_PATTERN = r"^[0-9]{10}$"
+    PASSWORD_PATTERN = (
+        r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{6,20}$"
+    )
