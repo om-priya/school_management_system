@@ -5,7 +5,7 @@ from src.config.regex_pattern import RegexPatterns
 from src.config.headers_for_output import TableHeaders
 from src.config.display_menu import PromptMessage
 from src.config.sqlite_queries import TeacherQueries
-from src.database.database_access import DatabaseAccess
+from src.database import database_access as DAO
 from src.utils.pretty_print import pretty_print
 from src.utils import validate
 
@@ -14,8 +14,7 @@ logger = logging.getLogger(__name__)
 
 def get_status(teacher_id):
     """This Function Will be responsible for fetching status"""
-    dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(
+    res_data = DAO.execute_returning_query(
         TeacherQueries.FETCH_TEACHER_STATUS, (teacher_id,)
     )
 
@@ -24,8 +23,7 @@ def get_status(teacher_id):
 
 def fetch_active_teacher():
     """Fetching the id of active teacher"""
-    dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(TeacherQueries.FETCH_ACTIVE_TEACHER_ID)
+    res_data = DAO.execute_returning_query(TeacherQueries.FETCH_ACTIVE_TEACHER_ID)
 
     return res_data
 
@@ -50,16 +48,15 @@ def approve_teacher():
         return
     else:
         # executing the query
-        dao = DatabaseAccess()
-        dao.execute_non_returning_query(TeacherQueries.APPROVE_TEACHER, (teacher_id,))
+
+        DAO.execute_non_returning_query(TeacherQueries.APPROVE_TEACHER, (teacher_id,))
 
     print(PromptMessage.ADDED_SUCCESSFULLY.format("Teacher"))
 
 
 def get_all_teacher():
     """Get All Teachers"""
-    dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(TeacherQueries.GET_ALL_TEACHER)
+    res_data = DAO.execute_returning_query(TeacherQueries.GET_ALL_TEACHER)
 
     if len(res_data) == 0:
         logger.error("No Teacher Found")
@@ -82,8 +79,7 @@ def get_teacher_by_id():
         PromptMessage.TAKE_SPECIFIC_ID.format("Teacher"), RegexPatterns.UUID_PATTERN
     )
 
-    dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(
+    res_data = DAO.execute_returning_query(
         TeacherQueries.GET_TEACHER_BY_ID, (teacher_id,)
     )
 
@@ -159,8 +155,7 @@ def update_teacher():
         )
 
     # saving updates to db
-    dao = DatabaseAccess()
-    dao.execute_non_returning_query(
+    DAO.execute_non_returning_query(
         TeacherQueries.UPDATE_TEACHER.format(table_name, field_to_update),
         (updated_value, teacher_id),
     )
@@ -186,5 +181,4 @@ def delete_teacher():
     else:
         print(PromptMessage.FAILED_ACTION.format("Delete"))
         return
-    dao = DatabaseAccess()
-    dao.execute_non_returning_query(TeacherQueries.DELETE_TEACHER, (teacher_id,))
+    DAO.execute_non_returning_query(TeacherQueries.DELETE_TEACHER, (teacher_id,))

@@ -4,7 +4,7 @@ import logging
 from src.config.display_menu import PromptMessage
 from src.config.sqlite_queries import UserQueries
 from src.config.headers_for_output import TableHeaders
-from src.database.database_access import DatabaseAccess
+from src.database import database_access as DAO
 from src.utils.pretty_print import pretty_print
 
 logger = logging.getLogger(__name__)
@@ -12,8 +12,7 @@ logger = logging.getLogger(__name__)
 
 def fetch_salary_history(user_id):
     """Fetching salary history of a particular user"""
-    dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(UserQueries.GET_SALARY_HISTORY, (user_id,))
+    res_data = DAO.execute_returning_query(UserQueries.GET_SALARY_HISTORY, (user_id,))
 
     # if there is no any records for a teacher
     if len(res_data) == 0:
@@ -33,8 +32,7 @@ def fetch_salary_history(user_id):
 
 def view_personal_info(query, user_id):
     """This function will print a user profile"""
-    dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(query, (user_id,))
+    res_data = DAO.execute_returning_query(query, (user_id,))
 
     # info for logged in user
     headers = (

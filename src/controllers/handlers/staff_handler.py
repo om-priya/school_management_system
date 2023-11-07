@@ -5,15 +5,14 @@ from src.config.regex_pattern import RegexPatterns
 from src.config.sqlite_queries import StaffQueries
 from src.config.headers_for_output import TableHeaders
 from src.config.display_menu import PromptMessage
-from src.database.database_access import DatabaseAccess
+from src.database import database_access as DAO
 from src.utils.pretty_print import pretty_print
 from src.utils import validate
 
 
 def view_staff(user_id):
     """View Staff Members"""
-    dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(StaffQueries.VIEW_ALL_STAFF, (user_id,))
+    res_data = DAO.execute_returning_query(StaffQueries.VIEW_ALL_STAFF, (user_id,))
 
     # for no staff members
     if len(res_data) == 0:
@@ -56,13 +55,12 @@ def create_staff(user_id):
     status = "active"
 
     # fetching school id of super admin who is logged in
-    dao = DatabaseAccess()
-    school_id = dao.execute_returning_query(
+    school_id = DAO.execute_returning_query(
         StaffQueries.GET_SCHOOL_ID_STAFF, (user_id,)
     )[0][0]
 
     # inserting info to db
-    dao.execute_non_returning_query(
+    DAO.execute_non_returning_query(
         StaffQueries.INSERT_INTO_STAFF_MEMBER,
         (staff_id, expertise, name, gender, address, phone, status, school_id),
     )
@@ -105,8 +103,7 @@ def update_staff():
         )
 
     # updatind value to db
-    dao = DatabaseAccess()
-    dao.execute_non_returning_query(
+    DAO.execute_non_returning_query(
         StaffQueries.UPDATE_STAFF.format(field_to_update), (updated_value, staff_id)
     )
 
@@ -118,5 +115,4 @@ def delete_staff():
     )
 
     # will happen nothing if wrong id is provided
-    dao = DatabaseAccess()
-    dao.execute_non_returning_query(StaffQueries.DELETE_STAFF, (staff_id,))
+    DAO.execute_non_returning_query(StaffQueries.DELETE_STAFF, (staff_id,))

@@ -6,7 +6,7 @@ from src.config.regex_pattern import RegexPatterns
 from src.config.sqlite_queries import UserQueries, CreateTable
 from src.config.display_menu import PromptMessage
 from src.config.headers_for_output import TableHeaders
-from src.database.database_access import DatabaseAccess
+from src.database import database_access as DAO
 from src.utils.pretty_print import pretty_print
 from src.utils.validate import pattern_validator
 
@@ -15,8 +15,7 @@ logger = logging.getLogger(__name__)
 
 def view_issue():
     """Showing all the Raised Issues"""
-    dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(UserQueries.GET_ALL_ISSUES)
+    res_data = DAO.execute_returning_query(UserQueries.GET_ALL_ISSUES)
 
     if len(res_data) == 0:
         logger.error("No issues Found")
@@ -38,8 +37,7 @@ def raise_issue(user_id):
         PromptMessage.TAKE_INPUT.format("Issue Message"), RegexPatterns.MESSAGE_PATTERN
     )
 
-    dao = DatabaseAccess()
-    dao.execute_non_returning_query(
+    DAO.execute_non_returning_query(
         CreateTable.INSERT_INTO_ISSUE, (issue_id, issue_mssg, user_id)
     )
 

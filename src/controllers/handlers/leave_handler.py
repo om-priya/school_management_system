@@ -7,7 +7,7 @@ from src.config.regex_pattern import RegexPatterns
 from src.config.sqlite_queries import UserQueries, CreateTable
 from src.config.display_menu import PromptMessage
 from src.config.headers_for_output import TableHeaders
-from src.database.database_access import DatabaseAccess
+from src.database import database_access as DAO
 from src.utils.pretty_print import pretty_print
 from src.utils.validate import pattern_validator
 
@@ -16,8 +16,6 @@ logger = logging.getLogger(__name__)
 
 def apply_leave(user_id):
     """Apply Leave"""
-    dao = DatabaseAccess()
-
     leave_id = shortuuid.ShortUUID().random(length=6)
     leave_date = pattern_validator(PromptMessage.DATE_INPUT, RegexPatterns.DATE_PATTERN)
 
@@ -33,7 +31,7 @@ def apply_leave(user_id):
         RegexPatterns.DAYS_PATTERN,
     )
 
-    dao.execute_non_returning_query(
+    DAO.execute_non_returning_query(
         CreateTable.INSERT_INTO_LEAVES,
         (leave_id, leave_date, no_of_days, user_id, "pending"),
     )
@@ -44,8 +42,7 @@ def apply_leave(user_id):
 
 def see_leave_status(user_id):
     """See Leave Status"""
-    dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(UserQueries.FETCH_LEAVE_STATUS, (user_id,))
+    res_data = DAO.execute_returning_query(UserQueries.FETCH_LEAVE_STATUS, (user_id,))
 
     if len(res_data) == 0:
         logger.error("No Leaves Record Found for user %s", user_id)

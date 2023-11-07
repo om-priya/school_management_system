@@ -329,3 +329,5 @@ sqlite3.IntegrityError: UNIQUE constraint failed: user.phone
 2023-11-07 15:33:10,509 DEBUG    [initializer.py:31] Table Created only once
 2023-11-07 15:33:24,226 INFO     [app.py:45] Logged in user: S4WnX5h, role: superadmin
 2023-11-07 15:33:30,482 ERROR    [principal_handler.py:75] No Principal Found
+2023-11-07 16:45:30,948 DEBUG    [initializer.py:31] Table Created only once
+2023-11-07 16:45:41,129 INFO     [app.py:45] Logged in user: S4WnX5h, role: superadmin

@@ -5,7 +5,7 @@ from src.models.teachers import Teacher
 from src.config.display_menu import PromptMessage
 from src.config.regex_pattern import RegexPatterns
 from src.config.sqlite_queries import UserQueries
-from src.database.database_access import DatabaseAccess
+from src.database import database_access as DAO 
 from src.utils import validate
 from src.utils.hash_password import hash_password
 
@@ -23,9 +23,8 @@ def is_logged_in():
     hashed_password = hash_password(password)
 
     # checking in db with username and password
-    dao = DatabaseAccess()
     params = (username, hashed_password)
-    data = dao.execute_returning_query(UserQueries.FETCH_FROM_CREDENTIALS, params)
+    data = DAO.execute_returning_query(UserQueries.FETCH_FROM_CREDENTIALS, params)
 
     # Checking For Credentials with db response
     if len(data) == 0:

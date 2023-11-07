@@ -9,7 +9,7 @@ from src.config.display_menu import PromptMessage
 from src.config.headers_for_output import TableHeaders
 from src.config.sqlite_queries import TeacherQueries, UserQueries
 from src.controllers.handlers import issue_handler as IssueHandler
-from src.database.database_access import DatabaseAccess
+from src.database import database_access as DAO
 from src.utils.pretty_print import pretty_print
 
 logger = logging.getLogger(__name__)
@@ -27,8 +27,7 @@ def read_notice():
 
 def read_feedbacks(user_id):
     """To view feedbacks from teacher"""
-    dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(UserQueries.READ_FEEDBACKS, (user_id,))
+    res_data = DAO.execute_returning_query(UserQueries.READ_FEEDBACKS, (user_id,))
 
     # if there is no feedbacks for a teacher
     if len(res_data) == 0:

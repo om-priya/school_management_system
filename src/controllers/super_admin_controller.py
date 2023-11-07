@@ -14,7 +14,7 @@ from src.config.sqlite_queries import (
 )
 from src.controllers.handlers import principal_handler as PrincipalHandler
 from src.controllers.handlers import staff_handler as StaffHandler
-from src.database.database_access import DatabaseAccess
+from src.database import database_access as DAO
 from src.utils.pretty_print import pretty_print
 from src.utils import validate
 
@@ -69,8 +69,7 @@ def distribute_salary():
     pay_date = datetime.now().strftime("%d-%m-%Y")
 
     # fetching active teacher id
-    dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(TeacherQueries.FETCH_ACTIVE_TEACHER_ID)
+    res_data = DAO.execute_returning_query(TeacherQueries.FETCH_ACTIVE_TEACHER_ID)
 
     # Inserting into salary db
     if len(res_data) == 0:
@@ -87,12 +86,12 @@ def distribute_salary():
                 month,
                 pay_date,
             )
-            dao.execute_non_returning_query(
+            DAO.execute_non_returning_query(
                 CreateTable.INSERT_INTO_SALARY, salary_tuple
             )
 
     # fetching active principal id
-    res_data = dao.execute_returning_query(PrincipalQueries.FETCH_PRINCIPAL_ID)
+    res_data = DAO.execute_returning_query(PrincipalQueries.FETCH_PRINCIPAL_ID)
 
     # Inserting into db
     if len(res_data) == 0:
@@ -109,22 +108,21 @@ def distribute_salary():
                 month,
                 pay_date,
             )
-            dao.execute_non_returning_query(
+            DAO.execute_non_returning_query(
                 CreateTable.INSERT_INTO_SALARY, salary_tuple
             )
 
 
 def approve_leave():
     """Approve Leave"""
-    dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(UserQueries.GET_PENDING_LEAVES)
+    res_data = DAO.execute_returning_query(UserQueries.GET_PENDING_LEAVES)
 
     # if there are no leave request
     if len(res_data) == 0:
         logger.info("No Pending Leave Request")
         print(PromptMessage.NOTHING_FOUND.format("Pending leave request"))
         return
-    
+
     headers = (
         TableHeaders.ID.format("Leave"),
         TableHeaders.STARTING_DATE,
@@ -139,4 +137,4 @@ def approve_leave():
         PromptMessage.APPROVE_PROMPT.format("leave id"), RegexPatterns.UUID_PATTERN
     )
 
-    dao.execute_non_returning_query(UserQueries.APPROVE_LEAVE, (leave_id,))
+    DAO.execute_non_returning_query(UserQueries.APPROVE_LEAVE, (leave_id,))

@@ -4,7 +4,7 @@ import shortuuid
 from src.models.users import User
 from src.config.display_menu import PromptMessage
 
-from src.database.database_access import DatabaseAccess
+from src.database import database_access as DAO
 from src.database.db_connector import DatabaseConnection
 from src.config.sqlite_queries import TeacherQueries, CreateTable
 from src.utils.exception_handler import exception_checker
@@ -35,8 +35,7 @@ class Teacher(User):
     @exception_checker
     def save_teacher(self):
         """Save Teacher To DB"""
-        database_access_obj = DatabaseAccess()
-        school_id = database_access_obj.execute_returning_query(
+        school_id = DAO.execute_returning_query(
             TeacherQueries.GET_SCHOOL_ID, (self.school_name,)
         )
 

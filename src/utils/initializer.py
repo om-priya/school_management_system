@@ -1,7 +1,7 @@
 """This Function will run before main and create table and db"""
 
 import logging
-from src.database.database_access import DatabaseAccess
+from src.database import database_access as DAO
 from src.database.db_connector import DatabaseConnection
 from src.config.sqlite_queries import CreateTable, UserQueries
 from src.super_admin_info import create_super_admin
@@ -31,9 +31,7 @@ def initialize_app():
         logger.debug("Table Created only once")
 
     # checking if super admin exists or not
-    dao = DatabaseAccess()
-
-    res_data = dao.execute_returning_query(UserQueries.FETCH_SUPER_ADMIN)
+    res_data = DAO.execute_returning_query(UserQueries.FETCH_SUPER_ADMIN)
 
     # super admin exists in table
     if len(res_data) != 0:

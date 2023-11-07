@@ -9,7 +9,7 @@ from src.utils.pretty_print import pretty_print
 from src.utils.validate import pattern_validator
 from src.config.sqlite_queries import TeacherQueries, CreateTable, PrincipalQueries
 from src.config.display_menu import PromptMessage
-from src.database.database_access import DatabaseAccess
+from src.database import database_access as DAO
 
 logger = logging.getLogger(__name__)
 
@@ -18,8 +18,7 @@ def read_feedback(user_id):
     """Read Feedbacks"""
     print("\nHere's the feedback given by you\n")
 
-    dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(
+    res_data = DAO.execute_returning_query(
         PrincipalQueries.READ_FEEDBACKS_PRINCIPAL, (user_id,)
     )
 
@@ -38,8 +37,7 @@ def read_feedback(user_id):
 
 def give_feedback(user_id):
     """Create Feedbacks"""
-    dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(TeacherQueries.GET_APPROVED_TEACHER)
+    res_data = DAO.execute_returning_query(TeacherQueries.GET_APPROVED_TEACHER)
 
     if len(res_data) == 0:
         logger.error("No Teacher Present in the system")
@@ -70,7 +68,7 @@ def give_feedback(user_id):
     )
     created_date = datetime.now().strftime("%d-%m-%Y")
 
-    dao.execute_non_returning_query(
+    DAO.execute_non_returning_query(
         CreateTable.INSERT_INTO_FEEDBACKS,
         (f_id, f_message, created_date, teacher_id, user_id),
     )

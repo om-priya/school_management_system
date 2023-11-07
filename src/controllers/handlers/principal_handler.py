@@ -6,23 +6,21 @@ from src.utils.pretty_print import pretty_print
 from src.utils import validate
 from src.config.sqlite_queries import PrincipalQueries
 from src.config.display_menu import PromptMessage
-from src.database.database_access import DatabaseAccess
+from src.database import database_access as DAO
 
 logger = logging.getLogger(__name__)
 
 
 def get_all_active_pid():
     """Fetch All Principal Id who are active"""
-    dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(PrincipalQueries.FETCH_PRINCIPAL_ID)
+    res_data = DAO.execute_returning_query(PrincipalQueries.FETCH_PRINCIPAL_ID)
 
     return res_data
 
 
 def get_all_pending_id():
     """Fetch Principal Id who were pending"""
-    dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(PrincipalQueries.FETCH_PENDING_PRINCIPAL_ID)
+    res_data = DAO.execute_returning_query(PrincipalQueries.FETCH_PENDING_PRINCIPAL_ID)
 
     return res_data
 
@@ -54,8 +52,8 @@ def approve_principal():
                 print(PromptMessage.NOTHING_FOUND.format("Principal"))
                 return
         # saving to db after checking edge cases
-        dao = DatabaseAccess()
-        dao.execute_non_returning_query(
+
+        DAO.execute_non_returning_query(
             PrincipalQueries.APPROVE_PRINCIPAL, (principal_id,)
         )
     else:
@@ -68,8 +66,7 @@ def approve_principal():
 
 def get_all_principal():
     """Get All principals"""
-    dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(PrincipalQueries.GET_ALL_PRINCIPAL)
+    res_data = DAO.execute_returning_query(PrincipalQueries.GET_ALL_PRINCIPAL)
 
     if len(res_data) == 0:
         logger.error("No Principal Found")
@@ -93,8 +90,7 @@ def get_principal_by_id():
         PromptMessage.TAKE_SPECIFIC_ID.format("Principal"), RegexPatterns.UUID_PATTERN
     )
 
-    dao = DatabaseAccess()
-    res_data = dao.execute_returning_query(
+    res_data = DAO.execute_returning_query(
         PrincipalQueries.GET_PRINCIPAL_BY_ID, (principal_id,)
     )
 
@@ -174,8 +170,7 @@ def update_principal():
                 RegexPatterns.EXPERIENCE_PATTERN,
             )
 
-    dao = DatabaseAccess()
-    dao.execute_non_returning_query(
+    DAO.execute_non_returning_query(
         PrincipalQueries.UPDATE_PRINCIPAL.format(table_name, field_to_update),
         (update_value, principal_id),
     )
@@ -194,5 +189,4 @@ def delete_principal():
         print(PromptMessage.NOTHING_FOUND.format("Principal"))
         return
 
-    dao = DatabaseAccess()
-    dao.execute_non_returning_query(PrincipalQueries.DELETE_PRINCIPAL, (principal_id,))
+    DAO.execute_non_returning_query(PrincipalQueries.DELETE_PRINCIPAL, (principal_id,))
