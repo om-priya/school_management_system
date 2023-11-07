@@ -3,7 +3,7 @@
 import logging
 from src.database import database_access as DAO
 from src.database.db_connector import DatabaseConnection
-from src.config.sqlite_queries import CreateTable, UserQueries
+from src.config.sqlite_queries import CreateTable, UserQueries, DatabaseConfig
 from src.super_admin_info import create_super_admin
 
 logger = logging.getLogger(__name__)
@@ -13,7 +13,7 @@ def initialize_app():
     """Create Db and super admin"""
 
     # creating table in the db
-    with DatabaseConnection("src\\database\\school.db") as connection:
+    with DatabaseConnection(DatabaseConfig.DB_PATH) as connection:
         cursor = connection.cursor()
         # query to create table only once
         cursor.execute(CreateTable.CREATE_CREDENTIALS_TABLE)

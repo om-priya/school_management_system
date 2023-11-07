@@ -38,15 +38,7 @@ def create_super_admin():
     )
 
     # Execute query
-    DAO.execute_non_returning_query(
-        CreateTable.INSERT_INTO_CREDENTIAL, cred_tuple
-    )
-    DAO.execute_non_returning_query(
-        CreateTable.INSERT_INTO_MAPPING, map_tuple
-    )
-    DAO.execute_non_returning_query(
-        CreateTable.INSERT_INTO_USER, user_tuple
-    )
-    DAO.execute_non_returning_query(
-        CreateTable.INSERT_INTO_SCHOOL, school_tuple
-    )
+    DAO.execute_non_returning_query(CreateTable.INSERT_INTO_CREDENTIAL, cred_tuple)
+    DAO.execute_non_returning_query(CreateTable.INSERT_INTO_MAPPING, map_tuple)
+    DAO.execute_non_returning_query(CreateTable.INSERT_INTO_USER, user_tuple)
+    DAO.execute_non_returning_query(CreateTable.INSERT_INTO_SCHOOL, school_tuple)

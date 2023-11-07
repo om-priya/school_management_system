@@ -1,6 +1,12 @@
 """This file contains constants for sqlite queries"""
 
 
+class DatabaseConfig:
+    """This Class contains config for database"""
+
+    DB_PATH = "src\\database\\school.db"
+
+
 class TeacherQueries:
     """This class containst queries for teacher in order of
     CREATE_TABLE, INSERT, READ, UPDATE, DELETE"""

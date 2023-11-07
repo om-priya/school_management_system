@@ -5,7 +5,7 @@ from src.models.teachers import Teacher
 from src.config.display_menu import PromptMessage
 from src.config.regex_pattern import RegexPatterns
 from src.config.sqlite_queries import UserQueries
-from src.database import database_access as DAO 
+from src.database import database_access as DAO
 from src.utils import validate
 from src.utils.hash_password import hash_password
 

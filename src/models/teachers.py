@@ -6,7 +6,7 @@ from src.config.display_menu import PromptMessage
 
 from src.database import database_access as DAO
 from src.database.db_connector import DatabaseConnection
-from src.config.sqlite_queries import TeacherQueries, CreateTable
+from src.config.sqlite_queries import TeacherQueries, CreateTable, DatabaseConfig
 from src.utils.exception_handler import exception_checker
 from src.utils.hash_password import hash_password
 
@@ -57,7 +57,7 @@ class Teacher(User):
         user_tuple = (self.user_id, self.name, self.gender, self.email, self.phone)
         teacher_tuple = (self.user_id, self.experience, self.fav_subject)
 
-        with DatabaseConnection("src\\database\\school.db") as connection:
+        with DatabaseConnection(DatabaseConfig.DB_PATH) as connection:
             cursor = connection.cursor()
             cursor.execute(CreateTable.INSERT_INTO_CREDENTIAL, cred_tuple)
             cursor.execute(CreateTable.INSERT_INTO_MAPPING, map_tuple)
