@@ -96,3 +96,4 @@ class PromptMessage:
     APPROVE_SUCCESS = """\n{} Approved SuccessFully"""
     FAILED_ACTION = """\nCan't perform {} action on entered user_id"""
     SUCCESS_ACTION = """\n{} Successfully"""
+    WRONG_QUERY = """kindly Check Your Query: """

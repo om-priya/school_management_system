@@ -5,6 +5,7 @@ import shortuuid
 from src.config.regex_pattern import RegexPatterns
 from src.config.sqlite_queries import UserQueries, CreateTable
 from src.config.display_menu import PromptMessage
+from src.config.headers_for_output import TableHeaders
 from src.database.database_access import DatabaseAccess
 from src.utils.pretty_print import pretty_print
 from src.utils.validate import pattern_validator
@@ -22,7 +23,11 @@ def view_issue():
         print(PromptMessage.NOTHING_FOUND.format("Issues"))
         return
 
-    headers = ["issue_id", "issue_text", "raised_by"]
+    headers = (
+        TableHeaders.ID.format("Issue"),
+        TableHeaders.MESSAGE.format("Issue"),
+        TableHeaders.RAISED_BY,
+    )
     pretty_print(res_data, headers)
 
 

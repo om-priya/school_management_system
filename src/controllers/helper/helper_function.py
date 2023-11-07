@@ -3,6 +3,7 @@
 import logging
 from src.config.display_menu import PromptMessage
 from src.config.sqlite_queries import UserQueries
+from src.config.headers_for_output import TableHeaders
 from src.database.database_access import DatabaseAccess
 from src.utils.pretty_print import pretty_print
 
@@ -20,7 +21,13 @@ def fetch_salary_history(user_id):
         print(PromptMessage.NOTHING_FOUND.format("Salary History"))
         return
 
-    headers = ["Salary Id", "Year", "Month", "Amount", "Pay_Date"]
+    headers = (
+        TableHeaders.ID.format("Salary"),
+        TableHeaders.YEAR,
+        TableHeaders.MONTH,
+        TableHeaders.AMOUNT,
+        TableHeaders.PAY_DATE,
+    )
     pretty_print(res_data, headers)
 
 
@@ -30,5 +37,11 @@ def view_personal_info(query, user_id):
     res_data = dao.execute_returning_query(query, (user_id,))
 
     # info for logged in user
-    headers = ["Id", "Name", "phone", "email", "status"]
+    headers = (
+        TableHeaders.ID.format("User"),
+        TableHeaders.NAME,
+        TableHeaders.PHONE,
+        TableHeaders.EMAIL,
+        TableHeaders.STATUS,
+    )
     pretty_print(res_data, headers)

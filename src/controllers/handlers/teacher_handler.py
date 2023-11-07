@@ -2,6 +2,7 @@
 
 import logging
 from src.config.regex_pattern import RegexPatterns
+from src.config.headers_for_output import TableHeaders
 from src.config.display_menu import PromptMessage
 from src.config.sqlite_queries import TeacherQueries
 from src.database.database_access import DatabaseAccess
@@ -65,7 +66,13 @@ def get_all_teacher():
         print(PromptMessage.NOTHING_FOUND.format("Teachers"))
         return
 
-    headers = ["Id", "Name", "phone", "email", "status"]
+    headers = (
+        TableHeaders.ID.format("User"),
+        TableHeaders.NAME,
+        TableHeaders.PHONE,
+        TableHeaders.EMAIL,
+        TableHeaders.STATUS,
+    )
     pretty_print(res_data, headers)
 
 
@@ -85,7 +92,13 @@ def get_teacher_by_id():
         print(PromptMessage.NOTHING_FOUND.format("Teacher"))
         return
 
-    headers = ["Id", "Name", "phone", "email", "status"]
+    headers = (
+        TableHeaders.ID.format("User"),
+        TableHeaders.NAME,
+        TableHeaders.PHONE,
+        TableHeaders.EMAIL,
+        TableHeaders.STATUS,
+    )
     pretty_print(res_data, headers)
 
 
@@ -95,7 +108,13 @@ def update_teacher():
         PromptMessage.TAKE_SPECIFIC_ID.format("Teacher"), RegexPatterns.UUID_PATTERN
     )
     field_to_update = input(PromptMessage.FIELD_UPDATE)
-    options = ["name", "phone", "email", "experience"]
+    options = ("name", "phone", "email", "experience")
+    options = (
+        TableHeaders.NAME.lower(),
+        TableHeaders.PHONE.lower(),
+        TableHeaders.EMAIL.lower(),
+        TableHeaders.EXPERIENCE.lower(),
+    )
 
     # checking whether entered field is correct or not
     if field_to_update not in options:

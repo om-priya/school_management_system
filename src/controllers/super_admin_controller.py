@@ -5,6 +5,7 @@ from datetime import datetime
 import shortuuid
 from src.config.display_menu import DisplayMenu, PromptMessage
 from src.config.regex_pattern import RegexPatterns
+from src.config.headers_for_output import TableHeaders
 from src.config.sqlite_queries import (
     TeacherQueries,
     PrincipalQueries,
@@ -123,8 +124,14 @@ def approve_leave():
         logger.info("No Pending Leave Request")
         print(PromptMessage.NOTHING_FOUND.format("Pending leave request"))
         return
-
-    headers = ["Leave_Id", "Starting Date", "No_of_Days", "User_id", "Status"]
+    
+    headers = (
+        TableHeaders.ID.format("Leave"),
+        TableHeaders.STARTING_DATE,
+        TableHeaders.NO_OF_DAYS,
+        TableHeaders.ID.format("User"),
+        TableHeaders.STATUS,
+    )
     pretty_print(res_data, headers)
 
     # will happen nothing if Id was not right

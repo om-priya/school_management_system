@@ -29,7 +29,7 @@ def super_admin_menu(user_id):
             case "5":
                 print(PromptMessage.LOGGED_OUT)
             case _:
-                print(PromptMessage.INVALID_INPUT.format("Enter only 1-5"))
+                print(PromptMessage.INVALID_INPUT.format("Enter only [1-5]"))
         # breaking from super admin loop
         if user_req == "5":
             break

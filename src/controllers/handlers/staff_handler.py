@@ -3,6 +3,7 @@
 import shortuuid
 from src.config.regex_pattern import RegexPatterns
 from src.config.sqlite_queries import StaffQueries
+from src.config.headers_for_output import TableHeaders
 from src.config.display_menu import PromptMessage
 from src.database.database_access import DatabaseAccess
 from src.utils.pretty_print import pretty_print
@@ -19,16 +20,16 @@ def view_staff(user_id):
         print(PromptMessage.NOTHING_FOUND.format("Staff"))
         return
 
-    headers = [
-        "Staff_Id",
-        "expertise",
-        "name",
-        "phone",
-        "address",
-        "gender",
-        "status",
-        "school_id",
-    ]
+    headers = (
+        TableHeaders.ID.format("Staff"),
+        TableHeaders.EXPERTISE,
+        TableHeaders.NAME,
+        TableHeaders.PHONE,
+        TableHeaders.ADDRESS,
+        TableHeaders.GENDER,
+        TableHeaders.STATUS,
+        TableHeaders.ID.format("School"),
+    )
 
     pretty_print(res_data, headers=headers)
 
@@ -75,13 +76,13 @@ def update_staff():
         PromptMessage.TAKE_SPECIFIC_ID.format("Staff"), RegexPatterns.UUID_PATTERN
     )
     field_to_update = input(PromptMessage.FIELD_UPDATE).lower()
-    options = [
-        "expertise",
-        "name",
-        "phone",
-        "address",
-        "gender",
-    ]
+    options = (
+        TableHeaders.EXPERTISE.lower(),
+        TableHeaders.NAME.lower(),
+        TableHeaders.PHONE.lower(),
+        TableHeaders.ADDRESS.lower(),
+        TableHeaders.GENDER.lower(),
+    )
 
     # if wrong field is provided
     if field_to_update not in options:

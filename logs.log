@@ -326,3 +326,6 @@ sqlite3.IntegrityError: UNIQUE constraint failed: user.phone
 2023-11-07 12:01:01,586 INFO     [user_controller.py:86] Initiating saving teacher
 2023-11-07 12:01:01,599 INFO     [teachers.py:68] User dummy teacher Saved to Db
 2023-11-07 12:01:01,602 INFO     [teachers.py:70] Teacher Saved to DB
+2023-11-07 15:33:10,509 DEBUG    [initializer.py:31] Table Created only once
+2023-11-07 15:33:24,226 INFO     [app.py:45] Logged in user: S4WnX5h, role: superadmin
+2023-11-07 15:33:30,482 ERROR    [principal_handler.py:75] No Principal Found

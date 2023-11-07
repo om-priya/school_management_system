@@ -8,6 +8,7 @@ from src.utils.validate import pattern_validator
 from src.utils.pretty_print import pretty_print
 from src.config.sqlite_queries import CreateTable, UserQueries
 from src.config.display_menu import PromptMessage
+from src.config.headers_for_output import TableHeaders
 from src.database.database_access import DatabaseAccess
 
 logger = logging.getLogger(__name__)
@@ -23,7 +24,7 @@ def read_event():
         print(PromptMessage.NOTHING_FOUND.format("Notice"))
         return
 
-    headers = ["ID", "Message"]
+    headers = (TableHeaders.ID.format("Notice"), TableHeaders.MESSAGE.format("Notice"))
     pretty_print(res_data, headers)
 
 

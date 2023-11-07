@@ -6,6 +6,7 @@ from src.controllers.helper.helper_function import (
     view_personal_info,
 )
 from src.config.display_menu import PromptMessage
+from src.config.headers_for_output import TableHeaders
 from src.config.sqlite_queries import TeacherQueries, UserQueries
 from src.controllers.handlers import issue_handler as IssueHandler
 from src.database.database_access import DatabaseAccess
@@ -35,7 +36,11 @@ def read_feedbacks(user_id):
         print(PromptMessage.NOTHING_FOUND.format("Feedback"))
         return
 
-    headers = ["ID", "Message", "Created Date"]
+    headers = (
+        TableHeaders.ID.format("Feedback"),
+        TableHeaders.MESSAGE.format("Feedbacks"),
+        TableHeaders.CREATED_DATE,
+    )
     pretty_print(res_data, headers=headers)
 
 

@@ -1,6 +1,7 @@
 """Principal Handler File"""
 import logging
 from src.config.regex_pattern import RegexPatterns
+from src.config.headers_for_output import TableHeaders
 from src.utils.pretty_print import pretty_print
 from src.utils import validate
 from src.config.sqlite_queries import PrincipalQueries
@@ -76,6 +77,13 @@ def get_all_principal():
         return
 
     headers = ["User_id", "name", "gender", "email", "status"]
+    headers = (
+        TableHeaders.ID.format("User"),
+        TableHeaders.NAME,
+        TableHeaders.GENDER,
+        TableHeaders.EMAIL,
+        TableHeaders.STATUS,
+    )
     pretty_print(res_data, headers)
 
 
@@ -95,7 +103,13 @@ def get_principal_by_id():
         print(PromptMessage.NOTHING_FOUND.format("Principal"))
         return
 
-    headers = ["User_id", "name", "gender", "email", "status"]
+    headers = (
+        TableHeaders.ID.format("User"),
+        TableHeaders.NAME,
+        TableHeaders.GENDER,
+        TableHeaders.EMAIL,
+        TableHeaders.STATUS,
+    )
     pretty_print(res_data, headers)
 
 
@@ -114,7 +128,13 @@ def update_principal():
         print(PromptMessage.NOTHING_FOUND.format("Principal"))
         return
 
-    options = ["name", "gender", "email", "phone", "experience"]
+    options = (
+        TableHeaders.NAME.lower(),
+        TableHeaders.GENDER.lower(),
+        TableHeaders.EMAIL.lower(),
+        TableHeaders.PHONE.lower(),
+        TableHeaders.EXPERIENCE.lower(),
+    )
 
     # checking field to update
     if field_to_update not in options:

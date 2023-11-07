@@ -6,6 +6,7 @@ import shortuuid
 from src.config.regex_pattern import RegexPatterns
 from src.config.sqlite_queries import UserQueries, CreateTable
 from src.config.display_menu import PromptMessage
+from src.config.headers_for_output import TableHeaders
 from src.database.database_access import DatabaseAccess
 from src.utils.pretty_print import pretty_print
 from src.utils.validate import pattern_validator
@@ -51,6 +52,6 @@ def see_leave_status(user_id):
         print(PromptMessage.NOTHING_FOUND.format("Leaves Record"))
         return
 
-    headers = ["Leave Date", "No of Days", "Status"]
+    headers = (TableHeaders.LEAVE_DATE, TableHeaders.NO_OF_DAYS, TableHeaders.STATUS)
 
     pretty_print(res_data, headers=headers)
