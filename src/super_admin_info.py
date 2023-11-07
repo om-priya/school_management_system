@@ -1,8 +1,8 @@
 """For saving super Admin to Db"""
 import shortuuid
-from src.models.users import hash_password
 from src.database.database_access import DatabaseAccess
 from src.config.sqlite_queries import CreateTable
+from src.utils.hash_password import hash_password
 
 
 def create_super_admin():

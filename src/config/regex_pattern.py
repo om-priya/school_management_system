@@ -8,7 +8,7 @@ class RegexPatterns:
     NAME_PATTERN = r"([A-Za-z]{2,25}[\s]?)+"
     EMAIL_PATTERN = r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}"
     ROLE_PATTERN = r"(teacher|principal)"
-    GENDER_PATTERN = r"[M,F]{1}$"
+    GENDER_PATTERN = r"[m,f]{1}$"
     UUID_PATTERN = r"[A-Za-z0-9]{6}"
     DATE_PATTERN = r"^\d{2}-\d{2}-\d{4}$"
     DAYS_PATTERN = r"^[0-9]{1,2}$"

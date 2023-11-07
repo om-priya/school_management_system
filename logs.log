@@ -320,3 +320,9 @@ sqlite3.IntegrityError: UNIQUE constraint failed: user.phone
 2023-11-06 14:39:33,045 DEBUG    [initializer.py:31] Table Created only once
 2023-11-06 14:39:49,225 DEBUG    [initializer.py:31] Table Created only once
 2023-11-06 15:18:30,718 DEBUG    [initializer.py:31] Table Created only once
+2023-11-06 17:58:21,693 DEBUG    [initializer.py:31] Table Created only once
+2023-11-07 11:59:18,322 DEBUG    [initializer.py:31] Table Created only once
+2023-11-07 12:00:18,288 DEBUG    [initializer.py:31] Table Created only once
+2023-11-07 12:01:01,586 INFO     [user_controller.py:86] Initiating saving teacher
+2023-11-07 12:01:01,599 INFO     [teachers.py:68] User dummy teacher Saved to Db
+2023-11-07 12:01:01,602 INFO     [teachers.py:70] Teacher Saved to DB

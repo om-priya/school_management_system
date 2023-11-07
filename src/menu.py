@@ -1,4 +1,5 @@
-"""This File COntains the Menu of Different roles through Which a end-point user can go through different modules"""
+"""This File COntains the Menu of Different roles through Which a end-point user can 
+go through different modules"""
 
 
 from src.config.display_menu import DisplayMenu, PromptMessage
