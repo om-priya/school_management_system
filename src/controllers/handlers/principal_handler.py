@@ -27,7 +27,7 @@ def get_all_pending_id():
 
 def approve_principal():
     """Approve principal"""
-    principal_id = validate.pattern_validator(
+    principal_id = validate.uuid_validator(
         PromptMessage.TAKE_SPECIFIC_ID.format("Principal"), RegexPatterns.UUID_PATTERN
     )
 
@@ -86,7 +86,7 @@ def get_all_principal():
 
 def get_principal_by_id():
     """Get Specific principal"""
-    principal_id = validate.pattern_validator(
+    principal_id = validate.uuid_validator(
         PromptMessage.TAKE_SPECIFIC_ID.format("Principal"), RegexPatterns.UUID_PATTERN
     )
 
@@ -112,7 +112,7 @@ def get_principal_by_id():
 def update_principal():
     """Update principal"""
     # taking input from console
-    principal_id = validate.pattern_validator(
+    principal_id = validate.uuid_validator(
         PromptMessage.TAKE_SPECIFIC_ID.format("Principal"), RegexPatterns.UUID_PATTERN
     )
     field_to_update = input(PromptMessage.FIELD_UPDATE).lower()
@@ -178,7 +178,7 @@ def update_principal():
 
 def delete_principal():
     """Delete principal of principal"""
-    principal_id = validate.pattern_validator(
+    principal_id = validate.uuid_validator(
         PromptMessage.TAKE_SPECIFIC_ID.format("Principal"), RegexPatterns.UUID_PATTERN
     )
 

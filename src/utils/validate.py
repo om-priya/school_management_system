@@ -26,6 +26,16 @@ def pattern_validator(prompt, pattern):
     return input_data
 
 
+def uuid_validator(prompt, pattern):
+    """Function to validate uuid validations"""
+    uuid = ""
+    validated = False
+    while validated is False:
+        uuid = input(prompt)
+        validated = validator(pattern, uuid)
+    return uuid
+
+
 def password_validator():
     """Strong Password"""
     password = ""

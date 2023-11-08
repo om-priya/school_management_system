@@ -133,7 +133,7 @@ def approve_leave():
     pretty_print(res_data, headers)
 
     # will happen nothing if Id was not right
-    leave_id = validate.pattern_validator(
+    leave_id = validate.uuid_validator(
         PromptMessage.APPROVE_PROMPT.format("leave id"), RegexPatterns.UUID_PATTERN
     )
 

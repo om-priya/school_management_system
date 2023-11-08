@@ -70,7 +70,7 @@ def create_staff(user_id):
 
 def update_staff():
     """Update staff"""
-    staff_id = validate.pattern_validator(
+    staff_id = validate.uuid_validator(
         PromptMessage.TAKE_SPECIFIC_ID.format("Staff"), RegexPatterns.UUID_PATTERN
     )
     field_to_update = input(PromptMessage.FIELD_UPDATE).lower()
@@ -110,7 +110,7 @@ def update_staff():
 
 def delete_staff():
     """Delete staff"""
-    staff_id = validate.pattern_validator(
+    staff_id = validate.uuid_validator(
         PromptMessage.TAKE_SPECIFIC_ID.format("Staff"), RegexPatterns.UUID_PATTERN
     )
 

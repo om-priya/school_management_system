@@ -30,7 +30,7 @@ def fetch_active_teacher():
 
 def approve_teacher():
     """Approve Teacher"""
-    teacher_id = validate.pattern_validator(
+    teacher_id = validate.uuid_validator(
         PromptMessage.APPROVE_PROMPT.format("Staff"), RegexPatterns.UUID_PATTERN
     )
 
@@ -75,7 +75,7 @@ def get_all_teacher():
 
 def get_teacher_by_id():
     """Get Specific Teacher"""
-    teacher_id = validate.pattern_validator(
+    teacher_id = validate.uuid_validator(
         PromptMessage.TAKE_SPECIFIC_ID.format("Teacher"), RegexPatterns.UUID_PATTERN
     )
 
@@ -100,7 +100,7 @@ def get_teacher_by_id():
 
 def update_teacher():
     """Update Teacher"""
-    teacher_id = validate.pattern_validator(
+    teacher_id = validate.uuid_validator(
         PromptMessage.TAKE_SPECIFIC_ID.format("Teacher"), RegexPatterns.UUID_PATTERN
     )
     field_to_update = input(PromptMessage.FIELD_UPDATE)
@@ -165,7 +165,7 @@ def update_teacher():
 
 def delete_teacher():
     """Delete Teacher of principal"""
-    teacher_id = validate.pattern_validator(
+    teacher_id = validate.uuid_validator(
         PromptMessage.TAKE_SPECIFIC_ID.format("Teacher"), RegexPatterns.UUID_PATTERN
     )
 

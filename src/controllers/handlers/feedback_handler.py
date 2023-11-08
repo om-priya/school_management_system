@@ -6,7 +6,7 @@ import shortuuid
 from src.config.regex_pattern import RegexPatterns
 from src.config.headers_for_output import TableHeaders
 from src.utils.pretty_print import pretty_print
-from src.utils.validate import pattern_validator
+from src.utils.validate import pattern_validator, uuid_validator
 from src.config.sqlite_queries import TeacherQueries, CreateTable, PrincipalQueries
 from src.config.display_menu import PromptMessage
 from src.database import database_access as DAO
@@ -48,7 +48,7 @@ def give_feedback(user_id):
     headers = (TableHeaders.ID.format("Teacher"), TableHeaders.NAME)
     pretty_print(res_data, headers=headers)
 
-    teacher_id = pattern_validator(
+    teacher_id = uuid_validator(
         PromptMessage.TAKE_SPECIFIC_ID.format("Teacher's"), RegexPatterns.UUID_PATTERN
     )
 
