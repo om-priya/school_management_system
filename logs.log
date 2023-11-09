@@ -332,3 +332,28 @@ sqlite3.IntegrityError: UNIQUE constraint failed: user.phone
 2023-11-07 16:45:30,948 DEBUG    [initializer.py:31] Table Created only once
 2023-11-07 16:45:41,129 INFO     [app.py:45] Logged in user: S4WnX5h, role: superadmin
 2023-11-08 09:08:37,429 DEBUG    [initializer.py:31] Table Created only once
+2023-11-09 12:26:11,922 DEBUG    [initializer.py:31] Table Created only once
+2023-11-09 12:26:57,802 DEBUG    [initializer.py:31] Table Created only once
+2023-11-09 12:27:21,538 ERROR    [user_controller.py:40] Wrong Credentials
+2023-11-09 12:27:45,220 ERROR    [user_controller.py:40] Wrong Credentials
+2023-11-09 12:28:27,550 DEBUG    [initializer.py:31] Table Created only once
+2023-11-09 12:28:40,000 ERROR    [user_controller.py:41] Wrong Credentials
+2023-11-09 12:31:43,732 DEBUG    [initializer.py:31] Table Created only once
+2023-11-09 12:32:01,034 ERROR    [user_controller.py:41] Wrong Credentials
+2023-11-09 12:32:21,365 DEBUG    [initializer.py:31] Table Created only once
+2023-11-09 12:32:35,946 ERROR    [user_controller.py:41] Wrong Credentials
+2023-11-09 12:33:02,822 DEBUG    [initializer.py:31] Table Created only once
+2023-11-09 12:33:19,027 ERROR    [user_controller.py:42] Wrong Credentials
+2023-11-09 12:33:50,012 DEBUG    [initializer.py:31] Table Created only once
+2023-11-09 12:34:02,845 ERROR    [user_controller.py:42] Wrong Credentials
+2023-11-09 12:34:59,954 DEBUG    [initializer.py:31] Table Created only once
+2023-11-09 12:35:14,610 ERROR    [user_controller.py:43] Wrong Credentials
+2023-11-09 12:36:25,222 DEBUG    [initializer.py:31] Table Created only once
+2023-11-09 12:36:35,539 INFO     [app.py:45] Logged in user: SYSTEM, role: system_administrator
+2023-11-09 13:47:18,013 DEBUG    [initializer.py:31] Table Created only once
+2023-11-09 13:47:33,571 INFO     [app.py:50] Logged in user: SYSTEM, role: system_administrator
+2023-11-09 13:48:04,476 INFO     [app.py:50] Logged in user: SYSTEM, role: system_administrator
+2023-11-09 13:48:57,090 DEBUG    [initializer.py:31] Table Created only once
+2023-11-09 13:49:10,039 INFO     [app.py:50] Logged in user: SYSTEM, role: system_administrator
+2023-11-09 13:49:47,606 DEBUG    [initializer.py:31] Table Created only once
+2023-11-09 13:49:56,886 INFO     [app.py:50] Logged in user: SYSTEM, role: system_administrator

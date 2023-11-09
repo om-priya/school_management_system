@@ -6,7 +6,12 @@ To check for super admin credentials go to /src/super_admin_meny.py"""
 import logging
 
 from src.config.display_menu import DisplayMenu, PromptMessage
-from src.menu import super_admin_menu, principal_menu, teacher_menu
+from src.menu import (
+    super_admin_menu,
+    principal_menu,
+    teacher_menu,
+    system_admininstrator_menu,
+)
 from src.controllers import user_controller as UserController
 from src.utils.initializer import initialize_app
 
@@ -43,9 +48,11 @@ def main():
                 print(PromptMessage.INVALID_INPUT)
 
         logger.info("Logged in user: %s, role: %s", user_id, role)
-
+        print(user_id, role)
         while True:
-            if role == "superadmin":
+            if role == "system_administrator":
+                system_admininstrator_menu()
+            elif role == "superadmin":
                 super_admin_menu(user_id=user_id)
             elif role == "principal":
                 principal_menu(user_id=user_id)

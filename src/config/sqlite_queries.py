@@ -46,6 +46,16 @@ class TeacherQueries:
         WHERE user_id = ? AND role = 'teacher'"""
 
 
+class SystemAdministratorQueries:
+    """This class contains queries for system administrator"""
+
+    VIEW_PENDING_SUPERADMIN = (
+        """SELECT * FROM credential WHERE role = 'superadmin' AND status = 'pending'"""
+    )
+    VIEW_ALL_SUPERADMIN = """SELECT * FROM credential WHERE role = 'superadmin'"""
+    APPROVE_SUPER_ADMIN = """UPDATE credential SET status = 'active' WHERE user_id = ? AND status = 'pending'"""
+
+
 class PrincipalQueries:
     """This class containst queries for teacher in order of CREATE_TABLE, INSERT, READ, UPDATE"""
 

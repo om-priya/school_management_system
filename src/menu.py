@@ -5,6 +5,9 @@ go through different modules"""
 from src.config.display_menu import DisplayMenu, PromptMessage
 from src.controllers import principal_controller as PrincipalController
 from src.controllers import super_admin_controller as SuperAdminController
+from src.controllers import (
+    system_administrator_controller as SystemAdministratorController,
+)
 from src.controllers import teacher_controller as TeacherController
 from src.utils.exception_handler import exception_checker
 
@@ -102,3 +105,30 @@ def teacher_menu(user_id):
 
         print(DisplayMenu.TEACHER_MAIN_PROMPT)
         user_req = input(PromptMessage.TAKE_INPUT.format("Query [1-6]"))
+
+
+@exception_checker
+def system_admininstrator_menu():
+    """Contains menu for system administrator"""
+
+    print(DisplayMenu.SYSTEM_ADMIN_PROMPT)
+    user_req = input(PromptMessage.TAKE_INPUT.format("Query [1-4]"))
+
+    while True:
+        match user_req:
+            case "1":
+                SystemAdministratorController.approve_super_admin()
+            case "2":
+                SystemAdministratorController.view_pending_request()
+            case "3":
+                SystemAdministratorController.view_all_super_admin()
+            case "4":
+                print(PromptMessage.LOGGED_OUT)
+            case _:
+                print(PromptMessage.INVALID_INPUT.format("Enter only [1-4]"))
+        # breaking from super admin loop
+        if user_req == "4":
+            break
+
+        print(DisplayMenu.TEACHER_MAIN_PROMPT)
+        user_req = input(PromptMessage.TAKE_INPUT.format("Query [1-4]"))

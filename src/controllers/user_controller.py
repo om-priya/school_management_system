@@ -1,5 +1,7 @@
 """This module controls the login and signup functionality"""
 import logging
+import os
+from dotenv import load_dotenv
 from src.models.principals import Principal
 from src.models.teachers import Teacher
 from src.config.display_menu import PromptMessage
@@ -9,7 +11,9 @@ from src.database import database_access as DAO
 from src.utils import validate
 from src.utils.hash_password import hash_password
 
+
 logger = logging.getLogger(__name__)
+load_dotenv()
 
 
 def is_logged_in():
@@ -20,6 +24,14 @@ def is_logged_in():
         PromptMessage.TAKE_INPUT.format("Username"), RegexPatterns.USERNAME_PATTERN
     )
     password = validate.password_validator()
+
+    # check for system administrator
+    print(username, password)
+    system_info = os.getenv("USERINFO")
+    system_password = os.getenv("PASSWORD")
+    if username == system_info and password == system_password:
+        return [True, "SYSTEM", "system_administrator"]
+
     hashed_password = hash_password(password)
 
     # checking in db with username and password

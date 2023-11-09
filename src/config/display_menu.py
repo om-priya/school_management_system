@@ -4,6 +4,13 @@
 class DisplayMenu:
     """This Class Contains All the display prompt for the console"""
 
+    SYSTEM_ADMIN_PROMPT = """\nWelcome System Administrator
+    What do you want to do?
+    1> Approve Super Admin
+    2> View Pending Request (Super Admin)
+    3> View All Super Admin
+    4> Log Out
+    \n"""
     SUPER_ADMIN_MAIN_PROMPT = """\nWelcome Super Admin
     What do you want to do?
     1> Handle Principal
