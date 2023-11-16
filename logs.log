@@ -374,3 +374,60 @@ Traceback (most recent call last):
 sqlite3.OperationalError: near ",": syntax error
 2023-11-16 10:50:05,966 DEBUG    [initializer.py:31] Table Created only once
 2023-11-16 10:50:18,767 INFO     [app.py:45] Logged in user: S4WnX5h, role: superadmin
+2023-11-17 01:29:43,260 DEBUG    [initializer.py:31] Table Created only once
+2023-11-17 01:30:45,503 INFO     [user_controller.py:89] Initiating saving principal
+2023-11-17 01:30:45,517 INFO     [principals.py:69] User dummy yadav principal Saved to Db
+2023-11-17 01:30:45,517 INFO     [principals.py:71] Principal Saved to DB
+2023-11-17 01:32:28,014 INFO     [user_controller.py:89] Initiating saving principal
+2023-11-17 01:32:28,037 INFO     [principals.py:69] User dummy uzumaki principal Saved to Db
+2023-11-17 01:32:28,038 INFO     [principals.py:71] Principal Saved to DB
+2023-11-17 01:32:39,953 INFO     [app.py:45] Logged in user: S4WnX5h, role: superadmin
+2023-11-17 01:33:47,293 WARNING  [principal_handler.py:62] Can't add more than one principal
+2023-11-17 01:34:26,247 WARNING  [principal_handler.py:62] Can't add more than one principal
+2023-11-17 01:37:20,646 ERROR    [principal_handler.py:194] No Such Principal With id 3QP99X
+2023-11-17 01:37:50,903 INFO     [principal_handler.py:53] Invalid Id's Given
+2023-11-17 01:38:05,623 INFO     [principal_handler.py:53] Invalid Id's Given
+2023-11-17 01:42:38,718 DEBUG    [initializer.py:31] Table Created only once
+2023-11-17 01:42:59,053 INFO     [app.py:45] Logged in user: S4WnX5h, role: superadmin
+2023-11-17 01:43:14,999 INFO     [principal_handler.py:53] Invalid Id's Given
+2023-11-17 01:43:29,414 INFO     [principal_handler.py:53] Invalid Id's Given
+2023-11-17 01:45:15,817 DEBUG    [initializer.py:31] Table Created only once
+2023-11-17 01:45:27,079 INFO     [app.py:45] Logged in user: S4WnX5h, role: superadmin
+2023-11-17 01:45:34,572 INFO     [principal_handler.py:54] Invalid Id's Given
+2023-11-17 01:47:13,184 DEBUG    [initializer.py:31] Table Created only once
+2023-11-17 01:47:23,303 INFO     [app.py:45] Logged in user: S4WnX5h, role: superadmin
+2023-11-17 01:47:28,422 INFO     [principal_handler.py:56] Invalid Id's Given
+2023-11-17 01:48:34,348 DEBUG    [initializer.py:31] Table Created only once
+2023-11-17 01:48:46,301 INFO     [app.py:45] Logged in user: S4WnX5h, role: superadmin
+2023-11-17 01:54:45,451 INFO     [super_admin_controller.py:127] No Pending Leave Request
+2023-11-17 01:58:29,798 DEBUG    [initializer.py:31] Table Created only once
+2023-11-17 01:59:42,937 INFO     [user_controller.py:85] Initiating saving teacher
+2023-11-17 01:59:42,958 INFO     [teachers.py:67] User dummy hinata teacher Saved to Db
+2023-11-17 01:59:42,959 INFO     [teachers.py:69] Teacher Saved to DB
+2023-11-17 02:01:59,840 INFO     [user_controller.py:85] Initiating saving teacher
+2023-11-17 02:01:59,851 INFO     [teachers.py:67] User dummy neji teacher Saved to Db
+2023-11-17 02:01:59,851 INFO     [teachers.py:69] Teacher Saved to DB
+2023-11-17 02:02:12,907 ERROR    [user_controller.py:31] Wrong Credentials
+2023-11-17 02:02:50,812 INFO     [app.py:45] Logged in user: 3QP99X, role: principal
+2023-11-17 02:02:59,433 ERROR    [issue_handler.py:21] No issues Found
+2023-11-17 02:03:25,281 ERROR    [leave_handler.py:51] No Leaves Record Found for user 3QP99X
+2023-11-17 02:03:41,833 ERROR    [leave_handler.py:27] 16-11-2023 leave_date is previous to curr date 17-11-2023
+2023-11-17 02:03:57,347 INFO     [leave_handler.py:41] Applied to leave by user 3QP99X
+2023-11-17 02:05:07,489 ERROR    [event_handler.py:24] No Records On Notice Board
+2023-11-17 02:05:18,898 INFO     [event_handler.py:47] Added to Notice Board
+2023-11-17 02:05:39,209 ERROR    [feedback_handler.py:28] No Feedbacks Found by user 3QP99X
+2023-11-17 02:05:43,033 ERROR    [feedback_handler.py:46] No Teacher Present in the system
+2023-11-17 02:06:22,990 ERROR    [teacher_handler.py:65] No Teacher Found
+2023-11-17 02:09:55,256 DEBUG    [initializer.py:31] Table Created only once
+2023-11-17 02:10:21,793 INFO     [app.py:45] Logged in user: 3QP99X, role: principal
+2023-11-17 02:11:32,174 ERROR    [feedback_handler.py:63] Wrong Teacher Id
+2023-11-17 02:11:55,368 INFO     [feedback_handler.py:78] Feedback Created
+2023-11-17 02:12:50,930 ERROR    [user_controller.py:37] User 462scd don't exists
+2023-11-17 02:13:32,638 DEBUG    [initializer.py:31] Table Created only once
+2023-11-17 02:13:57,465 ERROR    [user_controller.py:31] Wrong Credentials
+2023-11-17 02:14:22,145 INFO     [app.py:45] Logged in user: 4X44EK, role: teacher
+2023-11-17 02:14:46,575 INFO     [issue_handler.py:44] Issue Created Successfully
+2023-11-17 02:14:53,004 ERROR    [helper_function.py:19] No Salary History Found
+2023-11-17 02:15:34,917 DEBUG    [initializer.py:31] Table Created only once
+2023-11-17 02:16:01,250 INFO     [app.py:45] Logged in user: S4WnX5h, role: superadmin
+2023-11-17 02:16:50,055 INFO     [super_admin_controller.py:128] No Pending Leave Request

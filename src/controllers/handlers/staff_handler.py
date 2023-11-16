@@ -1,5 +1,4 @@
 """Staff Handler File"""
-
 import shortuuid
 from src.config.regex_pattern import RegexPatterns
 from src.config.sqlite_queries import StaffQueries
@@ -79,10 +78,8 @@ def update_staff():
     )
     field_to_update = input(PromptMessage.FIELD_UPDATE).lower()
     options = (
-        TableHeaders.EXPERTISE.lower(),
         TableHeaders.NAME.lower(),
         TableHeaders.PHONE.lower(),
-        TableHeaders.ADDRESS.lower(),
         TableHeaders.GENDER.lower(),
     )
 
@@ -103,7 +100,7 @@ def update_staff():
         )
     else:
         updated_value = validate.pattern_validator(
-            PromptMessage.TAKE_INPUT.format("Expertise"), RegexPatterns.NAME_PATTERN
+            PromptMessage.TAKE_INPUT.format("Name"), RegexPatterns.NAME_PATTERN
         )
 
     # updatind value to db

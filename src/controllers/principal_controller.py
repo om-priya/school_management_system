@@ -1,5 +1,4 @@
 """ This module is responsible for handling all the controlers for principal """
-
 import logging
 from src.controllers.helper.helper_function import (
     fetch_salary_history,
@@ -44,7 +43,7 @@ def handle_feedbacks(user_id):
     while True:
         print(DisplayMenu.FEEDBACK_PROMPT)
 
-        user_req = input(PromptMessage.TAKE_INPUT.format("Query [1-2]"))
+        user_req = input(PromptMessage.TAKE_INPUT.format("Query [1-3]"))
         match user_req:
             case "1":
                 FeedBackHandler.read_feedback(user_id=user_id)

@@ -1,7 +1,5 @@
 """This File COntains the Menu of Different roles through Which a end-point user can 
 go through different modules"""
-
-
 from src.config.display_menu import DisplayMenu, PromptMessage
 from src.controllers import principal_controller as PrincipalController
 from src.controllers import super_admin_controller as SuperAdminController

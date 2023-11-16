@@ -1,10 +1,8 @@
 """ This project aims to provide a management system for a school 
 through which they can manage different entities in their school. 
 The base assumption of this project is that it manages with the perspective of one school 
-To check for super admin credentials go to /src/super_admin_meny.py"""
-
+To check for super admin credentials go to /src/super_admin_meny.py """
 import logging
-
 from src.config.display_menu import DisplayMenu, PromptMessage
 from src.menu import super_admin_menu, principal_menu, teacher_menu
 from src.controllers import user_controller as UserController
@@ -40,7 +38,7 @@ def main():
                 # saving to db with status pending
                 UserController.sign_up()
             else:
-                print(PromptMessage.INVALID_INPUT)
+                print(PromptMessage.INVALID_INPUT.format("Only [1,2]"))
 
         logger.info("Logged in user: %s, role: %s", user_id, role)
 

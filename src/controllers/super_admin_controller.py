@@ -1,5 +1,4 @@
 """ This Module is Responsible for handling super admin functionality """
-
 import logging
 from datetime import datetime
 import shortuuid
@@ -63,6 +62,7 @@ def handle_staff(user_id):
                 break
             case _:
                 print(PromptMessage.INVALID_INPUT.format("Enter Only [1-5]"))
+
 
 def distribute_salary():
     """Distribute Salary"""

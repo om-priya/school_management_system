@@ -1,5 +1,4 @@
 """ This Module is for creating context manager for db connection"""
-
 import sqlite3
 import logging
 
