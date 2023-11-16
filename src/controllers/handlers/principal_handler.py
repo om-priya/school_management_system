@@ -46,13 +46,13 @@ def approve_principal():
             return
 
         # checking whether input id is in pending or not
-        for p_id in pending_id[0]:
-            if p_id == principal_id:
+        for p_id in pending_id:
+            if p_id[0] == principal_id:
                 break
-            else:
-                logger.info("Invalid Id's Given")
-                print(PromptMessage.NOTHING_FOUND.format("Principal"))
-                return
+        else:
+            logger.info("Invalid Id's Given")
+            print(PromptMessage.NOTHING_FOUND.format("Principal"))
+            return
         # saving to db after checking edge cases
 
         DAO.execute_non_returning_query(
@@ -183,7 +183,7 @@ def update_principal():
 
 @exception_checker
 def delete_principal():
-    """Delete principal of principal"""
+    """Delete Principal"""
     principal_id = validate.uuid_validator(
         PromptMessage.TAKE_SPECIFIC_ID.format("Principal"), RegexPatterns.UUID_PATTERN
     )

@@ -1,5 +1,4 @@
 """This contains teacher handler functionality"""
-
 import logging
 from src.config.regex_pattern import RegexPatterns
 from src.config.headers_for_output import TableHeaders
@@ -181,8 +180,8 @@ def delete_teacher():
         print(PromptMessage.NOTHING_FOUND.format("Teacher"))
         return
 
-    for tid in active_teachers_id[0]:
-        if tid == teacher_id:
+    for tid in active_teachers_id:
+        if tid[0] == teacher_id:
             break
     else:
         print(PromptMessage.FAILED_ACTION.format("Delete"))
