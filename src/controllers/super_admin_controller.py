@@ -23,41 +23,46 @@ logger = logging.getLogger(__name__)
 
 def handle_principal():
     """Handling Principal"""
-    print(DisplayMenu.HANDLE_PRINCIPAL_PROMPT)
+    while True:
+        print(DisplayMenu.HANDLE_PRINCIPAL_PROMPT)
 
-    user_req = input(PromptMessage.TAKE_INPUT.format("Query [1-5]"))
-    match user_req:
-        case "1":
-            PrincipalHandler.approve_principal()
-        case "2":
-            PrincipalHandler.get_all_principal()
-        case "3":
-            PrincipalHandler.get_principal_by_id()
-        case "4":
-            PrincipalHandler.update_principal()
-        case "5":
-            PrincipalHandler.delete_principal()
-        case _:
-            print(PromptMessage.INVALID_INPUT)
+        user_req = input(PromptMessage.TAKE_INPUT.format("Query [1-6]"))
+        match user_req:
+            case "1":
+                PrincipalHandler.approve_principal()
+            case "2":
+                PrincipalHandler.get_all_principal()
+            case "3":
+                PrincipalHandler.get_principal_by_id()
+            case "4":
+                PrincipalHandler.update_principal()
+            case "5":
+                PrincipalHandler.delete_principal()
+            case "6":
+                break
+            case _:
+                print(PromptMessage.INVALID_INPUT.format("Enter Only [1-6]"))
 
 
 def handle_staff(user_id):
     """Handling Staff"""
-    print(DisplayMenu.HANDLE_STAFF_PROMPT)
+    while True:
+        print(DisplayMenu.HANDLE_STAFF_PROMPT)
 
-    user_req = input(PromptMessage.TAKE_INPUT.format("Query [1-4]"))
-    match user_req:
-        case "1":
-            StaffHandler.view_staff(user_id=user_id)
-        case "2":
-            StaffHandler.create_staff(user_id=user_id)
-        case "3":
-            StaffHandler.update_staff()
-        case "4":
-            StaffHandler.delete_staff()
-        case _:
-            print(PromptMessage.INVALID_INPUT)
-
+        user_req = input(PromptMessage.TAKE_INPUT.format("Query [1-5]"))
+        match user_req:
+            case "1":
+                StaffHandler.view_staff(user_id=user_id)
+            case "2":
+                StaffHandler.create_staff(user_id=user_id)
+            case "3":
+                StaffHandler.update_staff()
+            case "4":
+                StaffHandler.delete_staff()
+            case "5":
+                break
+            case _:
+                print(PromptMessage.INVALID_INPUT.format("Enter Only [1-5]"))
 
 def distribute_salary():
     """Distribute Salary"""

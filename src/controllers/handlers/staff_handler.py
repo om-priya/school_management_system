@@ -7,9 +7,11 @@ from src.config.headers_for_output import TableHeaders
 from src.config.display_menu import PromptMessage
 from src.database import database_access as DAO
 from src.utils.pretty_print import pretty_print
+from src.utils.exception_handler import exception_checker
 from src.utils import validate
 
 
+@exception_checker
 def view_staff(user_id):
     """View Staff Members"""
     res_data = DAO.execute_returning_query(StaffQueries.VIEW_ALL_STAFF, (user_id,))
@@ -33,6 +35,7 @@ def view_staff(user_id):
     pretty_print(res_data, headers=headers)
 
 
+@exception_checker
 def create_staff(user_id):
     """Create Staff Members"""
     # getting info to save it in db
@@ -68,6 +71,7 @@ def create_staff(user_id):
     print(PromptMessage.ADDED_SUCCESSFULLY.format("Staff"))
 
 
+@exception_checker
 def update_staff():
     """Update staff"""
     staff_id = validate.uuid_validator(
@@ -108,6 +112,7 @@ def update_staff():
     )
 
 
+@exception_checker
 def delete_staff():
     """Delete staff"""
     staff_id = validate.uuid_validator(

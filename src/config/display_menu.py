@@ -38,18 +38,22 @@ class DisplayMenu:
     3> Get Teacher by ID
     4> Update Teacher
     5> Delete Teacher
+    6> Go Back
     \n"""
     FEEDBACK_PROMPT = """\nWhat do yu want to do?
     1> Read Feedback
     2> Create Feedback
+    3> Go Back
     \n"""
     EVENTS_PROMPT = """\nWhat do you want to do?
     1> Read Event
     2> Create Event
+    3> Go Back
     \n"""
     LEAVES_PROMPT = """\nWhat do you want to do?
     1> Check Leave Status
     2> Apply for Leave
+    3> Go Back
     \n"""
     HANDLE_PRINCIPAL_PROMPT = """\nWhat do you want to do?
     1> Approve Principal
@@ -57,12 +61,14 @@ class DisplayMenu:
     3> Get Principal by ID
     4> Update Principal
     5> Delete Principal
+    6> Go Back
     \n"""
     HANDLE_STAFF_PROMPT = """\nWhat do you want to do?
     1> View All Staff Members
     2> Create Staff Members
     3> Update Staff Members
     4> Delete Staff Members
+    5> Go Back
     \n"""
     ENTRY_POINT_PROMPT = """\nWelcome User
     1> Log In

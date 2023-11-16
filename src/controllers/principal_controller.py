@@ -18,64 +18,76 @@ logger = logging.getLogger(__name__)
 
 def handle_teacher():
     """It will handle all the teacher related functionality"""
-    print(DisplayMenu.HANDLE_TEACHER_PROMPT)
+    while True:
+        print(DisplayMenu.HANDLE_TEACHER_PROMPT)
 
-    user_req = input(PromptMessage.TAKE_INPUT.format("Query [1-5]"))
-    match user_req:
-        case "1":
-            TeacherHandler.approve_teacher()
-        case "2":
-            TeacherHandler.get_all_teacher()
-        case "3":
-            TeacherHandler.get_teacher_by_id()
-        case "4":
-            TeacherHandler.update_teacher()
-        case "5":
-            TeacherHandler.delete_teacher()
-        case _:
-            print(PromptMessage.INVALID_INPUT)
+        user_req = input(PromptMessage.TAKE_INPUT.format("Query [1-6]"))
+        match user_req:
+            case "1":
+                TeacherHandler.approve_teacher()
+            case "2":
+                TeacherHandler.get_all_teacher()
+            case "3":
+                TeacherHandler.get_teacher_by_id()
+            case "4":
+                TeacherHandler.update_teacher()
+            case "5":
+                TeacherHandler.delete_teacher()
+            case "6":
+                break
+            case _:
+                print(PromptMessage.INVALID_INPUT.format("Enter Only [1-6]"))
 
 
 def handle_feedbacks(user_id):
     """It will handle all the feedback related functionality"""
-    print(DisplayMenu.FEEDBACK_PROMPT)
+    while True:
+        print(DisplayMenu.FEEDBACK_PROMPT)
 
-    user_req = input(PromptMessage.TAKE_INPUT.format("Query [1-2]"))
-    match user_req:
-        case "1":
-            FeedBackHandler.read_feedback(user_id=user_id)
-        case "2":
-            FeedBackHandler.give_feedback(user_id=user_id)
-        case _:
-            print(PromptMessage.INVALID_INPUT)
+        user_req = input(PromptMessage.TAKE_INPUT.format("Query [1-2]"))
+        match user_req:
+            case "1":
+                FeedBackHandler.read_feedback(user_id=user_id)
+            case "2":
+                FeedBackHandler.give_feedback(user_id=user_id)
+            case "3":
+                break
+            case _:
+                print(PromptMessage.INVALID_INPUT.format("Enter Only [1-3]"))
 
 
 def handle_events(user_id):
     """It will handle all the events related functionality"""
-    print(DisplayMenu.EVENTS_PROMPT)
+    while True:
+        print(DisplayMenu.EVENTS_PROMPT)
 
-    user_req = input(PromptMessage.TAKE_INPUT.format("Query [1-2]"))
-    match user_req:
-        case "1":
-            EventHandler.read_event()
-        case "2":
-            EventHandler.create_event(user_id=user_id)
-        case _:
-            print(PromptMessage.INVALID_INPUT)
+        user_req = input(PromptMessage.TAKE_INPUT.format("Query [1-2]"))
+        match user_req:
+            case "1":
+                EventHandler.read_event()
+            case "2":
+                EventHandler.create_event(user_id=user_id)
+            case "3":
+                break
+            case _:
+                print(PromptMessage.INVALID_INPUT.format("Enter Only [1-3]"))
 
 
 def handle_leaves(user_id):
     """It will handle all the leaves related functionality"""
-    print(DisplayMenu.LEAVES_PROMPT)
+    while True:
+        print(DisplayMenu.LEAVES_PROMPT)
 
-    user_req = input(PromptMessage.TAKE_INPUT.format("Query [1-2]"))
-    match user_req:
-        case "1":
-            LeaveHandler.see_leave_status(user_id=user_id)
-        case "2":
-            LeaveHandler.apply_leave(user_id=user_id)
-        case _:
-            print(PromptMessage.INVALID_INPUT)
+        user_req = input(PromptMessage.TAKE_INPUT.format("Query [1-2]"))
+        match user_req:
+            case "1":
+                LeaveHandler.see_leave_status(user_id=user_id)
+            case "2":
+                LeaveHandler.apply_leave(user_id=user_id)
+            case "3":
+                break
+            case _:
+                print(PromptMessage.INVALID_INPUT.format("Enter Only [1-3]"))
 
 
 def view_profile(user_id):
