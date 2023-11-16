@@ -431,3 +431,8 @@ sqlite3.OperationalError: near ",": syntax error
 2023-11-17 02:15:34,917 DEBUG    [initializer.py:31] Table Created only once
 2023-11-17 02:16:01,250 INFO     [app.py:45] Logged in user: S4WnX5h, role: superadmin
 2023-11-17 02:16:50,055 INFO     [super_admin_controller.py:128] No Pending Leave Request
+2023-11-17 03:29:50,227 DEBUG    [initializer.py:31] Table Created only once
+2023-11-17 03:30:14,506 INFO     [app.py:43] Logged in user: S4WnX5h, role: superadmin
+2023-11-17 03:37:05,413 DEBUG    [initializer.py:31] Table Created only once
+2023-11-17 03:37:14,882 INFO     [app.py:43] Logged in user: 3QP99X, role: principal
+2023-11-17 03:37:52,426 INFO     [app.py:43] Logged in user: 3QP99X, role: principal

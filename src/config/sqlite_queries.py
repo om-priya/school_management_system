@@ -120,6 +120,10 @@ class UserQueries:
         WHERE given_to = ?"""
     FETCH_SUPER_ADMIN = """SELECT * FROM credential
         WHERE role = 'superadmin'"""
+    CHECK_USER_EXIST = """SELECT *
+        FROM credential 
+        WHERE username = ? AND password = ? AND user_id = ? AND status = 'active'"""
+    CHANGE_PASSWORD_QUERY = """UPDATE credential SET password = ? WHERE user_id = ?"""
 
 
 class CreateTable:

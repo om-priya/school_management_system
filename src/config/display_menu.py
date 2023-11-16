@@ -10,7 +10,8 @@ class DisplayMenu:
     2> Handle Staff
     3> Distribute Salary
     4> Approve Leave
-    5> Log Out
+    5> Change Password
+    6> Log Out
     \n"""
     PRINCIPAL_MAIN_PROMPT = """\nWelcome Principal
     What do you want to do?
@@ -21,7 +22,8 @@ class DisplayMenu:
     5> View My Profile
     6> See Salary History
     7> Read Issues
-    8> Log Out
+    8> Change Password
+    9> Log Out
     \n"""
     TEACHER_MAIN_PROMPT = """\nWelcome Teacher
     What do you want to do?
@@ -30,7 +32,8 @@ class DisplayMenu:
     3> Read FeedBacks
     4> Raise Issues
     5> See Salary History
-    6> Log Out
+    6> Change Password
+    7> Log Out
     \n"""
     HANDLE_TEACHER_PROMPT = """\nWhat do you want to do?
     1> Approve Teacher
@@ -103,3 +106,4 @@ class PromptMessage:
     FAILED_ACTION = """\nCan't perform {} action on entered user_id"""
     SUCCESS_ACTION = """\n{} Successfully"""
     WRONG_QUERY = """kindly Check Your Query: """
+    NEW_PASSWORD_PROMPT = "Enter Your New Password"

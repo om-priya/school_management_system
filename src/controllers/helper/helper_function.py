@@ -3,9 +3,12 @@
 import logging
 from src.config.display_menu import PromptMessage
 from src.config.sqlite_queries import UserQueries
+from src.config.regex_pattern import RegexPatterns
 from src.config.headers_for_output import TableHeaders
 from src.database import database_access as DAO
 from src.utils.pretty_print import pretty_print
+from src.utils.hash_password import hash_password
+from src.utils import validate
 
 logger = logging.getLogger(__name__)
 
@@ -43,3 +46,29 @@ def view_personal_info(query, user_id):
         TableHeaders.STATUS,
     )
     pretty_print(res_data, headers)
+
+
+def change_password(user_id):
+    """This function can change the password of user"""
+    username = validate.pattern_validator(
+        PromptMessage.TAKE_INPUT.format("Username"), RegexPatterns.USERNAME_PATTERN
+    )
+    password = validate.password_validator()
+    hashed_password = hash_password(password)
+
+    # checking in db with username and password
+    params = (username, hashed_password, user_id)
+    res_data = DAO.execute_returning_query(UserQueries.CHECK_USER_EXIST, params)
+
+    if len(res_data) == 0:
+        print(PromptMessage.WRONG_CREDENTIALS)
+        return
+
+    print(PromptMessage.NEW_PASSWORD_PROMPT)
+    new_password = validate.password_validator()
+    hashed_new_password = hash_password(new_password)
+
+    # update new password to db
+    params = (hashed_new_password, user_id)
+    DAO.execute_non_returning_query(UserQueries.CHANGE_PASSWORD_QUERY, params)
+    print("Password Updated Successfully")
