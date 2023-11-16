@@ -332,3 +332,45 @@ sqlite3.IntegrityError: UNIQUE constraint failed: user.phone
 2023-11-07 16:45:30,948 DEBUG    [initializer.py:31] Table Created only once
 2023-11-07 16:45:41,129 INFO     [app.py:45] Logged in user: S4WnX5h, role: superadmin
 2023-11-08 09:08:37,429 DEBUG    [initializer.py:31] Table Created only once
+2023-11-16 09:49:18,026 DEBUG    [initializer.py:31] Table Created only once
+2023-11-16 09:49:33,396 INFO     [app.py:45] Logged in user: S4WnX5h, role: superadmin
+2023-11-16 09:50:59,522 DEBUG    [initializer.py:31] Table Created only once
+2023-11-16 09:51:09,309 INFO     [app.py:45] Logged in user: S4WnX5h, role: superadmin
+2023-11-16 09:52:24,555 INFO     [user_controller.py:89] Initiating saving principal
+2023-11-16 09:52:24,566 ERROR    [db_connector.py:22] Some error occurred
+2023-11-16 09:52:24,567 ERROR    [exception_handler.py:22] Tried to insert duplicate values UNIQUE constraint failed: user.phone
+Traceback (most recent call last):
+  File "C:\Users\opriya\OneDrive - WatchGuard Technologies Inc\python minor project\school management system\src\utils\exception_handler.py", line 16, in exception_handler
+    func(*args, **kwargs)
+  File "C:\Users\opriya\OneDrive - WatchGuard Technologies Inc\python minor project\school management system\src\models\principals.py", line 66, in save_principal
+    cursor.execute(CreateTable.INSERT_INTO_USER, user_tuple)
+sqlite3.IntegrityError: UNIQUE constraint failed: user.phone
+2023-11-16 09:53:19,193 INFO     [user_controller.py:89] Initiating saving principal
+2023-11-16 09:53:19,217 INFO     [principals.py:69] User dummy kumar principal Saved to Db
+2023-11-16 09:53:19,217 INFO     [principals.py:71] Principal Saved to DB
+2023-11-16 09:57:03,711 DEBUG    [initializer.py:31] Table Created only once
+2023-11-16 09:57:22,738 INFO     [app.py:45] Logged in user: S4WnX5h, role: superadmin
+2023-11-16 09:57:27,476 ERROR    [principal_handler.py:72] No Principal Found
+2023-11-16 09:57:57,941 INFO     [principal_handler.py:51] Invalid Id's Given
+2023-11-16 09:58:47,461 DEBUG    [initializer.py:31] Table Created only once
+2023-11-16 09:59:21,894 INFO     [app.py:45] Logged in user: S4WnX5h, role: superadmin
+2023-11-16 09:59:51,204 ERROR    [user_controller.py:31] Wrong Credentials
+2023-11-16 10:00:19,847 ERROR    [user_controller.py:31] Wrong Credentials
+2023-11-16 10:00:49,427 INFO     [app.py:45] Logged in user: 4G4KmC, role: principal
+2023-11-16 10:01:04,743 ERROR    [issue_handler.py:21] No issues Found
+2023-11-16 10:09:13,152 DEBUG    [initializer.py:31] Table Created only once
+2023-11-16 10:09:35,405 INFO     [app.py:45] Logged in user: 4G4KmC, role: principal
+2023-11-16 10:10:12,731 DEBUG    [initializer.py:31] Table Created only once
+2023-11-16 10:10:20,343 INFO     [app.py:45] Logged in user: 4G4KmC, role: principal
+2023-11-16 10:10:53,623 ERROR    [db_connector.py:22] Some error occurred
+2023-11-16 10:10:53,624 ERROR    [exception_handler.py:19] Something went wrong while executing Query near ",": syntax error
+Traceback (most recent call last):
+  File "C:\Users\opriya\OneDrive - WatchGuard Technologies Inc\python minor project\school management system\src\utils\exception_handler.py", line 16, in exception_handler
+    func(*args, **kwargs)
+  File "C:\Users\opriya\OneDrive - WatchGuard Technologies Inc\python minor project\school management system\src\controllers\handlers\teacher_handler.py", line 53, in approve_teacher
+    DAO.execute_non_returning_query(TeacherQueries.APPROVE_TEACHER, (teacher_id,))
+  File "C:\Users\opriya\OneDrive - WatchGuard Technologies Inc\python minor project\school management system\src\database\database_access.py", line 18, in execute_non_returning_query
+    cursor.execute(query, params)
+sqlite3.OperationalError: near ",": syntax error
+2023-11-16 10:50:05,966 DEBUG    [initializer.py:31] Table Created only once
+2023-11-16 10:50:18,767 INFO     [app.py:45] Logged in user: S4WnX5h, role: superadmin

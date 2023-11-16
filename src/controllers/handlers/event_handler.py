@@ -6,6 +6,7 @@ import shortuuid
 from src.config.regex_pattern import RegexPatterns
 from src.utils.validate import pattern_validator
 from src.utils.pretty_print import pretty_print
+from src.utils.exception_handler import exception_checker
 from src.config.sqlite_queries import CreateTable, UserQueries
 from src.config.display_menu import PromptMessage
 from src.config.headers_for_output import TableHeaders
@@ -14,6 +15,7 @@ from src.database import database_access as DAO
 logger = logging.getLogger(__name__)
 
 
+@exception_checker
 def read_event():
     """Read Events"""
     res_data = DAO.execute_returning_query(UserQueries.READ_NOTICE)
@@ -27,6 +29,7 @@ def read_event():
     pretty_print(res_data, headers)
 
 
+@exception_checker
 def create_event(user_id):
     """Create Events"""
     notice_id = shortuuid.ShortUUID().random(length=6)

@@ -3,6 +3,7 @@ import logging
 from src.config.regex_pattern import RegexPatterns
 from src.config.headers_for_output import TableHeaders
 from src.utils.pretty_print import pretty_print
+from src.utils.exception_handler import exception_checker
 from src.utils import validate
 from src.config.sqlite_queries import PrincipalQueries
 from src.config.display_menu import PromptMessage
@@ -25,6 +26,7 @@ def get_all_pending_id():
     return res_data
 
 
+@exception_checker
 def approve_principal():
     """Approve principal"""
     principal_id = validate.uuid_validator(
@@ -64,6 +66,7 @@ def approve_principal():
     print(PromptMessage.ADDED_SUCCESSFULLY.format("Principal"))
 
 
+@exception_checker
 def get_all_principal():
     """Get All principals"""
     res_data = DAO.execute_returning_query(PrincipalQueries.GET_ALL_PRINCIPAL)
@@ -84,6 +87,7 @@ def get_all_principal():
     pretty_print(res_data, headers)
 
 
+@exception_checker
 def get_principal_by_id():
     """Get Specific principal"""
     principal_id = validate.uuid_validator(
@@ -109,6 +113,7 @@ def get_principal_by_id():
     pretty_print(res_data, headers)
 
 
+@exception_checker
 def update_principal():
     """Update principal"""
     # taking input from console
@@ -176,6 +181,7 @@ def update_principal():
     )
 
 
+@exception_checker
 def delete_principal():
     """Delete principal of principal"""
     principal_id = validate.uuid_validator(

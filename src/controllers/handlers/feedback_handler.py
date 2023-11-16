@@ -7,6 +7,7 @@ from src.config.regex_pattern import RegexPatterns
 from src.config.headers_for_output import TableHeaders
 from src.utils.pretty_print import pretty_print
 from src.utils.validate import pattern_validator, uuid_validator
+from src.utils.exception_handler import exception_checker
 from src.config.sqlite_queries import TeacherQueries, CreateTable, PrincipalQueries
 from src.config.display_menu import PromptMessage
 from src.database import database_access as DAO
@@ -14,6 +15,7 @@ from src.database import database_access as DAO
 logger = logging.getLogger(__name__)
 
 
+@exception_checker
 def read_feedback(user_id):
     """Read Feedbacks"""
     print("\nHere's the feedback given by you\n")
@@ -35,6 +37,7 @@ def read_feedback(user_id):
     pretty_print(res_data, headers)
 
 
+@exception_checker
 def give_feedback(user_id):
     """Create Feedbacks"""
     res_data = DAO.execute_returning_query(TeacherQueries.GET_APPROVED_TEACHER)

@@ -69,4 +69,3 @@ class Principal(User):
         logger.info("User %s %s Saved to Db", self.name, self.role)
 
         logger.info("Principal Saved to DB")
-        print(PromptMessage.NO_SCHOOL_FOUND)

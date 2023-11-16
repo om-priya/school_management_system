@@ -10,10 +10,12 @@ from src.config.headers_for_output import TableHeaders
 from src.database import database_access as DAO
 from src.utils.pretty_print import pretty_print
 from src.utils.validate import pattern_validator
+from src.utils.exception_handler import exception_checker
 
 logger = logging.getLogger(__name__)
 
 
+@exception_checker
 def apply_leave(user_id):
     """Apply Leave"""
     leave_id = shortuuid.ShortUUID().random(length=6)
@@ -40,6 +42,7 @@ def apply_leave(user_id):
     print(PromptMessage.ADDED_SUCCESSFULLY.format("Leave Request"))
 
 
+@exception_checker
 def see_leave_status(user_id):
     """See Leave Status"""
     res_data = DAO.execute_returning_query(UserQueries.FETCH_LEAVE_STATUS, (user_id,))

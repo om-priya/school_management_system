@@ -7,6 +7,7 @@ from src.config.display_menu import PromptMessage
 from src.config.sqlite_queries import TeacherQueries
 from src.database import database_access as DAO
 from src.utils.pretty_print import pretty_print
+from src.utils.exception_handler import exception_checker
 from src.utils import validate
 
 logger = logging.getLogger(__name__)
@@ -28,10 +29,11 @@ def fetch_active_teacher():
     return res_data
 
 
+@exception_checker
 def approve_teacher():
     """Approve Teacher"""
     teacher_id = validate.uuid_validator(
-        PromptMessage.APPROVE_PROMPT.format("Staff"), RegexPatterns.UUID_PATTERN
+        PromptMessage.APPROVE_PROMPT.format("Teacher's Id"), RegexPatterns.UUID_PATTERN
     )
 
     # fetching status of teacher with teacher_id
@@ -54,6 +56,7 @@ def approve_teacher():
     print(PromptMessage.ADDED_SUCCESSFULLY.format("Teacher"))
 
 
+@exception_checker
 def get_all_teacher():
     """Get All Teachers"""
     res_data = DAO.execute_returning_query(TeacherQueries.GET_ALL_TEACHER)
@@ -73,6 +76,7 @@ def get_all_teacher():
     pretty_print(res_data, headers)
 
 
+@exception_checker
 def get_teacher_by_id():
     """Get Specific Teacher"""
     teacher_id = validate.uuid_validator(
@@ -98,6 +102,7 @@ def get_teacher_by_id():
     pretty_print(res_data, headers)
 
 
+@exception_checker
 def update_teacher():
     """Update Teacher"""
     teacher_id = validate.uuid_validator(
@@ -163,6 +168,7 @@ def update_teacher():
     print(PromptMessage.SUCCESS_ACTION.format("Updated"))
 
 
+@exception_checker
 def delete_teacher():
     """Delete Teacher of principal"""
     teacher_id = validate.uuid_validator(
