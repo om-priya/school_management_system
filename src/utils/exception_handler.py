@@ -23,6 +23,9 @@ def exception_checker(func):
         except sqlite3.Error as sqle:
             print(f"Something went wrong with db: {sqle}")
             logger.exception("Something went wrong with db %s", sqle)
+        except ValueError as ve:
+            print("Wrong Value is provided")
+            logger.exception("Wrong Value %s", ve)
         except Exception as e:
             print(f"Something Went Wrong: {e}")
             logger.exception("Something Went Wrong %s", e)

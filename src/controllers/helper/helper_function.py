@@ -71,4 +71,5 @@ def change_password(user_id):
     # update new password to db
     params = (hashed_new_password, user_id)
     DAO.execute_non_returning_query(UserQueries.CHANGE_PASSWORD_QUERY, params)
+    logger.info("Password Changed for user %s", user_id)
     print("Password Updated Successfully")

@@ -436,3 +436,5 @@ sqlite3.OperationalError: near ",": syntax error
 2023-11-17 03:37:05,413 DEBUG    [initializer.py:31] Table Created only once
 2023-11-17 03:37:14,882 INFO     [app.py:43] Logged in user: 3QP99X, role: principal
 2023-11-17 03:37:52,426 INFO     [app.py:43] Logged in user: 3QP99X, role: principal
+2023-11-17 09:47:55,695 DEBUG    [initializer.py:31] Table Created only once
+2023-11-17 09:48:14,831 INFO     [app.py:43] Logged in user: SqHhwbc, role: superadmin
