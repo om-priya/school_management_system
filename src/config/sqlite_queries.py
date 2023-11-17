@@ -95,6 +95,7 @@ class StaffQueries:
     DELETE_STAFF = """UPDATE staff_member
                     SET status = 'deactivate'
                     WHERE user_id = ? AND status = 'active'"""
+    FETCH_STAFF_STATUS = """SELECT status FROM staff_member WHERE user_id = ?"""
 
 
 class UserQueries:

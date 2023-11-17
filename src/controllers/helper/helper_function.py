@@ -73,3 +73,13 @@ def change_password(user_id):
     DAO.execute_non_returning_query(UserQueries.CHANGE_PASSWORD_QUERY, params)
     logger.info("Password Changed for user %s", user_id)
     print("Password Updated Successfully")
+
+
+def check_empty_data(res_data, prompt_message):
+    """This function will check for whether data is there or not"""
+    if len(res_data) == 0:
+        logger.error(prompt_message)
+        print(prompt_message)
+        return True
+
+    return False

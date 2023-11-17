@@ -438,3 +438,43 @@ sqlite3.OperationalError: near ",": syntax error
 2023-11-17 03:37:52,426 INFO     [app.py:43] Logged in user: 3QP99X, role: principal
 2023-11-17 09:47:55,695 DEBUG    [initializer.py:31] Table Created only once
 2023-11-17 09:48:14,831 INFO     [app.py:43] Logged in user: SqHhwbc, role: superadmin
+2023-11-17 11:18:35,706 DEBUG    [initializer.py:31] Table Created only once
+2023-11-17 11:19:14,393 INFO     [user_controller.py:89] Initiating saving principal
+2023-11-17 11:19:14,427 INFO     [principals.py:69] User dummy kumar principal Saved to Db
+2023-11-17 11:19:14,427 INFO     [principals.py:71] Principal Saved to DB
+2023-11-17 11:20:15,133 INFO     [user_controller.py:85] Initiating saving teacher
+2023-11-17 11:20:15,155 INFO     [teachers.py:66] User dummy uzumaki teacher Saved to Db
+2023-11-17 11:20:15,155 INFO     [teachers.py:68] Teacher Saved to DB
+2023-11-17 11:20:33,498 INFO     [app.py:43] Logged in user: SqHhwbc, role: superadmin
+2023-11-17 11:21:33,886 INFO     [app.py:43] Logged in user: 3Uk9WA, role: principal
+2023-11-17 11:22:08,036 INFO     [app.py:43] Logged in user: 4Dkrei, role: teacher
+2023-11-17 11:22:11,417 ERROR    [helper_function.py:81] 
+No such Feedback Found
+
+2023-11-17 13:22:32,209 DEBUG    [initializer.py:31] Table Created only once
+2023-11-17 13:23:36,140 INFO     [app.py:43] Logged in user: SqHhwbc, role: superadmin
+2023-11-17 13:24:49,794 ERROR    [helper_function.py:81] 
+No such Principal Found
+
+2023-11-17 13:28:39,441 INFO     [user_controller.py:85] Initiating saving teacher
+2023-11-17 13:28:39,453 ERROR    [db_connector.py:21] Some error occurred
+2023-11-17 13:28:39,455 ERROR    [exception_handler.py:22] Tried to insert duplicate values UNIQUE constraint failed: credential.username
+Traceback (most recent call last):
+  File "C:\Users\opriya\OneDrive - WatchGuard Technologies Inc\python minor project\school management system\src\utils\exception_handler.py", line 16, in exception_handler
+    func(*args, **kwargs)
+  File "C:\Users\opriya\OneDrive - WatchGuard Technologies Inc\python minor project\school management system\src\models\teachers.py", line 61, in save_teacher
+    cursor.execute(CreateTable.INSERT_INTO_CREDENTIAL, cred_tuple)
+sqlite3.IntegrityError: UNIQUE constraint failed: credential.username
+2023-11-17 13:30:14,548 ERROR    [user_controller.py:31] Wrong Credentials
+2023-11-17 13:30:30,808 INFO     [app.py:43] Logged in user: 4Dkrei, role: teacher
+2023-11-17 13:30:51,382 INFO     [issue_handler.py:43] Issue Created Successfully
+2023-11-17 13:31:46,401 ERROR    [helper_function.py:81] 
+No such Feedback Found
+
+2023-11-17 13:32:08,365 INFO     [app.py:43] Logged in user: 3Uk9WA, role: principal
+2023-11-17 13:32:20,729 ERROR    [helper_function.py:81] 
+No such FeedBack Found
+
+2023-11-17 13:33:23,822 INFO     [feedback_handler.py:75] Feedback Created
+2023-11-17 13:33:41,475 INFO     [app.py:43] Logged in user: 4Dkrei, role: teacher
+2023-11-17 13:33:56,430 ERROR    [helper_function.py:22] No Salary History Found

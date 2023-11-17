@@ -8,6 +8,7 @@ from src.database import database_access as DAO
 from src.utils.pretty_print import pretty_print
 from src.utils.exception_handler import exception_checker
 from src.utils import validate
+from src.controllers.helper.helper_function import check_empty_data
 
 logger = logging.getLogger(__name__)
 
@@ -39,9 +40,7 @@ def approve_teacher():
     status = get_status(teacher_id)
 
     # checks to handle edge cases
-    if len(status) == 0:
-        logger.error("No Teacher Present with this Id")
-        print(PromptMessage.NOTHING_FOUND.format("Teacher's"))
+    if check_empty_data(status, PromptMessage.NOTHING_FOUND.format("Teachers")):
         return
     elif status[0][0] != "pending":
         logger.error("Teacher Can't be Approved")
@@ -49,7 +48,6 @@ def approve_teacher():
         return
     else:
         # executing the query
-
         DAO.execute_non_returning_query(TeacherQueries.APPROVE_TEACHER, (teacher_id,))
 
     print(PromptMessage.ADDED_SUCCESSFULLY.format("Teacher"))
@@ -60,9 +58,7 @@ def get_all_teacher():
     """Get All Teachers"""
     res_data = DAO.execute_returning_query(TeacherQueries.GET_ALL_TEACHER)
 
-    if len(res_data) == 0:
-        logger.error("No Teacher Found")
-        print(PromptMessage.NOTHING_FOUND.format("Teachers"))
+    if check_empty_data(res_data, PromptMessage.NOTHING_FOUND.format("Teachers")):
         return
 
     headers = (
@@ -86,9 +82,7 @@ def get_teacher_by_id():
         TeacherQueries.GET_TEACHER_BY_ID, (teacher_id,)
     )
 
-    if len(res_data) == 0:
-        logger.error("No Teacher Found")
-        print(PromptMessage.NOTHING_FOUND.format("Teacher"))
+    if check_empty_data(res_data, PromptMessage.NOTHING_FOUND.format("Teachers")):
         return
 
     headers = (
@@ -125,9 +119,7 @@ def update_teacher():
     # fetching status for edge cases
     teacher_status = get_status(teacher_id)
 
-    if len(teacher_status) == 0:
-        logger.info("No Such Teacher Present")
-        print(PromptMessage.NOTHING_FOUND.format("Teacher"))
+    if check_empty_data(teacher_status, PromptMessage.NOTHING_FOUND.format("Teachers")):
         return
 
     if teacher_status[0][0] != "active":
@@ -176,8 +168,9 @@ def delete_teacher():
 
     active_teachers_id = fetch_active_teacher()
 
-    if len(active_teachers_id) == 0:
-        print(PromptMessage.NOTHING_FOUND.format("Teacher"))
+    if check_empty_data(
+        active_teachers_id, PromptMessage.NOTHING_FOUND.format("Teachers")
+    ):
         return
 
     for tid in active_teachers_id:

@@ -9,6 +9,7 @@ from src.config.headers_for_output import TableHeaders
 from src.database import database_access as DAO
 from src.utils.pretty_print import pretty_print
 from src.utils.validate import pattern_validator
+from src.controllers.helper.helper_function import check_empty_data
 
 logger = logging.getLogger(__name__)
 
@@ -17,9 +18,7 @@ def view_issue():
     """Showing all the Raised Issues"""
     res_data = DAO.execute_returning_query(UserQueries.GET_ALL_ISSUES)
 
-    if len(res_data) == 0:
-        logger.error("No issues Found")
-        print(PromptMessage.NOTHING_FOUND.format("Issues"))
+    if check_empty_data(res_data, PromptMessage.NOTHING_FOUND.format("Issues")):
         return
 
     headers = (
