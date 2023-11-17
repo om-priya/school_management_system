@@ -13,6 +13,7 @@ from src.config.sqlite_queries import (
 )
 from src.controllers.handlers import principal_handler as PrincipalHandler
 from src.controllers.handlers import staff_handler as StaffHandler
+from src.controllers.helper.helper_function import check_empty_data
 from src.database import database_access as DAO
 from src.utils.pretty_print import pretty_print
 from src.utils import validate
@@ -123,9 +124,9 @@ def approve_leave():
     res_data = DAO.execute_returning_query(UserQueries.GET_PENDING_LEAVES)
 
     # if there are no leave request
-    if len(res_data) == 0:
-        logger.info("No Pending Leave Request")
-        print(PromptMessage.NOTHING_FOUND.format("Pending leave request"))
+    if check_empty_data(
+        res_data, PromptMessage.NOTHING_FOUND.format("Pending leave request")
+    ):
         return
 
     headers = (
@@ -142,4 +143,13 @@ def approve_leave():
         PromptMessage.APPROVE_PROMPT.format("leave id"), RegexPatterns.UUID_PATTERN
     )
 
+    # checking for valid id
+    for leave_record in res_data:
+        if leave_id == leave_record[0]:
+            break
+    else:
+        print(PromptMessage.NOTHING_FOUND.format("Leave Record"))
+        return
+
     DAO.execute_non_returning_query(UserQueries.APPROVE_LEAVE, (leave_id,))
+    print(PromptMessage.ADDED_SUCCESSFULLY.format("Leave"))

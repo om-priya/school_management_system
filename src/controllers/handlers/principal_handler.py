@@ -7,6 +7,7 @@ from src.utils.exception_handler import exception_checker
 from src.utils import validate
 from src.config.sqlite_queries import PrincipalQueries
 from src.config.display_menu import PromptMessage
+from src.controllers.helper.helper_function import check_empty_data
 from src.database import database_access as DAO
 
 logger = logging.getLogger(__name__)
@@ -40,9 +41,9 @@ def approve_principal():
         pending_id = get_all_pending_id()
 
         # handling for no pending request
-        if len(pending_id) == 0:
-            logger.error("No request for approval")
-            print(PromptMessage.NOTHING_FOUND.format("request for approval"))
+        if check_empty_data(
+            pending_id, PromptMessage.NOTHING_FOUND.format("request for approval")
+        ):
             return
 
         # checking whether input id is in pending or not
@@ -71,9 +72,7 @@ def get_all_principal():
     """Get All principals"""
     res_data = DAO.execute_returning_query(PrincipalQueries.GET_ALL_PRINCIPAL)
 
-    if len(res_data) == 0:
-        logger.error("No Principal Found")
-        print(PromptMessage.NOTHING_FOUND.format("Principal"))
+    if check_empty_data(res_data, PromptMessage.NOTHING_FOUND.format("Principal")):
         return
 
     headers = ["User_id", "name", "gender", "email", "status"]
@@ -98,9 +97,7 @@ def get_principal_by_id():
         PrincipalQueries.GET_PRINCIPAL_BY_ID, (principal_id,)
     )
 
-    if len(res_data) == 0:
-        logger.error("No Principal Found")
-        print(PromptMessage.NOTHING_FOUND.format("Principal"))
+    if check_empty_data(res_data, PromptMessage.NOTHING_FOUND.format("Principal")):
         return
 
     headers = (

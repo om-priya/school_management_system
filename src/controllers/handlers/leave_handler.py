@@ -11,6 +11,7 @@ from src.database import database_access as DAO
 from src.utils.pretty_print import pretty_print
 from src.utils.validate import pattern_validator
 from src.utils.exception_handler import exception_checker
+from src.controllers.helper.helper_function import check_empty_data
 
 logger = logging.getLogger(__name__)
 
@@ -47,9 +48,7 @@ def see_leave_status(user_id):
     """See Leave Status"""
     res_data = DAO.execute_returning_query(UserQueries.FETCH_LEAVE_STATUS, (user_id,))
 
-    if len(res_data) == 0:
-        logger.error("No Leaves Record Found for user %s", user_id)
-        print(PromptMessage.NOTHING_FOUND.format("Leaves Record"))
+    if check_empty_data(res_data, PromptMessage.NOTHING_FOUND.format("Leaves Record")):
         return
 
     headers = (TableHeaders.LEAVE_DATE, TableHeaders.NO_OF_DAYS, TableHeaders.STATUS)

@@ -11,6 +11,7 @@ from src.config.sqlite_queries import CreateTable, UserQueries
 from src.config.display_menu import PromptMessage
 from src.config.headers_for_output import TableHeaders
 from src.database import database_access as DAO
+from src.controllers.helper.helper_function import check_empty_data
 
 logger = logging.getLogger(__name__)
 
@@ -20,9 +21,7 @@ def read_event():
     """Read Events"""
     res_data = DAO.execute_returning_query(UserQueries.READ_NOTICE)
 
-    if len(res_data) == 0:
-        logger.error("No Records On Notice Board")
-        print(PromptMessage.NOTHING_FOUND.format("Notice"))
+    if check_empty_data(res_data, PromptMessage.NOTHING_FOUND.format("Notice")):
         return
 
     headers = (TableHeaders.ID.format("Notice"), TableHeaders.MESSAGE.format("Notice"))

@@ -10,6 +10,22 @@ from src.utils.exception_handler import exception_checker
 from src.utils import validate
 
 
+def fetch_staff_status(staff_id):
+    """This function will fetch the staff id which will be used for checks"""
+    res_data = DAO.execute_returning_query(StaffQueries.FETCH_STAFF_STATUS, (staff_id,))
+    return res_data
+
+
+def check_staff(staff_id):
+    """This function return true or false"""
+    staff_status = fetch_staff_status(staff_id)
+
+    if len(staff_status) != 0 and staff_status[0][0] == "active":
+        return True
+
+    return False
+
+
 @exception_checker
 def view_staff(user_id):
     """View Staff Members"""
@@ -76,6 +92,11 @@ def update_staff():
     staff_id = validate.uuid_validator(
         PromptMessage.TAKE_SPECIFIC_ID.format("Staff"), RegexPatterns.UUID_PATTERN
     )
+
+    if not check_staff(staff_id):
+        print(PromptMessage.NOTHING_FOUND.format("Staff"))
+        return
+
     field_to_update = input(PromptMessage.FIELD_UPDATE).lower()
     options = (
         TableHeaders.NAME.lower(),
@@ -103,10 +124,11 @@ def update_staff():
             PromptMessage.TAKE_INPUT.format("Name"), RegexPatterns.NAME_PATTERN
         )
 
-    # updatind value to db
+    # updating value to db
     DAO.execute_non_returning_query(
         StaffQueries.UPDATE_STAFF.format(field_to_update), (updated_value, staff_id)
     )
+    print(PromptMessage.SUCCESS_ACTION.format("Updated"))
 
 
 @exception_checker
@@ -116,5 +138,9 @@ def delete_staff():
         PromptMessage.TAKE_SPECIFIC_ID.format("Staff"), RegexPatterns.UUID_PATTERN
     )
 
-    # will happen nothing if wrong id is provided
+    if not check_staff(staff_id):
+        print(PromptMessage.NOTHING_FOUND.format("Staff"))
+        return
+
     DAO.execute_non_returning_query(StaffQueries.DELETE_STAFF, (staff_id,))
+    print(PromptMessage.SUCCESS_ACTION.format("Deleted"))

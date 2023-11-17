@@ -4,6 +4,7 @@ from src.controllers.handlers.event_handler import read_event
 from src.controllers.helper.helper_function import (
     fetch_salary_history,
     view_personal_info,
+    check_empty_data,
 )
 from src.config.display_menu import PromptMessage
 from src.config.headers_for_output import TableHeaders
@@ -30,9 +31,7 @@ def read_feedbacks(user_id):
     res_data = DAO.execute_returning_query(UserQueries.READ_FEEDBACKS, (user_id,))
 
     # if there is no feedbacks for a teacher
-    if len(res_data) == 0:
-        logger.error("Nothing on Feedbacks for You")
-        print(PromptMessage.NOTHING_FOUND.format("Feedback"))
+    if check_empty_data(res_data, PromptMessage.NOTHING_FOUND.format("Feedback")):
         return
 
     headers = (

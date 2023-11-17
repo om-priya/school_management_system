@@ -11,6 +11,7 @@ from src.utils.exception_handler import exception_checker
 from src.config.sqlite_queries import TeacherQueries, CreateTable, PrincipalQueries
 from src.config.display_menu import PromptMessage
 from src.database import database_access as DAO
+from src.controllers.helper.helper_function import check_empty_data
 
 logger = logging.getLogger(__name__)
 
@@ -18,15 +19,11 @@ logger = logging.getLogger(__name__)
 @exception_checker
 def read_feedback(user_id):
     """Read Feedbacks"""
-    print("\nHere's the feedback given by you\n")
-
     res_data = DAO.execute_returning_query(
         PrincipalQueries.READ_FEEDBACKS_PRINCIPAL, (user_id,)
     )
 
-    if len(res_data) == 0:
-        logger.error("No Feedbacks Found by user %s", user_id)
-        print(PromptMessage.NOTHING_FOUND.format("FeedBack"))
+    if check_empty_data(res_data, PromptMessage.NOTHING_FOUND.format("FeedBack")):
         return
 
     headers = (
@@ -42,9 +39,7 @@ def give_feedback(user_id):
     """Create Feedbacks"""
     res_data = DAO.execute_returning_query(TeacherQueries.GET_APPROVED_TEACHER)
 
-    if len(res_data) == 0:
-        logger.error("No Teacher Present in the system")
-        print(PromptMessage.NOTHING_FOUND.format("Teacher"))
+    if check_empty_data(res_data, PromptMessage.NOTHING_FOUND.format("Teacher")):
         return
 
     print("Select User ID from the available teachers list")
